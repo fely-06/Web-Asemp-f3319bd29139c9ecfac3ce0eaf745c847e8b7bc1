@@ -1,0 +1,197 @@
+<!-- Lista de clientes -->
+<div class="container-fluid mt-4">
+  <div class="card shadow-lg border-0 rounded-3 overflow-hidden custom-card">
+    <!-- Header -->
+    <div class="card-header custom-header py-3 px-4">
+      <div class="d-flex justify-content-between align-items-center">
+        <div class="d-flex align-items-center">
+          <i data-feather="users" class="me-2 header-icon"></i>
+          <h2 class="h4 mb-0 fw-bold header-title">Gestión de Clientes</h2>
+        </div>
+
+        <!-- Botón "Nuevo cliente" -->
+        <button class="btn custom-btn-float-azul d-flex align-items-center shadow"
+        *permiso="'clientes.crear'"
+        (click)="abrirModalNuevo()">
+  <i data-feather="user-plus" class="me-2"></i>
+  <span>Nuevo cliente</span>
+</button>
+
+      </div>
+    </div>
+
+  <!-- Filtros -->
+<div class="card-body custom-filters border-bottom py-3 clientes-filtros pb-5">
+  <div class="row g-3 align-items-center">
+    <div class="col-md-4">
+      <div class="input-group custom-input-group">
+        <span class="input-group-text custom-input-icon">
+          <i data-feather="search" class="search-icon"></i>
+        </span>
+        <input
+          type="text"
+          class="form-control custom-input"
+          placeholder="Buscar..."
+          [(ngModel)]="terminoBusqueda"
+          (input)="filtrarClientes()"
+          maxlength="40">
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <select
+  class="form-select custom-select"
+  [(ngModel)]="criterioBusqueda"
+  (change)="filtrarClientes()">
+
+        <option value="razon_social">Por Razón Social</option>
+        <option value="rfc">Por RFC</option>
+        <option value="correo">Por Correo</option>
+        <option value="telefono">Por Teléfono</option>
+      </select>
+    </div>
+
+    <div class="col-md-5 text-md-end">
+      <span class="custom-text-muted">
+        Mostrando <strong>{{clientesFiltrados.length}}</strong> de <strong>{{clientes.length}}</strong> clientes
+      </span>
+    </div>
+  </div>
+</div>
+
+
+  <!-- Tabla -->
+<div class="card-body p-0 custom-table-container tabla-card">
+  <div class="table-responsive">
+    <table class="table table-striped" [ngClass]="{'table-dark': temaActual === 'dark'}">
+      <thead class="custom-table-header">
+  <tr>
+
+    <!-- ID -->
+    <th class="th-sortable ps-4" (click)="ordenarPor('id')">
+      ID <i [ngClass]="getIconoOrden('id')"></i>
+    </th>
+
+    <!-- Razón social -->
+    <th class="th-sortable" (click)="ordenarPor('razon_social')">
+      Razón Social <i [ngClass]="getIconoOrden('razon_social')"></i>
+    </th>
+
+    <!-- RFC (dentro de certificado) -->
+    <th class="th-sortable" (click)="ordenarPor('rfc')">
+      RFC <i [ngClass]="getIconoOrden('rfc')"></i>
+    </th>
+
+    <!-- Correo -->
+    <th class="th-sortable" (click)="ordenarPor('correo_electronico')">
+      Correo <i [ngClass]="getIconoOrden('correo_electronico')"></i>
+    </th>
+
+    <!-- Teléfono -->
+    <th class="th-sortable" (click)="ordenarPor('telefono')">
+      Teléfono <i [ngClass]="getIconoOrden('telefono')"></i>
+    </th>
+
+    <!-- Vigencia del certificado -->
+    <th class="th-sortable" (click)="ordenarPor('fecha_vigencia')">
+      Vigencia del Certificado <i [ngClass]="getIconoOrden('fecha_vigencia')"></i>
+    </th>
+
+    <!-- Estatus -->
+    <th class="th-sortable" (click)="ordenarPor('estatus')">
+      Estatus <i [ngClass]="getIconoOrden('estatus')"></i>
+    </th>
+
+    <th class="text-center pe-4">Acciones</th>
+  </tr>
+</thead>
+
+
+      <tbody>
+        <tr *ngFor="let c of clientesFiltrados | paginate: { itemsPerPage: 8, currentPage: page }">
+          <td class="fw-bold ps-4">#{{c.id}}</td>
+          <td>{{c.razon_social}}</td>
+          <td>{{c.certificado?.rfc || '-'}}</td>
+          <td>
+            <a [href]="'mailto:'+c.correo_electronico" class="text-decoration-none">
+              {{c.correo_electronico}}
+            </a>
+          </td>
+          <td>{{c.telefono || '-'}}</td>
+          <td>
+            {{c.certificado?.fecha_vigencia_inicio | date:'dd/MM/yyyy'}} -
+            {{c.certificado?.fecha_vigencia_fin | date:'dd/MM/yyyy'}}
+          </td>
+          <td>
+            <span class="badge" [ngClass]="c.estatus ? 'bg-success' : 'bg-secondary'">
+              {{ c.estatus ? 'Activo' : 'Inactivo' }}
+            </span>
+          </td>
+
+          <!-- Acciones -->
+          <!-- Acciones -->
+<td class="text-center pe-4">
+  <button 
+    class="menu-trigger"
+    (click)="abrirMenu($event, c)"
+    [class.abierto]="menu.visible && menu.cliente?.id === c.id">
+    <i class="fas fa-ellipsis-v"></i>
+  </button>
+</td>
+
+        </tr>
+
+        <!-- Mensaje sin datos -->
+        <tr *ngIf="clientesFiltrados.length === 0">
+          <td colspan="8" class="text-center py-5 text-muted">
+            <i data-feather="slash" class="me-2"></i>No se encontraron clientes
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+
+ <!-- MENÚ FLOTANTE -->
+    <div 
+      class="menu-flotante"
+      *ngIf="menu.visible"
+      [ngStyle]="{ top: menu.y + 'px', left: menu.x + 'px' }"
+    >
+      <button class="accion-btn editar"
+        *permiso="'clientes.editar'"
+        (click)="editarDesdeMenu()">
+  <i class="fas fa-pen"></i> Editar
+</button>
+
+
+     <button class="accion-btn eliminar"
+        *permiso="'clientes.eliminar'"
+        (click)="eliminarDesdeMenu()">
+  <i class="fas fa-trash"></i> Eliminar
+</button>
+
+    </div>
+
+  </div>
+</div>
+
+<!-- Paginación -->
+<div class="card-footer border-0">
+  <div class="d-flex justify-content-center">
+    <pagination-controls
+      (pageChange)="page=$event"
+      previousLabel="Anterior"
+      nextLabel="Siguiente"
+      class="my-pagination">
+    </pagination-controls>
+  </div>
+</div>
+
+<!-- Formulario modal -->
+<app-clientes-form
+  *ngIf="mostrarModal"
+  [show]="mostrarModal"
+  [id]="editingId"
+  (saved)="onSaved()"
+  (closed)="cerrarModal()">
+</app-clientes-form>

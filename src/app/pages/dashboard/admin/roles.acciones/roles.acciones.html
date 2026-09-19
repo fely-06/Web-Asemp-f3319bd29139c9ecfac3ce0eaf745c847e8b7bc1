@@ -1,0 +1,113 @@
+<div class="modal-backdrop" (click)="cerrar()"></div>
+
+<div class="modal-permisos shadow-lg">
+  
+  <!-- Header Mejorado -->
+  <div class="modal-header">
+    <div class="header-content">
+      <i data-feather="shield" class="header-icon"></i>
+      <div class="header-text">
+        <h3>Gestión de Permisos</h3>
+        <p class="rol-name">{{ rol?.nombre }}</p>
+      </div>
+    </div>
+    <button class="close-btn" (click)="cerrar()">
+      <i data-feather="x"></i>
+    </button>
+  </div>
+
+  <!-- Body Mejorado -->
+  <div class="modal-body" *ngIf="!cargando">
+    <div class="permisos-container">
+      
+      <!-- Controles de selección masiva -->
+      <div class="bulk-actions">
+        <div class="bulk-header">
+          <i data-feather="layers" class="bulk-icon"></i>
+          <span>Selección masiva</span>
+        </div>
+        <div class="bulk-buttons">
+          <button class="btn-bulk" (click)="seleccionarTodos()">
+            <i data-feather="check-square"></i>
+            Seleccionar todos
+          </button>
+          <button class="btn-bulk" (click)="deseleccionarTodos()">
+            <i data-feather="square"></i>
+            Deseleccionar todos
+          </button>
+        </div>
+      </div>
+
+      <div class="permisos-header">
+        <i data-feather="info" class="info-icon"></i>
+        <span>Selecciona los permisos que deseas asignar al rol</span>
+      </div>
+
+      <div class="acordeon-list">
+        <div *ngFor="let cat of catalogos; let i = index" class="acordeon-item">
+          <button class="acordeon-header" (click)="cat.open = !cat.open">
+            <div class="acordeon-title">
+              <i class="folder-icon" data-feather="folder"></i>
+              <span class="catalogo-name">{{ cat.catalogo }}</span>
+            </div>
+            <div class="acordeon-actions">
+              <!-- Botón para seleccionar toda la categoría -->
+              <button class="btn-category" (click)="$event.stopPropagation(); seleccionarCategoria(cat)">
+                <i data-feather="check-circle"></i>
+                Seleccionar categoría
+              </button>
+              <i class="flecha" data-feather="chevron-down" [class.rotated]="cat.open"></i>
+            </div>
+          </button>
+
+          <div class="acordeon-content" *ngIf="cat.open">
+            <div class="permisos-grid">
+              <div *ngFor="let acc of cat.acciones" class="permiso-option">
+                <label class="checkbox-wrapper">
+                  <input type="checkbox"
+                         [checked]="tienePermiso(acc.id)"
+                         (change)="togglePermiso(acc.id)"
+                         class="permiso-checkbox">
+                  <span class="checkmark"></span>
+                  <span class="permiso-text">
+                    <span class="permiso-clave">{{ acc.clave }}</span>
+                    <span class="permiso-desc" *ngIf="acc.descripcion">{{ acc.descripcion }}</span>
+                  </span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div class="modal-body" *ngIf="cargando">
+    <div class="loading-state">
+      <i data-feather="loader" class="loading-icon"></i>
+      <p>Cargando permisos...</p>
+    </div>
+  </div>
+
+  <!-- Footer Mejorado -->
+  <div class="modal-footer">
+    <div class="footer-content">
+      <div class="selected-count">
+        <i data-feather="check-circle"></i>
+        {{ permisosActuales.length }} de {{ getTotalAcciones() }} permisos seleccionados
+      </div>
+      <div class="footer-actions">
+        <button class="btn btn-secondary" (click)="cerrar()">
+          <i data-feather="x"></i>
+          Cancelar
+        </button>
+        <button class="btn btn-primary" (click)="guardar()" [disabled]="cargando">
+          <i data-feather="save"></i>
+          Guardar Permisos
+        </button>
+      </div>
+    </div>
+  </div>
+
+</div>

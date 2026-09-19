@@ -1,0 +1,285 @@
+<div *ngIf="!esCliente; else accesoDenegado">
+<div class="container-fluid mt-4">
+  <div class="card shadow-lg border-0 rounded-3 overflow-hidden custom-card">
+    <!-- Header -->
+    <div class="card-header custom-header py-3 px-4">
+      <div class="d-flex justify-content-between align-items-center">
+        <div class="d-flex align-items-center">
+          <i data-feather="file-text" class="me-2 header-icon"></i>
+          <h2 class="h4 mb-0 fw-bold header-title">Reportes de Cobros</h2>
+        </div>
+      </div>
+    </div>
+
+    <!-- Filtros principales - Diseño mejorado -->
+    <div class="card-body custom-filters border-bottom py-3 px-4">
+      <div class="row g-3">
+        <!-- Fila 1: Filtros horizontales -->
+        <div class="col-12">
+          <div class="row g-3 align-items-end">
+            <!-- Cliente - Autocomplete mejorado -->
+            <div class="col-lg-4 col-md-6 mb-2">
+              <label class="form-label fw-semibold mb-2 d-block">Cliente</label>
+              <div class="autocomplete-container">
+                <div class="input-group autocomplete-input-group">
+                  <span class="input-group-text">
+                    <i class="fas fa-user" style="font-size: 0.9rem;"></i>
+                  </span>
+                  <input
+                    type="text"
+                    class="form-control autocomplete-input"
+                    placeholder="Escribe para buscar..."
+                    [(ngModel)]="filtro.ClienteNombre"
+                    (input)="filtrarClientes($event)"
+                    (focus)="mostrarSugerencias = true"
+                    #clienteInput
+                    autocomplete="off"
+                    maxlength="40">
+                  
+                  <button
+                    *ngIf="filtro.ClienteId !== 0"
+                    class="btn autocomplete-clear-btn"
+                    type="button"
+                    (click)="limpiarCliente()"
+                    title="Limpiar selección">
+                    <i class="fas fa-times"></i>
+                  </button>
+                </div>
+                
+                <!-- Dropdown de sugerencias -->
+                <div class="autocomplete-dropdown" *ngIf="mostrarSugerencias">
+                  <div class="dropdown-header">
+                    <small class="text-muted">Sugerencias de clientes</small>
+                    <button class="btn-close-sm" (click)="mostrarSugerencias = false">
+                      <i class="fas fa-times"></i>
+                    </button>
+                  </div>
+                  
+                  <!-- Sugerencias de clientes -->
+                  <div class="dropdown-content" *ngIf="clientesFiltrados.length > 0">
+                    <div
+                      *ngFor="let cliente of clientesFiltrados"
+                      class="dropdown-item"
+                      (click)="seleccionarCliente(cliente)">
+                      <div class="item-title">{{ cliente.razon_social }}</div>
+                      <div class="item-subtitle" *ngIf="cliente.rfc">
+                        <i class="fas fa-id-card me-1"></i> {{ cliente.rfc }}
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <!-- Opción para mostrar todos -->
+                  <div class="dropdown-item dropdown-item-all" (click)="limpiarCliente()">
+                    <i class="fas fa-users me-2"></i>
+                    <span>Mostrar todos los clientes</span>
+                  </div>
+                  
+                  <!-- Mensaje si no hay resultados -->
+                  <div class="dropdown-footer" *ngIf="clientesFiltrados.length === 0 && filtro.ClienteNombre">
+                    <div class="text-muted">
+                      <i class="fas fa-search me-1"></i>
+                      No se encontraron coincidencias
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Mes -->
+            <div class="col-lg-2 col-md-3 col-sm-6 mb-2">
+              <label class="form-label fw-semibold mb-2 d-block">Mes</label>
+              <select 
+                class="form-select custom-select"
+                [(ngModel)]="filtro.Mes"
+                (change)="buscar()">
+                <option *ngFor="let m of meses" [ngValue]="m.id">
+                  {{ m.nombre }}
+                </option>
+              </select>
+            </div>
+
+            <!-- Año -->
+            <div class="col-lg-2 col-md-3 col-sm-6 mb-2">
+              <label class="form-label fw-semibold mb-2 d-block">Año</label>
+              <input 
+                type="number" 
+                class="form-control filtro-anio-input"
+                [(ngModel)]="filtro.Anio"
+                (change)="buscar()"
+                min="2000"
+                max="2100">
+            </div>
+
+            <!-- Tipo -->
+            <div class="col-lg-2 col-md-3 col-sm-6 mb-2">
+              <label class="form-label fw-semibold mb-2 d-block">Tipo</label>
+              <select 
+                class="form-select custom-select"
+                [(ngModel)]="filtro.Tipo"
+                (change)="buscar()">
+                <option *ngFor="let t of tipos" [ngValue]="t.id">
+                  {{ t.nombre }}
+                </option>
+              </select>
+            </div>
+
+            <!-- Botón Buscar -->
+            <div class="col-lg-2 col-md-3 col-sm-6 mb-2">
+              <label class="form-label fw-semibold mb-2 d-block invisible">‎</label>
+              <button class="btn custom-btn-float-azul w-100 d-flex align-items-center justify-content-center" 
+                      (click)="buscar()">
+                <i data-feather="search" class="me-2"></i>
+                <span>Buscar</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Fila 2: Botones de exportación -->
+        <div class="col-12 mt-3">
+          <div class="row align-items-center">
+            <div class="col-md-6">
+              <div class="export-buttons d-flex flex-wrap gap-2">
+                <button class="btn custom-btn-excel d-flex align-items-center" (click)="descargarExcel()">
+                  <i class="fas fa-file-excel me-2"></i>
+                  <span>Exportar Excel</span>
+                </button>
+                
+                <button class="btn custom-btn-pdf d-flex align-items-center" (click)="descargarPdf()">
+                  <i class="fas fa-file-pdf me-2"></i>
+                  <span>Exportar PDF</span>
+                </button>
+              </div>
+            </div>
+            
+            <div class="col-md-6 text-md-end mt-2 mt-md-0">
+              <div class="results-count">
+                <span class="badge">
+                  <i class="fas fa-chart-bar me-1"></i>
+                  {{ listaOrdenada.length }} registros encontrados
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tabla con ordenamiento -->
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0" [ngClass]="{'table-dark': temaActual === 'dark'}">
+          <thead class="custom-table-header">
+            <tr>
+              <th class="th-sortable ps-4" (click)="ordenarPor('cliente')">
+                Cliente <i [ngClass]="getIconoOrden('cliente')"></i>
+              </th>
+              <th class="th-sortable" (click)="ordenarPor('rfc')">
+                RFC <i [ngClass]="getIconoOrden('rfc')"></i>
+              </th>
+              <th class="th-sortable" (click)="ordenarPor('mes')">
+                Mes <i [ngClass]="getIconoOrden('mes')"></i>
+              </th>
+              <th class="th-sortable" (click)="ordenarPor('anio')">
+                Año <i [ngClass]="getIconoOrden('anio')"></i>
+              </th>
+              <th class="th-sortable text-end" (click)="ordenarPor('total')">
+                Total <i [ngClass]="getIconoOrden('total')"></i>
+              </th>
+              <th class="th-sortable" (click)="ordenarPor('estadoPago')">
+                Estado <i [ngClass]="getIconoOrden('estadoPago')"></i>
+              </th>
+              <th class="th-sortable" (click)="ordenarPor('folio')">
+                Folio <i [ngClass]="getIconoOrden('folio')"></i>
+              </th>
+              <th class="th-sortable pe-4" (click)="ordenarPor('fechaPago')">
+                Fecha Pago <i [ngClass]="getIconoOrden('fechaPago')"></i>
+              </th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr *ngFor="let item of listaOrdenada | paginate: { itemsPerPage: 10, currentPage: page }">
+              <td class="ps-4">
+                <div class="fw-medium">{{ item.cliente || '-' }}</div>
+              </td>
+              <td>
+                <span class="font-monospace small">{{ item.rfc || '-' }}</span>
+              </td>
+<td>
+  <span class="badge bg-light text-dark">
+    {{ getNombreMes(item.mes) }}
+  </span>
+</td>
+              <td>
+                <span class="fw-medium">{{ item.anio || '-' }}</span>
+              </td>
+              <td class="text-end fw-bold text-primary">
+                {{ item.total | currency:'MXN':'symbol':'1.2-2' }}
+              </td>
+              <td>
+                <span class="badge" [ngClass]="{
+                  'bg-warning text-dark': item.estadoPago === 'PENDIENTE',
+                  'bg-success': item.estadoPago === 'PAGADO',
+                  'bg-danger': item.estadoPago === 'ATRASADO'
+                }">
+                  <i class="fas fa-circle me-1" style="font-size: 0.6rem;"></i>
+                  {{ item.estadoPago || '-' }}
+                </span>
+              </td>
+              <td>
+                <code class="text-muted">{{ item.folio || '-' }}</code>
+              </td>
+              <td class="pe-4">
+                <span *ngIf="item.fechaPago; else noFecha" class="text-muted">
+                  {{ item.fechaPago | date:'dd/MM/yyyy' }}
+                </span>
+                <ng-template #noFecha>
+                  <span class="text-muted fst-italic">-</span>
+                </ng-template>
+              </td>
+            </tr>
+
+            <!-- Mensaje sin datos -->
+            <tr *ngIf="listaOrdenada.length === 0">
+              <td colspan="8" class="text-center py-5">
+                <div class="py-4">
+                  <i data-feather="slash" class="text-muted mb-3" style="width: 48px; height: 48px;"></i>
+                  <h5 class="text-muted mb-2">No se encontraron registros</h5>
+                  <p class="text-muted mb-0">Ajusta los filtros para ver resultados</p>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Paginación -->
+    <div class="card-footer border-0 bg-transparent">
+      <div class="d-flex justify-content-center">
+        <pagination-controls
+          (pageChange)="page=$event"
+          previousLabel="Anterior"
+          nextLabel="Siguiente"
+          class="my-pagination">
+        </pagination-controls>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+<ng-template #accesoDenegado>
+  <div class="container-fluid mt-5">
+    <div class="alert alert-warning text-center shadow-sm">
+      <h5 class="mb-2">
+        <i class="fas fa-lock me-2"></i>
+        Acceso restringido
+      </h5>
+      <p class="mb-0">
+        Los reportes de cobros solo están disponibles para personal autorizado.
+      </p>
+    </div>
+  </div>
+</ng-template>

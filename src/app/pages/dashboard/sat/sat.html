@@ -1,0 +1,611 @@
+<!-- ⭐⭐⭐ TABS MEJORADOS - estilo seguridad ⭐⭐⭐ -->
+<div class="sat-container-tabs">
+  <div class="sat-tabs-header">
+    <h2 class="sat-titulo">Gestión de Solicitudes SAT</h2>
+    <p class="sat-subtitulo">Consulta, verifica y descarga CFDI de forma automatizada</p>
+  </div>
+
+  <div class="sat-tabs">
+    <button 
+      class="tab-button" 
+      [class.active]="tab === 'manual'"
+      (click)="tab = 'manual'">
+      <i class="fas fa-hand-paper"></i>
+      Descarga manual
+    </button>
+
+    <button 
+      class="tab-button" 
+      [class.active]="tab === 'auto'"
+      (click)="tab = 'auto'">
+      <i class="fas fa-robot"></i>
+      Descarga automática
+    </button>
+  </div>
+</div>
+
+<!-- ⭐⭐⭐ CONTENIDO MANUAL ⭐⭐⭐ -->
+<div *ngIf="tab === 'manual'" class="sat-tab-content">
+    <!-- AQUÍ va TODO tu HTML actual (sin cambios) -->
+    <div class="sat-container">
+
+      
+  <!-- ===== ENCABEZADO ===== 
+  <div class="sat-header">
+    <h2>Gestión de Solicitudes SAT</h2>
+    <p>Consulta, verifica y descarga CFDI de forma automatizada</p>
+  </div>-->
+
+<div class="filters-card">
+  <div class="filters-header" (click)="toggleSolicitudForm()">
+    <div class="header-content">
+      <i class="fas fa-plus-circle"></i>
+      <h5 class="section-title">Nueva Solicitud</h5>
+    </div>
+    <i class="fas fa-chevron-down toggle-icon" [class.rotated]="solicitudFormExpanded"></i>
+  </div>
+
+  <div class="filters-body" [class.expanded]="solicitudFormExpanded" [class.collapsed]="!solicitudFormExpanded">
+
+
+    <form (ngSubmit)="crearSolicitud()" #formSolicitud="ngForm" class="solicitud-form">
+
+      <div class="filters-grid-improved">
+
+        <!-- CLIENTE -->
+        <div class="filter-group-improved full-cell">
+          <label class="filter-label"required-label>
+            <i class="fas fa-user"></i> Seleccionar cliente
+          </label>
+
+          <div class="autocomplete-improved">
+            <div class="search-input-wrapper">
+              <input type="text"
+                     placeholder="Buscar cliente por nombre o RFC..."
+                     class="form-control-improved search-input"
+                     [(ngModel)]="busquedaCliente"
+                     name="busquedaCliente"
+                     (input)="filtrarClientes()"
+                     (focus)="mostrarLista = true"
+                     autocomplete="off" />
+              <i class="fas fa-search search-icon-inside"></i>
+            </div>
+
+            <ul *ngIf="mostrarLista && clientesFiltrados.length"
+                class="autocomplete-list-improved">
+              <li *ngFor="let c of clientesFiltrados"
+                  (click)="seleccionarCliente(c)">
+                <div class="client-option-improved">
+                  <span class="client-name">{{ c.razon_social }}</span>
+                  <div class="client-details">
+                    <span class="client-rfc">{{ c.rfc }}</span>
+                    <span class="client-separator">•</span>
+                    <span class="client-email">{{ c.correo_electronico }}</span>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- TIPO -->
+        <div class="filter-group-improved">
+          <label class="filter-label"required-label>
+            <i class="fas fa-tasks"></i> Tipo de solicitud
+          </label>
+          <select class="form-select-improved"
+                  [(ngModel)]="form.tipo_solicitud"
+                  name="tipo_solicitud"
+                  required>
+            <option value="">Seleccionar tipo...</option>
+            <option value="emitidos">CFDI Emitidos</option>
+            <option value="recibidos">CFDI Recibidos</option>
+          </select>
+        </div>
+
+        <!-- FECHA INICIO -->
+        <div class="filter-group-improved">
+          <label class="filter-label"required-label>
+            <i class="fas fa-calendar-alt"></i> Fecha inicio
+          </label>
+          <input type="date"
+                 class="form-control-improved"
+                 [(ngModel)]="form.fecha_inicio"
+                 name="fecha_inicio"
+                 required />
+        </div>
+
+        <!-- FECHA FIN -->
+        <div class="filter-group-improved">
+          <label class="filter-label"required-label>
+            <i class="fas fa-calendar-check"></i> Fecha fin
+          </label>
+          <input type="date"
+                 class="form-control-improved"
+                 [(ngModel)]="form.fecha_fin"
+                 name="fecha_fin"
+                 required />
+        </div>
+
+      </div>
+
+      <!-- BOTÓN -->
+      <div class="filter-actions">
+        <button class="btn-create-request"
+                [disabled]="formSolicitud.invalid || cargando"
+                *permiso="'sat.crear_solicitud'"
+                [class.loading]="cargando">
+
+          <span class="btn-content">
+            <i class="" *ngIf="!cargando"></i>
+            <span class="spinner-border spinner-border-sm" *ngIf="cargando"></span>
+            {{ cargando ? 'Creando solicitud...' : 'Crear Solicitud' }}
+          </span>
+
+        </button>
+      </div>
+
+    </form>
+
+  </div>
+</div>
+
+<!-- ===== FILTROS DE BÚSQUEDA MEJORADOS ===== -->
+<div class="filters-card">
+  <div class="filters-header" (click)="toggleFilters()">
+    <div class="header-content">
+      <i class="fas fa-filter"></i>
+      <h5 class="section-title">Filtros de Búsqueda</h5>
+    </div>
+    <i class="fas fa-chevron-down toggle-icon" [class.rotated]="filtersExpanded"></i>
+  </div>
+
+ <div class="filters-body" 
+     [class.expanded]="filtersExpanded"
+     [class.collapsed]="!filtersExpanded">
+
+    <div class="filters-grid">
+      <!-- Búsqueda general -->
+      <div class="filter-group">
+        <label class="filter-label">
+          <i class="fas fa-search"></i>
+          Buscar
+        </label>
+        <div class="search-input-wrapper">
+          <input type="text" 
+                 class="form-control-improved" 
+                 placeholder="Buscar en solicitudes..."
+                 [(ngModel)]="texto"
+                 (input)="page = 1; cargarSolicitudes()"
+                 maxlength="30">
+        </div>
+      </div>
+
+      <!-- Tipo de solicitud -->
+      <div class="filter-group">
+        <label class="filter-label">
+          <i class="fas fa-tasks"></i>
+          Tipo
+        </label>
+        <select class="form-select-improved"
+                [(ngModel)]="filtroTipo"
+                (change)="page = 1; cargarSolicitudes()">
+          <option [ngValue]="null">Todos los tipos</option>
+          <option value="emitidos">Emitidos</option>
+          <option value="recibidos">Recibidos</option>
+        </select>
+      </div>
+
+      <!-- Fecha inicio -->
+      <div class="filter-group">
+        <label class="filter-label">
+          <i class="fas fa-calendar-alt"></i>
+          Fecha inicio
+        </label>
+        <input type="date" 
+               class="form-control-improved"
+               [(ngModel)]="filtroFechaInicio"
+               (change)="onCambioFechas()">
+      </div>
+
+      <!-- Fecha fin -->
+      <div class="filter-group">
+        <label class="filter-label">
+          <i class="fas fa-calendar-check"></i>
+          Fecha fin
+        </label>
+        <input type="date" 
+               class="form-control-improved"
+               [(ngModel)]="filtroFechaFin"
+               (change)="onCambioFechas()">
+      </div>
+    </div>
+
+    <!-- Botones de acción -->
+    <div class="filter-actions">
+      <button class="btn-clear-filters" (click)="limpiarFiltros()">
+        <i class="fas fa-broom"></i>
+        Limpiar filtros
+      </button>
+    </div>
+  </div>
+</div>
+
+  <!-- ===== FILTROS ===== -->
+  <div class="filtro-tabs">
+  <button (click)="setFiltro('todas')" [class.active]="filtro==='todas'">Todas</button>
+  <button (click)="setFiltro('pendientes')" [class.active]="filtro==='pendientes'">Pendientes</button>
+  <button (click)="setFiltro('terminadas')" [class.active]="filtro==='terminadas'">Terminadas</button>
+  <button (click)="setFiltro('error')" [class.active]="filtro==='error'">Con error</button>
+</div>
+
+  <!---->
+<div class="text-end mb-3 custom-text-muted">
+  Mostrando 
+  <strong>{{mostrandoDesde}}</strong> – 
+  <strong>{{mostrandoHasta}}</strong>
+  de 
+  <strong>{{totalSolicitudes}}</strong> solicitudes
+</div>
+
+
+
+  <!-- ===== TABLA ===== -->
+  <div class="tabla-card">
+    <h5 class="section-title">Solicitudes registradas</h5>
+
+    <!--TABLE-STRIPED ES PARA LOS COLORES ARTENADOS EN ESTE CASO GRIS-->
+    <!--table al principio pone mi diseno blanco-->
+    <!--sin table pone colores pastel-->
+    <table class="table table-striped text-center tabla-sat"
+       [ngClass]="{'table-dark': temaActual === 'dark'}">
+
+
+  <!-- ================= CABECERA ================= -->
+  <thead>
+    <tr>
+      <!-- Identificadores -->
+      <th>ID</th>
+      <th>Usuario</th>
+      <th>Cliente</th>
+
+      <!-- Certificado 
+      <th>Certificado</th>-->
+
+      <!-- Datos de solicitud -->
+      <th>Tipo solicitud</th>
+      <th>RFC Emisor</th>
+      <!--<th>RFC Receptor</th>-->
+
+      <!-- Fechas
+      <th>Fecha inicio</th>
+      <th>Fecha fin</th> -->
+      <th>Rango de Fechas</th>
+      <th>Fecha creación</th>
+      <th>Última verificación</th>
+
+      <!-- Estado SAT -->
+      <th>Código estado SAT</th>
+      <th>Estado (num)</th>
+      <th>Mensaje SAT</th>
+
+      <!-- Token 
+      <th>Token</th>-->
+
+      <!-- Acciones -->
+      <th>Acciones</th>
+    </tr>
+  </thead>
+
+  <!-- ================= CUERPO ================= -->
+<tbody class="text-center">
+  <ng-container *ngFor="let s of solicitudes">
+    <tr>
+
+      <td>{{ s.id }}</td>
+      <td>{{ s.usuario }}</td>
+      <td>{{ s.cliente }}</td>
+      <td>{{ s.tipo_solicitud }}</td>
+     <td>
+  <ng-container *ngIf="s.tipo_solicitud === 'emitidos'; else recibido">
+    {{ s.rfc_emisor }}
+  </ng-container>
+  <ng-template #recibido>
+    {{ '' }}
+  </ng-template>
+</td>
+
+    <!--<td>{{ s.rfc_receptor }}</td>-->
+
+      <td>
+  {{ fixDisplayDate(s.fecha_inicio) }} →
+  {{ fixDisplayDate(s.fecha_fin) }}
+</td>
+
+
+      <td>{{ s.fecha_creacion | date:'short' }}</td>
+      <td>{{ s.fecha_ultima_verificacion | date:'short' }}</td>
+
+      <td>{{ s.codigo_estado_texto }}</td>
+
+      <td>
+        <!-- Estado numérico con badge de color -->
+          <span class="estado"
+               [ngClass]="{
+  'estado-pendiente':  s.estado_solicitud === 1,
+  'estado-proceso':   s.estado_solicitud === 2,
+  'estado-ok':        s.estado_solicitud === 3,
+  'estado-error':     s.estado_solicitud === 4,
+  'estado-rechazada': s.estado_solicitud === 5,
+  'estado-vencida':   s.estado_solicitud === 6,
+  'estado-creada':    s.estado_solicitud === 0
+}">
+          {{ s.estado_solicitud_texto }}
+        </span>
+      </td>
+
+       <td>{{ s.mensaje || s.codigo_estado_texto || 'Sin verificar' }}</td>
+<td class="acciones-menu">
+  <button class="menu-trigger" (click)="abrirMenu($event, s)">
+    <i class="fas fa-ellipsis-v"></i>
+  </button>
+</td>
+
+
+
+
+    </tr>
+  </ng-container>
+
+  <!-- Sin resultados -->
+  <tr *ngIf="solicitudes.length === 0">
+    <td colspan="18" class="text-center text-muted">
+      No hay solicitudes para mostrar
+    </td>
+  </tr>
+</tbody>
+
+</table>
+<!-- 🔥 AQUÍ VA EL MENÚ, DENTRO DE tabla-card -->
+  <div 
+    class="menu-flotante" 
+    *ngIf="menu.visible"
+    [ngStyle]="{'top.px': menu.y, 'left.px': menu.x}"
+  
+    >
+
+   <button
+  class="accion-btn verificar"
+  [class.desactivado]="menu.solicitud.estado_solicitud === 3"
+  (click)="onIntentarVerificar(menu.solicitud)"
+  *permiso="'sat.verificar_solicitud'"
+>
+  <i class="fas fa-sync-alt"></i> Verificar
+</button>
+
+
+    <button
+  class="accion-btn descargar"
+  (click)="abrirDetalle(menu.solicitud)"
+  *permiso="'sat.descargar_zip'"
+>
+  <i class="fas fa-download"></i> Descargar
+</button>
+
+
+
+<button
+  class="accion-btn detalle"
+  style="background:#6f42c1"
+  (click)="abrirHistorialVerificaciones(menu.solicitud)"
+  *permiso="'sat.ver_detalle'"
+>
+  <i class="fas fa-info-circle"></i> Historial
+</button>
+
+
+  </div>
+
+
+
+
+<!-- PAGINACION -->
+<!-- ===== PAGINACIÓN CON SELECT DE ITEMS ===== -->
+<div class="card-footer border-0" *ngIf="totalSolicitudes > 0">
+  <div class="d-flex justify-content-between align-items-center flex-wrap">
+    
+    <!-- Contador de resultados -->
+    <div class="pagina-contador mb-2 mb-md-0">
+      Mostrando <strong>{{mostrandoDesde}}–{{mostrandoHasta}}</strong> 
+      de <strong>{{totalSolicitudes}}</strong> solicitudes
+    </div>
+    
+    <!-- Botones de navegación (mantiene tu lógica actual) -->
+    <div class="mb-2 mb-md-0">
+      <div class="d-flex justify-content-center align-items-center gap-3">
+        <button class="btn btn-outline-secondary btn-sm"
+                [disabled]="page <= 1"
+                (click)="cambiarPagina(page - 1)">
+          ‹ Anterior
+        </button>
+        
+        <span class="pagina-actual">Página {{page}} de {{paginasTotales}}</span>
+        
+        <button class="btn btn-outline-secondary btn-sm"
+                [disabled]="page >= paginasTotales"
+                (click)="cambiarPagina(page + 1)">
+          Siguiente ›
+        </button>
+      </div>
+    </div>
+    
+    <!-- Select de items por página (NUEVO) -->
+    <select class="select-items-pagina" 
+        [(ngModel)]="itemsPerPage" 
+        (change)="cambiarItemsPorPagina()">
+
+  <option value="8" disabled selected>— Mostrar por página —</option>
+
+
+  <option value="5">5 por página</option>
+  <option value="10">10 por página</option>
+  <option value="15">15 por página</option>
+  <option value="20">20 por página</option>
+  <option value="30">30 por página</option>
+  <option value="50">50 por página</option>
+</select>
+
+  </div>
+</div>
+
+<sat-historial-verificaciones
+  [visible]="historialVisible"
+  [historial]="historialDatos"
+  [solicitud]="solicitudHistorial"
+  (cerrar)="historialVisible = false">
+</sat-historial-verificaciones>
+
+
+  </div>
+</div>
+
+
+
+
+
+
+
+<!-- ===== MODAL DETALLE ===== -->
+<div class="modal-backdrop" *ngIf="modalAbierto" (click)="cerrarModal()"></div>
+<div class="modal" *ngIf="modalAbierto" role="dialog" aria-modal="true">
+  <div class="modal-header">
+    <div class="header-title">
+      <h5>Detalle solicitud #{{ solicitudActual?.id }}</h5>
+      <span class="cliente-name">{{ solicitudActual?.cliente }}</span>
+
+    </div>
+    <button class="btn-close" (click)="cerrarModal()" aria-label="Cerrar">
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <!-- Información Principal -->
+    <div class="info-grid">
+      <div class="info-item">
+        <label>Estado</label>
+        <span class="estado-badge" [ngClass]="{
+          'estado-pendiente': solicitudActual?.estado_solicitud === 1,
+          'estado-completado': solicitudActual?.estado_solicitud === 3,
+          'estado-error': solicitudActual?.estado_solicitud === 0
+        }">
+          {{ solicitudActual?.mensaje || 'Sin verificar' }}
+        </span>
+      </div>
+      <div class="info-item">
+        <label>Token SAT</label>
+        <span class="value">{{ solicitudActual?.token || '—' }}</span>
+      </div>
+      <div class="info-item">
+        <label>Última verificación</label>
+        <span class="value">{{ solicitudActual?.fecha_ultima_verificacion | date:'short' }}</span>
+      </div>
+    </div>
+
+    <!-- Descarga Principal -->
+    <div class="download-section">
+      <button 
+  class="btn-download-main"
+  (click)="descargarUltimoZip(solicitudActual)"
+  *permiso="'sat.descargar_zip'"
+>
+  <i class="fas fa-file-archive"></i>
+  Descargar ZIP completo
+</button>
+
+    </div>
+
+     <!--Archivos--> 
+    <div class="files-section">
+      <!--PDFs 
+      <div class="file-category">
+        <div class="category-header">
+          <h6><i class="fas fa-file-pdf"></i> PDF ({{ pdfs(solicitudActual?.id).length }})</h6>
+        </div>
+        <div class="file-list" *ngIf="pdfs(solicitudActual?.id).length; else noPdf">
+          <div class="file-item" *ngFor="let a of pdfs(solicitudActual?.id)">
+            <div class="file-info">
+              <span class="file-name">{{ a.nombre }}</span>
+              <span class="file-size">{{ (a.bytes ?? a.tamano) | number }} bytes</span>
+            </div>
+            <div class="file-actions">
+              <button 
+  class="btn-action btn-view"
+  (click)="abrirArchivo(solicitudActual.id, 'pdf', a.nombre)"
+  *permiso="'sat.descargar_zip'"
+>
+  <i class="fas fa-eye"></i>
+</button>
+
+              <button 
+  class="btn-action btn-download"
+  (click)="descargarArchivo(solicitudActual.id, 'pdf', a.nombre)"
+  *permiso="'sat.descargar_zip'"
+>
+  <i class="fas fa-download"></i>
+</button>
+
+            </div>
+          </div>
+        </div>
+        <ng-template #noPdf>
+          <div class="empty-state">No hay archivos PDF</div>
+        </ng-template>
+      </div>
+-->
+      <!-- XMLs -->
+      <div class="file-category">
+        <div class="category-header">
+          <h6><i class="fas fa-file-code"></i> XML ({{ xmls(solicitudActual?.id).length }})</h6>
+        </div>
+        <div class="file-list" *ngIf="xmls(solicitudActual?.id).length; else noXml">
+          <div class="file-item" *ngFor="let a of xmls(solicitudActual?.id)">
+            <div class="file-info">
+              <span class="file-name">{{ a.nombre }}</span>
+              <span class="file-size">{{ (a.bytes ?? a.tamano) | number }} bytes</span>
+            </div>
+            <div class="file-actions">
+              <button class="btn-action btn-view" (click)="abrirArchivo(solicitudActual.id, 'xml', a.nombre)">
+                <i class="fas fa-eye"></i>
+              </button>
+              <button class="btn-action btn-download" (click)="descargarArchivo(solicitudActual.id, 'xml', a.nombre)">
+                <i class="fas fa-download"></i>
+              </button>
+               <!-- Generar PDF -->
+  <button class="btn-action btn-pdf" 
+          (click)="generarPdf(a.nombre, solicitudActual.id)">
+    <i class="fas fa-file-pdf"></i>
+  </button>
+            </div>
+          </div>
+        </div>
+        <ng-template #noXml>
+          <div class="empty-state">No hay archivos XML</div>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-footer">
+    <button class="btn-close-footer" (click)="cerrarModal()">
+      <i class="fas fa-times"></i>
+      Cerrar
+    </button>
+  </div>
+</div>
+</div>
+
+<!-- ⭐⭐⭐ CONTENIDO AUTOMÁTICO ⭐⭐⭐ -->
+<div *ngIf="tab === 'auto'" class="sat-tab-content">
+    <app-sat-automatico></app-sat-automatico>
+</div>

@@ -1,0 +1,170 @@
+<div class="config-container">
+  <!-- Header -->
+  <div class="config-header">
+    <div class="header-icon">
+      <i data-feather="settings"></i>
+    </div>
+    <div class="header-content">
+      <h1>Personalización del Sistema</h1>
+      <p>Personaliza los colores y apariencia de tu aplicación</p>
+    </div>
+  </div>
+
+  <!-- Contenido Principal -->
+  <div class="config-content">
+    
+    <!-- Sección Colores -->
+    <div class="config-section">
+      <div class="section-header">
+        <i data-feather="droplet"></i>
+        <h2>Paleta de Colores</h2>
+      </div>
+      
+      <div class="color-grid">
+        <!-- Color Principal -->
+        <div class="color-item">
+          <div class="color-preview" [style.background]="primaryColor"></div>
+          <div class="color-info">
+            <label class="color-label">Color Principal</label>
+            <span class="color-description">Sidebar y elementos principales</span>
+          </div>
+          <div class="color-controls">
+            <input 
+              type="color" 
+              [(ngModel)]="primaryColor" 
+              (input)="applyTheme()"
+              class="color-picker"
+              title="Seleccionar color"
+            />
+            <input 
+              type="text" 
+              [(ngModel)]="primaryColor" 
+              (input)="applyTheme()"
+              class="color-input"
+              placeholder="#4b2a2d"
+              maxlength="7"
+            />
+          </div>
+        </div>
+
+        <!-- Color de Fondo -->
+        <div class="color-item">
+          <div class="color-preview" [style.background]="backgroundColor"></div>
+          <div class="color-info">
+            <label class="color-label">Color de Fondo</label>
+            <span class="color-description">Fondo general y barra superior</span>
+          </div>
+          <div class="color-controls">
+           <!----> <input 
+              type="color" 
+              [(ngModel)]="backgroundColor" 
+              (input)="applyTheme()"
+              class="color-picker"
+              title="Seleccionar color"
+            />
+            <input 
+              type="text" 
+              [(ngModel)]="backgroundColor" 
+              (input)="applyTheme()"
+              class="color-input"
+              placeholder="#f5f7fa"
+              maxlength="7"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sección Logo -->
+    <div class="config-section">
+      <div class="section-header">
+        <i data-feather="image"></i>
+        <h2>Logo de la Empresa</h2>
+      </div>
+      
+      <div class="logo-section">
+        <div class="logo-upload-area" [class.has-logo]="previewLogo">
+          <div class="upload-content" *ngIf="!previewLogo">
+            <i data-feather="upload-cloud" class="upload-icon"></i>
+            <p>Arrastra tu logo aquí o haz clic para seleccionar</p>
+            <span class="upload-hint">PNG, JPG hasta 2MB</span>
+          </div>
+          
+          <div class="logo-preview" *ngIf="previewLogo">
+            <img [src]="previewLogo" alt="Vista previa del logo" />
+            <button class="remove-logo" (click)="removeLogo()" title="Quitar logo">
+              <i data-feather="x"></i>
+            </button>
+          </div>
+          
+          <input 
+            type="file" 
+            accept="image/*" 
+            (change)="onLogoChange($event)"
+            class="file-input"
+            #fileInput
+          />
+        </div>
+        
+        <button class="browse-btn" (click)="fileInput.click()">
+          <i data-feather="folder"></i>
+          Examinar archivos
+        </button>
+      </div>
+    </div>
+
+    <!-- Vista Previa -->
+    <div class="config-section">
+      <div class="section-header">
+        <i data-feather="eye"></i>
+        <h2>Vista Previa</h2>
+      </div>
+      <!-- Toggle: aplicar en toda la página o solo en la vista previa -->
+<div class="config-toggle">
+  <label class="switch">
+    <input type="checkbox" [(ngModel)]="applyGlobally" (change)="onToggleScope()" />
+    <span class="slider"></span>
+  </label>
+  <span class="toggle-label">
+    {{ applyGlobally ? 'Aplicar en toda la página' : 'Solo vista previa' }}
+  </span>
+</div>
+
+
+      <div class="preview-area">
+        <div class="preview-sidebar" [style.background]="primaryColor">
+          <div class="preview-logo">
+            <div class="preview-logo-icon" *ngIf="!previewLogo">
+              <i data-feather="briefcase"></i>
+            </div>
+            <img *ngIf="previewLogo" [src]="previewLogo" alt="Logo preview" />
+          </div>
+          <div class="preview-nav">
+            <div class="preview-nav-item active"></div>
+            <div class="preview-nav-item"></div>
+            <div class="preview-nav-item"></div>
+          </div>
+        </div>
+        <div class="preview-main" [style.background]="backgroundColor">
+          <div class="preview-navbar" [style.background]="backgroundColor"></div>
+          <div class="preview-content">
+            <div class="preview-card"></div>
+            <div class="preview-card"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Acciones -->
+  <div class="config-actions">
+    <button class="btn-secondary" (click)="resetConfig()">
+      <i data-feather="refresh-cw"></i>
+      Restablecer
+    </button>
+    <button class="btn-primary" (click)="saveConfig()">
+      <i data-feather="save"></i>
+      Guardar Cambios
+    </button>
+  </div>
+</div>

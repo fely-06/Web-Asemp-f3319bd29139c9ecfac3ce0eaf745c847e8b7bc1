@@ -1,0 +1,11 @@
+<div class="dashboard-layout" [class.sidebar-collapsed]="!isSidebarOpen">
+  <app-sidebar></app-sidebar>
+  <div class="sidebar-overlay" (click)="onSidebarToggle(false)"></div>
+
+  <div class="main-container">
+    <app-navbar (sidebarToggle)="onSidebarToggle($event)"></app-navbar>
+    <main class="main-content">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+</div>

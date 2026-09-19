@@ -1,0 +1,152 @@
+<!-- departamentos-list.html -->
+<div class="container-fluid mt-4">
+  <div class="card shadow-lg border-0 rounded-3 overflow-hidden custom-card">
+    <!-- Header -->
+    <div class="card-header custom-header py-3 px-4">
+      <div class="d-flex justify-content-between align-items-center">
+        <div class="d-flex align-items-center">
+          <i data-feather="layers" class="me-2 header-icon"></i>
+          <h2 class="h4 mb-0 fw-bold header-title">Gestión de Departamentos</h2>
+        </div>
+
+        <!-- Botón "Nuevo departamento" - Ahora abre modal -->
+        <button class="btn custom-btn-float-azul d-flex align-items-center shadow"
+        *permiso="'departamentos.crear'"
+        (click)="abrirModalNuevo()">
+  <i data-feather="plus" class="me-2"></i>
+  <span>Nuevo departamento</span>
+</button>
+
+      </div>
+    </div>
+
+    <!-- Filtros -->
+    <div class="card-body custom-filters border-bottom py-3 departamentos-filtros pb-5">
+      <div class="row g-3 align-items-center">
+        <div class="col-md-4">
+          <div class="input-group custom-input-group">
+            <span class="input-group-text custom-input-icon">
+              <i data-feather="search" class="search-icon"></i>
+            </span>
+            <input
+              type="text"
+              class="form-control custom-input"
+              placeholder="Buscar..."
+              [(ngModel)]="terminoBusqueda"
+              (input)="filtrarDepartamentos()"
+              maxlength="40">
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <select
+            class="form-select custom-select"
+            [(ngModel)]="criterioBusqueda"
+            (change)="filtrarDepartamentos()">
+            <option value="nombre">Por Nombre</option>
+            <option value="descripcion">Por Descripción</option>
+          </select>
+        </div>
+
+        <div class="col-md-5 text-md-end">
+          <span class="custom-text-muted">
+            Mostrando <strong>{{departamentosFiltrados.length}}</strong> de <strong>{{departamentos.length}}</strong> departamentos
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tabla -->
+    <div class="card-body p-0 custom-table-container tabla-card">
+      <div class="table-responsive">
+        <table class="table table-striped" [ngClass]="{'table-dark': temaActual === 'dark'}">
+          <thead class="custom-table-header">
+  <tr>
+    <th class="th-sortable ps-4" (click)="ordenarPor('id')">
+      ID <i [ngClass]="getIconoOrden('id')"></i>
+    </th>
+
+    <th class="th-sortable" (click)="ordenarPor('nombre')">
+      Nombre <i [ngClass]="getIconoOrden('nombre')"></i>
+    </th>
+
+    <th class="th-sortable" (click)="ordenarPor('descripcion')">
+      Descripción <i [ngClass]="getIconoOrden('descripcion')"></i>
+    </th>
+
+    <th class="text-center pe-4">Acciones</th>
+  </tr>
+</thead>
+
+
+          <tbody>
+            <tr *ngFor="let d of departamentosFiltrados | paginate: { itemsPerPage: 8, currentPage: page }">
+              <td class="fw-bold ps-4">#{{d.id}}</td>
+              <td>{{d.nombre}}</td>
+              <td>{{d.descripcion || '-'}}</td>
+
+              <!-- Acciones -->
+              <td class="text-center pe-4">
+                <button 
+                  class="menu-trigger"
+                  (click)="abrirMenu($event, d)"
+                  [class.abierto]="menu.visible && menu.departamento?.id === d.id">
+                  <i class="fas fa-ellipsis-v"></i>
+                </button>
+              </td>
+            </tr>
+
+            <!-- Mensaje sin datos -->
+            <tr *ngIf="departamentosFiltrados.length === 0">
+              <td colspan="4" class="text-center py-5 text-muted">
+                <i data-feather="slash" class="me-2"></i>No se encontraron departamentos
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- MENÚ FLOTANTE -->
+        <div 
+          class="menu-flotante"
+          *ngIf="menu.visible"
+          [ngStyle]="{ top: menu.y + 'px', left: menu.x + 'px' }"
+        >
+          <button class="accion-btn editar"
+        *permiso="'departamentos.editar'"
+        (click)="editarDesdeMenu()">
+  <i class="fas fa-pen"></i> Editar
+</button>
+
+
+          <button class="accion-btn eliminar"
+        *permiso="'departamentos.eliminar'"
+        (click)="eliminarDesdeMenu()">
+  <i class="fas fa-trash"></i> Eliminar
+</button>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Paginación -->
+    <div class="card-footer border-0">
+      <div class="d-flex justify-content-center">
+        <pagination-controls
+          (pageChange)="page=$event"
+          previousLabel="Anterior"
+          nextLabel="Siguiente"
+          class="my-pagination">
+        </pagination-controls>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Formulario modal -->
+<app-departamentos-form
+  *ngIf="mostrarModal"
+  [show]="mostrarModal"
+  [id]="editingId"
+  (saved)="onSaved()"
+  (closed)="cerrarModal()">
+</app-departamentos-form>

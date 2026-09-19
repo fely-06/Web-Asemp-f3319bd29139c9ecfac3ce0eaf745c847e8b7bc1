@@ -1,0 +1,554 @@
+/* ============================= */
+/*  MODAL FORM CLIENTES CON COLORES DINÁMICOS */
+/* ============================= */
+
+/* Fondo general desenfocado */
+.modal {
+ background: rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(3px);
+  animation: fadeIn 0.3s ease-in-out;
+  overflow-y: auto;           /* ← AGREGAR: Habilita scroll en el modal completo */
+  max-height: 100vh;          /* ← AGREGAR: Limita altura al viewport */
+}
+
+/* Contenedor principal */
+.modal-content {
+  border-radius: 12px;
+  overflow: hidden;
+  animation: slideIn 0.3s ease-in-out;
+  background-color: var(--color-background) !important;
+  color: var(--color-text) !important;
+  border: 1px solid var(--color-navbar) !important;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+  max-height: 90vh;           /* ← AGREGAR: Altura máxima del contenido */
+  margin: 2rem auto;          /* ← AGREGAR: Margen para no pegar a los bordes */
+}
+
+/* Encabezado */
+.modal-header {
+  background-color: var(--color-primary) !important;
+  color: white !important;
+  border-bottom: 1px solid var(--color-primary) !important;
+  padding: 1.25rem 1.5rem;
+}
+.modal-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Cuerpo */
+/* Cuerpo */
+.modal-body {
+  background-color: var(--color-background) !important;
+  color: var(--color-text) !important;
+  padding: 1.5rem;
+  overflow-y: auto;           /* ← AGREGAR: Scroll interno si es necesario */
+  max-height: calc(90vh - 140px); /* ← AGREGAR: Calcula altura restando header/footer */
+}
+
+/* Campos */
+.form-control,
+.form-select {
+  border-radius: 8px;
+  border: 1px solid var(--color-primary);
+  background-color: var(--color-navbar);
+  color: var(--color-text);
+  padding: 0.75rem 1rem;
+  font-size: 0.95rem;
+  transition: all 0.2s ease-in-out;
+}
+.form-control:focus,
+.form-select:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 0.2rem color-mix(in srgb, var(--color-primary) 25%, transparent);
+}
+
+/* Texto auxiliar */
+.text-muted {
+  color: color-mix(in srgb, var(--color-text) 65%, transparent) !important;
+}
+
+/* Pie */
+.modal-footer {
+  border-top: 1px solid var(--color-navbar);
+  background-color: var(--color-background);
+  padding: 1.25rem 1.5rem;
+}
+
+
+
+
+/* Botones */
+.btn {
+  border-radius: 8px;
+  font-weight: 500;
+  transition: all 0.2s ease-in-out;
+  padding: 0.6rem 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.btn-primary {
+  background-color: var(--color-primary) !important;
+  border-color: var(--color-primary) !important;
+  color: white !important;
+}
+.btn-primary:hover {
+  background-color: color-mix(in srgb, var(--color-primary) 85%, black) !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+}
+.btn-outline-secondary {
+  color: var(--color-text);
+  border-color: var(--color-navbar);
+  background-color: var(--color-background);
+}
+.btn-outline-secondary:hover {
+  background-color: color-mix(in srgb, var(--color-text) 10%, transparent);
+}
+
+/* ============================= */
+/*  ARCHIVOS - CER Y KEY */
+/* ============================= */
+
+.file-input-group {
+  margin-bottom: 1rem;
+}
+.file-input-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.file-input {
+  position: absolute;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  z-index: 2;
+}
+
+/* Contenedor visual */
+.file-input-display {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  border: 1px solid var(--color-primary);
+  background-color: var(--color-background);
+  color: var(--color-text);
+  min-height: 50px;
+  gap: 0.75rem;
+  overflow: hidden;
+}
+.file-input:hover + .file-input-display,
+.file-input:focus + .file-input-display {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 0.2rem color-mix(in srgb, var(--color-primary) 25%, transparent);
+}
+
+/* Íconos */
+.file-icon {
+  flex-shrink: 0;
+  color: var(--color-primary);
+  font-size: 1.2rem;
+  margin-right: 0.5rem;
+  min-width: 20px;
+  text-align: center;
+}
+
+/* Texto de archivo */
+.file-text {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+}
+.file-name {
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: block;
+}
+.file-hint {
+  font-size: 0.85rem;
+  color: color-mix(in srgb, var(--color-text) 65%, transparent);
+}
+
+/* Estado */
+.file-status {
+  flex-shrink: 0;
+  margin-left: 0.5rem;
+  display: flex;
+  align-items: center;
+}
+.file-status i.fa-check-circle {
+  color: #28a745;
+}
+.file-status i.fa-file {
+  color: color-mix(in srgb, var(--color-text) 50%, transparent);
+}
+
+/* Sección de certificados */
+.certificates-section {
+  background-color: color-mix(in srgb, var(--color-primary) 5%, transparent);
+  border-radius: 10px;
+  padding: 1.25rem;
+  margin-top: 1rem;
+  border: 1px solid color-mix(in srgb, var(--color-primary) 15%, transparent);
+}
+.certificates-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: var(--color-primary);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* RFC */
+.rfc-input {
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes slideIn {
+  from { transform: translateY(-20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* ============================= */
+/*  RESPONSIVO */
+/* ============================= */
+
+.modal-dialog {
+  width: 100%;
+  max-width: 800px;
+  margin: 1rem auto;
+}
+@media (max-width: 768px) {
+  .modal-dialog {
+    max-width: 90%;
+    margin: 1.2rem auto;
+  }
+  .certificates-section {
+    padding: 1rem;
+  }
+}
+@media (max-width: 480px) {
+  .modal-dialog {
+    max-width: 95%;
+    margin: 0.8rem auto;
+  }
+  .file-input-display {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .file-status {
+    margin-left: 0;
+    margin-top: 0.5rem;
+  }
+}
+
+
+
+/* ============================= */
+/*  MODO OSCURO */
+/* ============================= */
+
+[data-theme="dark"] .modal-content {
+  background-color: #1e1e1e !important;
+  border-color: #343a40 !important;
+  color: #f8f9fa !important;
+}
+[data-theme="dark"] .modal-header {
+  background-color: #343a40 !important;
+  border-bottom-color: #444 !important;
+}
+[data-theme="dark"] .form-control,
+[data-theme="dark"] .form-select {
+  background-color: #2b2b2b !important;
+  border-color: #444 !important;
+  color: #f8f9fa !important;
+}
+[data-theme="dark"] .form-control::placeholder {
+  color: #aaa !important;
+}
+[data-theme="dark"] .modal-footer {
+  background-color: #1e1e1e !important;
+  border-top-color: #444 !important;
+}
+[data-theme="dark"] .certificates-section {
+  background-color: rgba(52, 58, 64, 0.3);
+  border-color: rgba(52, 58, 64, 0.5);
+}
+
+
+
+
+/* ============================================= */
+/* BOTONES DE ACCIÓN GLOBALES (AZUL, VERDE, ROJO) */
+/* ============================================= */
+
+/* ===== Azul (para crear, registrar o actualizar) ===== */
+.btn-azul,
+.custom-btn-float-azul {
+  background-color: #0d6efd !important; /* Azul Bootstrap */
+  color: #ffffff !important;
+  font-weight: 600;
+  border: none !important;
+  border-radius: 8px;
+  padding: 0.5rem 1.1rem;
+  transition: all 0.25s ease;
+}
+.btn-azul:hover,
+.custom-btn-float-azul:hover {
+  background-color: #0b5ed7 !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(13, 110, 253, 0.4);
+}
+
+/* ===== Verde (para crear, guardar o confirmar) ===== */
+.btn-verde,
+.custom-btn-float-verde {
+  background-color: #198754 !important; /* Verde Bootstrap */
+  color: #ffffff !important;
+  font-weight: 600;
+  border: none !important;
+  border-radius: 8px;
+  padding: 0.5rem 1.1rem;
+  transition: all 0.25s ease;
+}
+.btn-verde:hover,
+.custom-btn-float-verde:hover {
+  background-color: #157347 !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(25, 135, 84, 0.4);
+}
+
+/* ===== Rojo (para eliminar o cancelar) ===== */
+.btn-rojo,
+.custom-btn-float-rojo {
+  background-color: #dc3545 !important; /* Rojo Bootstrap */
+  color: #ffffff !important;
+  font-weight: 600;
+  border: none !important;
+  border-radius: 8px;
+  padding: 0.5rem 1.1rem;
+  transition: all 0.25s ease;
+}
+.btn-rojo:hover,
+.custom-btn-float-rojo:hover {
+  background-color: #bb2d3b !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.4);
+}
+
+/* ===== Modo oscuro ===== */
+[data-theme="dark"] .btn-azul,
+[data-theme="dark"] .custom-btn-float-azul {
+  background-color: #0b5ed7 !important;
+  color: #f8f9fa !important;
+}
+[data-theme="dark"] .btn-verde,
+[data-theme="dark"] .custom-btn-float-verde {
+  background-color: #157347 !important;
+  color: #f8f9fa !important;
+}
+[data-theme="dark"] .btn-rojo,
+[data-theme="dark"] .custom-btn-float-rojo {
+  background-color: #bb2d3b !important;
+  color: #f8f9fa !important;
+}
+
+
+
+
+
+
+
+
+/* ============================= */
+/*  SECCIÓN RETENCIONES MEJORADA */
+/* ============================= */
+.retenciones-section {
+  background: linear-gradient(135deg, 
+    color-mix(in srgb, var(--color-primary) 8%, transparent) 0%, 
+    color-mix(in srgb, var(--color-primary) 4%, transparent) 100%);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin: 1rem 0;
+  border: 1px solid color-mix(in srgb, var(--color-primary) 20%, transparent);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Estado activo de retenciones */
+.retenciones-section.active {
+  border-color: var(--color-primary);
+  box-shadow: 0 4px 15px color-mix(in srgb, var(--color-primary) 15%, transparent);
+  background: linear-gradient(135deg, 
+    color-mix(in srgb, var(--color-primary) 12%, transparent) 0%, 
+    color-mix(in srgb, var(--color-primary) 6%, transparent) 100%);
+}
+
+/* Indicador visual de estado activo */
+.retenciones-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: var(--color-primary);
+  transform: scaleY(0);
+  transition: transform 0.3s ease;
+}
+
+.retenciones-section.active::before {
+  transform: scaleY(1);
+}
+
+/* Header de la sección retenciones */
+.retenciones-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  cursor: pointer;
+  padding-right: 1rem;
+}
+
+.retenciones-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 0;
+}
+
+.retenciones-toggle {
+  color: var(--color-primary);
+  transition: transform 0.3s ease;
+}
+
+.retenciones-section.active .retenciones-toggle {
+  transform: rotate(180deg);
+}
+
+/* Contenido de retenciones con animación */
+.retenciones-content {
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.retenciones-content.collapsed {
+  max-height: 0;
+  opacity: 0;
+  margin: 0;
+}
+
+.retenciones-content.expanded {
+  max-height: 200px;
+  opacity: 1;
+  margin-top: 1rem;
+}
+
+/* Campos de porcentajes con mejor estilo */
+.porcentaje-input-group {
+  position: relative;
+}
+
+.porcentaje-input-group::after {
+  content: '%';
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: color-mix(in srgb, var(--color-text) 60%, transparent);
+  font-weight: 500;
+  pointer-events: none;
+}
+
+.porcentaje-input-group input {
+  padding-right: 2.5rem !important;
+}
+
+/* Badge informativo */
+.retenciones-badge {
+  background: color-mix(in srgb, var(--color-primary) 15%, transparent);
+  color: var(--color-primary);
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  margin-left: auto;
+}
+
+/* ============================= */
+/*  MEJORAS RESPONSIVAS */
+/* ============================= */
+@media (max-width: 768px) {
+  .modal-dialog {
+    margin: 1rem auto;
+    max-height: 95vh;
+  }
+  
+  .modal-content {
+    max-height: 90vh;
+  }
+  
+  .modal-body {
+    max-height: calc(90vh - 120px);
+  }
+  
+  .retenciones-section {
+    padding: 1rem;
+    margin: 0.75rem 0;
+  }
+  
+  .retenciones-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .retenciones-badge {
+    margin-left: 0;
+    align-self: flex-start;
+  }
+}
+
+
+
+/* Scrollbar personalizado */
+.modal-body::-webkit-scrollbar {
+  width: 6px;
+}
+
+.modal-body::-webkit-scrollbar-track {
+  background: color-mix(in srgb, var(--color-primary) 5%, transparent);
+  border-radius: 3px;
+}
+
+.modal-body::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--color-primary) 30%, transparent);
+  border-radius: 3px;
+}
+
+.modal-body::-webkit-scrollbar-thumb:hover {
+  background: color-mix(in srgb, var(--color-primary) 50%, transparent);
+}

@@ -1,0 +1,440 @@
+/* =============================
+   ROLES LIST (THEME SAFE)
+   Usa: --color-primary, --color-navbar, --color-background, --color-text
+============================= */
+
+/* Card principal */
+.custom-card {
+  background: var(--color-background) !important;
+  color: var(--color-text) !important;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border: 1px solid color-mix(in srgb, var(--color-text) 10%, transparent) !important;
+  overflow: visible !important;
+}
+
+/* Header */
+.custom-header {
+  background: linear-gradient(
+    135deg,
+    var(--color-primary) 0%,
+    color-mix(in srgb, var(--color-primary) 80%, black) 100%
+  ) !important;
+  color: #fff !important;
+  border-bottom: none !important;
+}
+
+.custom-header .header-title,
+.custom-header .header-icon {
+  color: #fff !important;
+}
+
+.custom-header .header-icon {
+  stroke: #fff !important;
+}
+
+/* Botón flotante */
+.custom-btn-float-azul {
+  background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%) !important;
+  color: #fff !important;
+  border: none !important;
+  border-radius: 10px !important;
+  padding: 0.6rem 1.2rem !important;
+  font-weight: 500 !important;
+  box-shadow: 0 4px 12px rgba(13, 110, 253, 0.3) !important;
+  transition: all 0.3s ease !important;
+}
+
+.custom-btn-float-azul:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 16px rgba(13, 110, 253, 0.4) !important;
+}
+
+/* Filtros */
+.custom-filters {
+  background: var(--color-navbar) !important;
+  border-bottom: 1px solid color-mix(in srgb, var(--color-text) 10%, transparent) !important;
+}
+
+/* Input group (buscador) */
+.custom-input-group {
+  border: 2px solid color-mix(in srgb, var(--color-primary) 20%, transparent) !important;
+  border-radius: 12px !important;
+  overflow: hidden;
+  background: var(--color-background) !important;
+  transition: all 0.3s ease;
+}
+
+.custom-input-group:focus-within {
+  border-color: var(--color-primary) !important;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary) 15%, transparent) !important;
+}
+
+/* Icono buscador */
+.custom-input-icon {
+  background: transparent !important;
+  border: none !important;
+  color: var(--color-primary) !important;
+}
+.custom-input-icon i {
+  stroke: currentColor;
+  color: inherit;
+}
+
+/* Input */
+.custom-input {
+  border: none !important;
+  background: transparent !important;
+  color: var(--color-text) !important;
+  font-size: 0.95rem;
+}
+.custom-input::placeholder {
+  color: color-mix(in srgb, var(--color-text) 55%, transparent) !important;
+}
+
+/* Texto "Mostrando..." */
+.custom-text-muted {
+  color: color-mix(in srgb, var(--color-text) 60%, transparent) !important;
+  font-size: 0.9rem;
+}
+
+/* =============================
+   TABLA (FIX STRIPED + HOVER)
+============================= */
+
+/* Base tabla */
+.table {
+  background: transparent !important;
+  color: var(--color-text) !important;
+  margin-bottom: 0;
+}
+
+/* IMPORTANTE:
+   Bootstrap pinta fondos en td/th con variables.
+   Para que SIEMPRE se vea, forzamos color y fondo en celdas. */
+.table td,
+.table th {
+  color: var(--color-text) !important;
+  border-color: color-mix(in srgb, var(--color-text) 12%, transparent) !important;
+  background-color: transparent !important; /* base */
+}
+
+/* Encabezado */
+.table thead th {
+  background: var(--color-navbar) !important;
+  color: var(--color-text) !important;
+  font-weight: 600;
+  border-bottom: 2px solid color-mix(in srgb, var(--color-primary) 55%, transparent) !important;
+}
+
+/* Stripe: aplícalo en CELDAS (td/th) para que sea consistente */
+.table.table-striped > tbody > tr:nth-of-type(odd) > * {
+  background-color: color-mix(in srgb, var(--color-background) 92%, white) !important;
+}
+[data-theme="dark"] .table.table-striped > tbody > tr:nth-of-type(odd) > * {
+  background-color: color-mix(in srgb, var(--color-background) 88%, black) !important;
+}
+
+/* Hover: aplícalo en CELDAS (td/th) para ganar a striped */
+.table.table-hover > tbody > tr:hover > *,
+.table.table-striped > tbody > tr:hover > * {
+  background-color: color-mix(in srgb, var(--color-primary) 12%, transparent) !important;
+}
+
+/* Si usas table-striped sin table-hover, igual se verá el hover */
+.table > tbody > tr:hover > * {
+  color: var(--color-text) !important;
+}
+
+/* =============================
+   BOTONES ACCIÓN
+============================= */
+.btn-azul {
+  background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%) !important;
+  color: #fff !important;
+  border: none !important;
+  border-radius: 8px !important;
+  padding: 0.4rem 0.8rem !important;
+}
+
+.btn-rojo {
+  background: linear-gradient(135deg, #dc3545 0%, #bb2d3b 100%) !important;
+  color: #fff !important;
+  border: none !important;
+  border-radius: 8px !important;
+  padding: 0.4rem 0.8rem !important;
+}
+
+.btn-verde {
+  background: linear-gradient(135deg, #198754 0%, #157347 100%) !important;
+  color: #fff !important;
+  border: none !important;
+  border-radius: 8px !important;
+  padding: 0.4rem 0.8rem !important;
+}
+
+/* =============================
+   MODAL (THEME SAFE)
+============================= */
+.modal-roles-custom {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2100 !important;
+  pointer-events: auto;
+}
+
+.roles-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.55);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  z-index: 2000 !important;
+  animation: backdropFadeIn .25s ease-out;
+}
+
+.modal-content-custom {
+  background: var(--color-background) !important;
+  color: var(--color-text) !important;
+  border: 1px solid color-mix(in srgb, var(--color-text) 12%, transparent) !important;
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+  width: 90%;
+  max-width: 500px;
+  pointer-events: all;
+  animation: modalSlideIn 0.3s ease-out;
+}
+
+.modal-header-custom {
+  padding: 1.5rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--color-text) 10%, transparent) !important;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(
+    135deg,
+    var(--color-primary) 0%,
+    color-mix(in srgb, var(--color-primary) 80%, black) 100%
+  ) !important;
+  color: #fff !important;
+  border-radius: 16px 16px 0 0;
+}
+
+.modal-header-custom h3 {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.modal-header-custom i {
+  stroke: currentColor;
+  color: inherit;
+}
+
+.close-btn-custom {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: #fff;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.modal-body-custom {
+  padding: 1.5rem;
+}
+
+.modal-body-custom label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: var(--color-text) !important;
+}
+
+.form-control-custom {
+  width: 100%;
+  padding: 0.75rem;
+  border: 2px solid color-mix(in srgb, var(--color-text) 12%, transparent) !important;
+  background: var(--color-navbar) !important;
+  color: var(--color-text) !important;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+}
+
+.form-control-custom::placeholder {
+  color: color-mix(in srgb, var(--color-text) 55%, transparent) !important;
+}
+
+.form-control-custom:focus {
+  outline: none;
+  border-color: var(--color-primary) !important;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary) 15%, transparent) !important;
+}
+
+.modal-footer-custom {
+  padding: 1rem 1.5rem;
+  border-top: 1px solid color-mix(in srgb, var(--color-text) 10%, transparent) !important;
+  background: var(--color-background) !important;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  border-radius: 0 0 16px 16px;
+}
+
+/* =============================
+   MENÚ ⋮ (THEME SAFE)
+============================= */
+.menu-trigger {
+  background: color-mix(in srgb, var(--color-navbar) 85%, white);
+  border: 1px solid color-mix(in srgb, var(--color-text) 12%, transparent);
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: .2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: color-mix(in srgb, var(--color-text) 70%, transparent);
+}
+
+[data-theme="dark"] .menu-trigger {
+  background: color-mix(in srgb, var(--color-navbar) 85%, black);
+}
+
+.menu-trigger:hover {
+  background: color-mix(in srgb, var(--color-navbar) 70%, white);
+  color: var(--color-text);
+}
+
+[data-theme="dark"] .menu-trigger:hover {
+  background: color-mix(in srgb, var(--color-navbar) 70%, black);
+}
+
+.menu-trigger.abierto {
+  background: color-mix(in srgb, var(--color-primary) 12%, transparent) !important;
+  transform: scale(1.05);
+  color: var(--color-text);
+}
+
+/* MENÚ FLOTANTE */
+.menu-flotante {
+  position: absolute !important;
+  z-index: 999999;
+  background: var(--color-background) !important;
+  color: var(--color-text) !important;
+  padding: 8px;
+  width: 140px;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  animation: fadeIn .15s ease-out;
+  border: 1px solid color-mix(in srgb, var(--color-text) 12%, transparent) !important;
+}
+
+.menu-flotante::before {
+  content: "";
+  position: absolute;
+  top: -6px;
+  right: 12px;
+  width: 12px;
+  height: 12px;
+  background: var(--color-background) !important;
+  transform: rotate(45deg);
+  border-left: 1px solid color-mix(in srgb, var(--color-text) 12%, transparent) !important;
+  border-top: 1px solid color-mix(in srgb, var(--color-text) 12%, transparent) !important;
+}
+
+/* BOTONES DEL MENÚ */
+.accion-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-size: 13px;
+  width: 100%;
+  text-align: left;
+  transition: .2s;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.accion-btn.editar { background: #007bff; }
+.accion-btn.editar:hover { background: #0064cf; }
+
+.accion-btn.permisos { background: #17a2b8; }
+.accion-btn.permisos:hover { background: #138496; }
+
+.accion-btn.eliminar { background: #dc3545; }
+.accion-btn.eliminar:hover { background: #b52a35; }
+
+/* Allow overflow for menu */
+td { position: relative; overflow: visible !important; }
+.tabla-card { position: relative !important; overflow: visible !important; z-index: 1; }
+.table-responsive { overflow: visible !important; }
+
+/* Ordenamiento */
+.th-sortable {
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.orden-icon {
+  font-size: 0.75rem;
+  opacity: 0.4;
+  transition: opacity 0.15s ease, transform 0.15s ease, color 0.15s ease;
+}
+
+.orden-icon.activo {
+  opacity: 1;
+  color: var(--color-primary);
+}
+
+.th-sortable:hover .orden-icon {
+  opacity: 1;
+  color: var(--color-primary);
+  transform: translateY(-1px);
+}
+
+/* Footer/paginación */
+.card-footer {
+  background: var(--color-navbar) !important;
+  border-top: 1px solid color-mix(in srgb, var(--color-text) 10%, transparent) !important;
+  color: var(--color-text) !important;
+}
+
+/* Animaciones */
+@keyframes modalSlideIn {
+  from { opacity: 0; transform: translateY(-20px) scale(0.95); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes backdropFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .modal-content-custom { width: 95%; margin: 1rem; }
+  .modal-footer-custom { flex-direction: column; }
+  .modal-footer-custom .btn { width: 100%; }
+}

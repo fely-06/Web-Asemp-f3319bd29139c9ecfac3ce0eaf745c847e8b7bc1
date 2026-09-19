@@ -1,0 +1,72 @@
+<div class="modal fade show" [style.display]="show ? 'block' : 'none'" (click)="cerrarFondo($event)">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content border-0 shadow-lg rounded-3 overflow-hidden">
+
+      <!-- Encabezado -->
+      <div class="modal-header bg-primary text-white py-3">
+        <h5 class="modal-title">
+          <i class="fas me-2" [class.fa-edit]="id" [class.fa-plus]="!id"></i>
+          {{ id ? 'Editar Departamento' : 'Nuevo Departamento' }}
+        </h5>
+        <button type="button" class="btn-close btn-close-white" (click)="cerrarModal()"></button>
+      </div>
+
+      <!-- Cuerpo -->
+      <form (ngSubmit)="guardar()" autocomplete="off">
+        <div class="modal-body p-4">
+          <div class="row g-4">
+
+            <!-- Nombre -->
+            <div class="col-12">
+              <label class="form-label fw-semibold" required-label>Nombre del Departamento</label>
+              <input 
+                type="text" 
+                class="form-control" 
+                [(ngModel)]="model.nombre" 
+                name="nombre" 
+                placeholder="Ingrese el nombre del departamento"
+                required
+                maxlength="20">
+            </div>
+
+            <!-- Descripción -->
+            <div class="col-12">
+              <label class="form-label fw-semibold">Descripción</label>
+              <textarea 
+                class="form-control" 
+                [(ngModel)]="model.descripcion" 
+                name="descripcion" 
+                rows="4"
+                placeholder="Ingrese una descripción del departamento (opcional)"
+                maxlength="300"></textarea>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Pie -->
+        <div class="modal-footer d-flex flex-column flex-sm-row justify-content-end gap-2">
+          <button 
+            type="button" 
+            class="btn btn-rojo flex-fill flex-sm-grow-0" 
+            (click)="cerrarModal()" 
+            [disabled]="cargando">
+            <i class="fas fa-times me-2"></i> Cancelar
+          </button>
+
+          <button
+            type="submit"
+            [ngClass]="id ? 'btn btn-azul' : 'btn btn-verde'"
+            [disabled]="cargando"
+            class="flex-fill flex-sm-grow-0">
+            <i class="fas me-2" [class.fa-save]="id" [class.fa-plus]="!id"></i>
+            {{ id ? 'Actualizar' : 'Crear' }} Departamento
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Fondo oscuro -->
+<div class="modal-backdrop fade show" *ngIf="show"></div>

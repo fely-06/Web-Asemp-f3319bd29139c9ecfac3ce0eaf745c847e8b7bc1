@@ -1,0 +1,196 @@
+<div class="container-fluid mt-4">
+  <div class="card shadow-lg border-0 rounded-3 overflow-hidden custom-card">
+    
+    <!-- Header Mejorado -->
+    <div class="card-header custom-header py-3 px-4">
+      <div class="d-flex justify-content-between align-items-center">
+        <div class="d-flex align-items-center">
+          <i data-feather="key" class="me-2 header-icon"></i>
+          <h2 class="h4 mb-0 fw-bold header-title">Gestión de Acciones</h2>
+        </div>
+
+        <!-- Botón "Nueva Acción" -->
+        <button 
+  class="btn custom-btn-float-azul d-flex align-items-center shadow" 
+  (click)="abrirModal()"
+  *permiso="'acciones.crear'"
+>
+  <i data-feather="plus" class="me-2"></i>
+  <span>Nueva Acción</span>
+</button>
+
+      </div>
+    </div>
+
+    <!-- Filtros Mejorados -->
+    <div class="card-body custom-filters border-bottom py-3 pb-5">
+      <div class="row g-3 align-items-center">
+        <div class="col-md-4">
+          <div class="input-group custom-input-group">
+            <span class="input-group-text custom-input-icon">
+              <i data-feather="search" class="search-icon"></i>
+            </span>
+            <input
+              type="text"
+              class="form-control custom-input"
+              placeholder="Buscar acciones..."
+              [(ngModel)]="busqueda"
+              (input)="filtrarAcciones()"maxlength="30">
+          </div>
+        </div>
+
+        <div class="col-md-8 px-0 d-flex justify-content-end">
+  <span class="custom-text-muted">
+    Mostrando <strong>{{ getMostrando() }}</strong> de <strong>{{ accionesFiltradas.length }}</strong> acciones
+
+  </span>
+</div>
+
+    </div>
+
+    <!-- Tabla Mejorada -->
+    <div class="card-body p-0 tabla-card">
+      <div class="table-responsive">
+        <table class="table table-striped">
+<thead class="custom-table-header">
+  <tr>
+    <th class="ps-4 th-sortable" (click)="ordenarPor('id')">
+      <span>ID</span>
+      <i [ngClass]="getIconoOrden('id')"></i>
+    </th>
+
+    <th class="th-sortable" (click)="ordenarPor('nombre')">
+      <span>Nombre</span>
+      <i [ngClass]="getIconoOrden('nombre')"></i>
+    </th>
+
+    <th class="th-sortable" (click)="ordenarPor('catalogo_id')">
+      <span>Catálogo</span>
+      <i [ngClass]="getIconoOrden('catalogo_id')"></i>
+    </th>
+
+    <th class="text-center pe-4">
+      Acciones
+    </th>
+  </tr>
+</thead>
+
+
+          <tbody>
+            <tr *ngFor="let a of accionesFiltradas | paginate: { itemsPerPage: 8, currentPage: page }">
+              <td class="fw-bold ps-4">#{{a.id}}</td>
+              <td>{{a.nombre}}</td>
+              <td>{{a.catalogo_id || '-'}}</td>
+
+              <!-- Acciones con menú de tres puntos -->
+              <td class="text-center pe-4">
+                <button 
+                  class="menu-trigger"
+                  (click)="abrirMenu($event, a)"
+                  [class.abierto]="menu.visible && menu.accion?.id === a.id">
+                  <i class="fas fa-ellipsis-v"></i>
+                </button>
+              </td>
+            </tr>
+
+            <!-- Mensaje sin datos -->
+            <tr *ngIf="accionesFiltradas.length === 0">
+              <td colspan="4" class="text-center py-5 text-muted">
+                <i data-feather="slash" class="me-2"></i>No se encontraron acciones
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- MENÚ FLOTANTE -->
+        <div 
+          class="menu-flotante"
+          *ngIf="menu.visible"
+          [ngStyle]="{ top: menu.y + 'px', left: menu.x + 'px' }">
+          <button 
+  class="accion-btn editar" 
+  (click)="editarDesdeMenu()"
+  *permiso="'acciones.editar'"
+>
+  <i class="fas fa-pen"></i> Editar
+</button>
+
+
+          <button 
+  class="accion-btn eliminar" 
+  (click)="eliminarDesdeMenu()"
+  *permiso="'acciones.eliminar'"
+>
+  <i class="fas fa-trash"></i> Eliminar
+</button>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Paginación -->
+    <div class="card-footer border-0">
+      <div class="d-flex justify-content-center">
+        <pagination-controls
+          (pageChange)="page=$event"
+          previousLabel="Anterior"
+          nextLabel="Siguiente"
+          class="my-pagination">
+        </pagination-controls>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="acciones-backdrop" *ngIf="modalAbierto" (click)="cerrarModal()"></div>
+
+
+<div class="modal-acciones-custom" *ngIf="modalAbierto">
+  <div class="modal-content-custom">
+    <div class="modal-header-custom">
+      <h3>
+        <i data-feather="key"></i>
+        {{ editando ? 'Editar Acción' : 'Nueva Acción' }}
+      </h3>
+      <button class="close-btn-custom" (click)="cerrarModal()">×</button>
+    </div>
+
+    <div class="modal-body-custom">
+      <label required-label>Nombre de la Acción</label>
+      <input
+        type="text"
+        required=""
+        class="form-control-custom"
+        [(ngModel)]="form.nombre"
+        name="nombre"
+        maxlength="150"
+        placeholder="Ingrese el nombre de la acción"
+        required
+        maxlength="20"
+      />
+
+      <label required-label>ID Catálogo</label>
+      <input
+        type="number"
+        required
+        class="form-control-custom"
+        [(ngModel)]="form.catalogo_id"
+        name="catalogo_id"
+        placeholder="Ingrese el ID del catálogo"
+      />
+    </div>
+
+    <div class="modal-footer-custom">
+      <button class="btn btn-rojo" (click)="cerrarModal()">
+        <i data-feather="x"></i>
+        Cancelar
+      </button>
+
+      <button class="btn btn-verde" (click)="guardar()">
+        <i data-feather="check"></i>
+        {{ editando ? 'Guardar Cambios' : 'Crear Acción' }}
+      </button>
+    </div>
+  </div>
+</div>

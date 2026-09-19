@@ -1,0 +1,100 @@
+<!-- Backdrop -->
+<div class="modal-backdrop" *ngIf="visible" (click)="cerrarModal()"></div>
+
+<!-- Modal -->
+<div class="modal" *ngIf="visible">
+
+  <!-- HEADER -->
+  <div class="modal-header">
+    <div class="header-title">
+      <h5>Historial de verificaciones</h5>
+
+      <span class="cliente-name">
+        Solicitud #{{ solicitud?.id }}
+      </span>
+
+      <span class="subtitulo">
+        {{ historial.length }} verificaciones registradas
+      </span>
+    </div>
+
+    <button class="btn-close" (click)="cerrarModal()">
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
+
+  <!-- CUERPO DEL MODAL -->
+  <div class="modal-body">
+
+    <!-- SIN REGISTROS -->
+    <div *ngIf="historial.length === 0" class="empty-state">
+      No hay verificaciones registradas.
+    </div>
+
+    <!-- LISTA DE REGISTROS PAGINADOS -->
+    <div class="historial-item" *ngFor="let v of historialPaginado">
+
+      <div class="info-grid">
+
+        <div class="info-item">
+          <label>Fecha</label>
+          <span class="value">
+            {{ v.fechaVerificacion | date:'short' }}
+          </span>
+        </div>
+
+        <div class="info-item">
+          <label>Código SAT</label>
+          <span class="value">
+            {{ v.codigoEstado }}
+          </span>
+        </div>
+
+        <div class="info-item">
+          <label>Estado</label>
+          <span class="value">
+            {{ v.estadoSolicitud }}
+          </span>
+        </div>
+
+        <div class="info-item">
+          <label>Mensaje</label>
+          <span class="value">
+            {{ v.mensaje }}
+          </span>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- PAGINACIÓN -->
+    <div class="paginacion" *ngIf="historial.length > pageSize">
+
+      <button 
+        class="page-btn"
+        [disabled]="page === 1"
+        (click)="cambiarPagina(page - 1)">
+        Anterior
+      </button>
+
+      <span>Página {{ page }} de {{ totalPaginas }}</span>
+
+      <button 
+        class="page-btn"
+        [disabled]="page === totalPaginas"
+        (click)="cambiarPagina(page + 1)">
+        Siguiente
+      </button>
+
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <div class="modal-footer">
+    <button class="btn-close-footer" (click)="cerrarModal()">
+      <i class="fas fa-times"></i> Cerrar
+    </button>
+  </div>
+
+</div>

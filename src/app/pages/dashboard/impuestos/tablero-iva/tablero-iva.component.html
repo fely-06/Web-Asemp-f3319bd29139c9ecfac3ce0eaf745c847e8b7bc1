@@ -1,0 +1,378 @@
+<div class="container-fluid mt-4">
+  <div class="card shadow-lg border-0 rounded-3 overflow-hidden custom-card">
+    
+    <!-- Header -->
+    <div class="card-header custom-header py-3 px-4">
+      <div class="d-flex justify-content-between align-items-center">
+        <div class="d-flex align-items-center">
+          <i class="fas fa-chart-bar me-2 header-icon"></i>
+          <h2 class="h4 mb-0 fw-bold header-title">Tablero Fiscal - IVA</h2>
+        </div>
+      </div>
+    </div>
+
+    <!-- Filtros -->
+    <div class="card-body custom-filters border-bottom py-3 pb-4">
+
+
+      
+      <div class="row g-3 align-items-center mb-3">
+<!-- ============================= -->
+<!-- CLIENTE (USUARIO CLIENTE) -->
+<!-- ============================= -->
+<div class="col-md-6" *ngIf="esCliente">
+  <div class="form-group">
+    <label class="form-label fw-semibold mb-2">
+      <i class="fas fa-user me-1"></i> Cliente
+    </label>
+
+    <input
+      type="text"
+      class="form-control custom-input"
+      [value]="clienteNombre"
+      disabled
+    >
+  </div>
+</div>
+        <!-- Buscador de Cliente -->
+        <div class="col-md-6" *ngIf="!esCliente">
+          <div class="form-group">
+            <label class="form-label fw-semibold mb-2">
+              <i class="fas fa-user me-1"></i> Cliente
+            </label>
+
+            <div class="autocomplete-container">
+              <input 
+                type="text"
+                class="form-control custom-input"
+                [(ngModel)]="clienteNombre"
+                (input)="onClienteBusquedaChange()"
+                (focus)="onInputFocus()"
+                (blur)="onInputBlur()"
+                placeholder="Escriba para buscar cliente..."
+                autocomplete="off"
+                maxlength="40"
+              >
+              
+
+              <!-- Sugerencias -->
+              <div class="sugerencias-list" *ngIf="mostrarSugerencias && clientesFiltrados.length > 0">
+                <div 
+                  class="sugerencia-item"
+                  *ngFor="let cliente of clientesFiltrados"
+                  (mousedown)="seleccionarCliente(cliente)">
+                  <div class="sugerencia-nombre">{{ cliente.razon_social }}</div>
+                  <small class="sugerencia-info">ID: {{ cliente.id }}</small>
+                </div>
+              </div>
+
+              <!-- Sin resultados -->
+              <div class="sugerencias-list" *ngIf="mostrarSugerencias && clienteNombre && clientesFiltrados.length === 0">
+                <div class="sugerencia-item sugerencia-vacia">
+                  No se encontraron clientes con "{{ clienteNombre }}"
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <!-- Filtro Mes -->
+        <div class="col-md-3">
+          <label class="form-label fw-semibold mb-2"><i class="fas fa-calendar me-1"></i> Mes</label>
+          <select [(ngModel)]="mes" class="form-select custom-select">
+            <option *ngFor="let m of [1,2,3,4,5,6,7,8,9,10,11,12]" [value]="m">
+              {{ getNombreMes(m) }}
+            </option>
+          </select>
+        </div>
+
+        <!-- Filtro Año -->
+        <div class="col-md-3">
+          <label class="form-label fw-semibold mb-2"><i class="fas fa-calendar-alt me-1"></i> Año</label>
+          <div class="d-flex align-items-center">
+            <button (click)="anio = anio - 1" class="btn btn-outline-secondary btn-stepper" type="button">
+              <i class="fas fa-chevron-left"></i>
+            </button>
+
+            <input 
+              type="number"
+              [(ngModel)]="anio"
+              min="2020"
+              max="2030"
+              class="form-control text-center mx-2 filtro-anio-input"
+            >
+
+            <button (click)="anio = anio + 1" class="btn btn-outline-secondary btn-stepper" type="button">
+              <i class="fas fa-chevron-right"></i>
+            </button>
+          </div>
+        </div>
+
+
+      </div>
+
+
+ 
+<div class="row mt-4 align-items-center">
+
+  <!-- CONTENEDOR FLEX TOTAL -->
+  <div class="col-12 d-flex justify-content-between align-items-center">
+
+    <!-- BOTÓN GENERAR CENTRADO REAL -->
+    <div class="flex-grow-1 d-flex justify-content-center">
+      <button 
+        (click)="consultar()" 
+        [disabled]="cargando || (!clienteId && !clienteSeleccionado)"
+        class="btn btn-azul btn-consultar"
+      >
+        <i class="fas fa-chart-bar me-2"></i>
+        <span *ngIf="!cargando">Generar Reporte de IVA</span>
+        <span *ngIf="cargando">
+          <i class="fas fa-spinner fa-spin me-2"></i> Procesando...
+        </span>
+      </button>
+    </div>
+
+        <!-- BOTONES EXPORTAR -->
+<!-- BOTONES EXPORTAR -->
+<div class="d-flex gap-2 ms-3">
+  <button 
+    class="btn btn-verde"
+    (click)="exportarExcel()"
+    [disabled]="!tablero"
+  >
+    <i class="fas fa-file-excel me-2"></i> Exportar Excel
+  </button>
+
+  <button 
+    class="btn btn-rojo"
+    (click)="exportarPDF()"
+    [disabled]="!tablero"
+  >
+    <i class="fas fa-file-pdf me-2"></i> Exportar PDF
+  </button>
+</div>
+
+
+    <!-- BOTÓN LIMPIAR A LA DERECHA -->
+    <div class="ms-3">
+      <button 
+        class="btn btn-limpiar"
+        (click)="reiniciarConsulta()"
+      >
+        <i class="fas fa-broom me-2"></i> Limpiar
+      </button>
+    </div>
+
+
+  </div>
+</div>
+
+
+
+    </div>
+    
+
+    <!-- Estados -->
+    <div *ngIf="cargando" class="card-body text-center py-5">
+      <div class="spinner-border text-primary mb-3"></div>
+      <p class="text-muted">Procesando archivos XML y calculando datos...</p>
+    </div>
+
+    <div *ngIf="error && !cargando" class="card-body text-center py-5">
+      <i class="fas fa-exclamation-triangle text-warning fa-3x mb-3"></i>
+      <h4 class="text-danger">{{ error }}</h4>
+      <button class="btn btn-outline-primary mt-3" (click)="error = null">
+        <i class="fas fa-redo me-2"></i> Reintentar
+      </button>
+    </div>
+
+    <!-- RESULTADOS -->
+    <div *ngIf="tablero && !cargando" class="card-body p-4">
+
+      <!-- Encabezado -->
+      <div class="row mb-4">
+        <div class="col-md-8">
+          <h3 class="mb-2">
+            <i class="fas fa-building me-2 text-primary"></i>
+            {{ clienteSeleccionado?.razon_social }}
+          </h3>
+
+          <div class="d-flex flex-wrap gap-2">
+            <span class="badge badge-id">ID: {{ tablero.clienteId }}</span>
+            <span class="badge badge-rfc" *ngIf="tablero.rfc">RFC: {{ tablero.rfc }}</span>
+            <span class="badge badge-periodo">{{ getNombreMes(tablero.mes) }} {{ tablero.anio }}</span>
+          </div>
+        </div>
+
+        <div class="col-md-4 text-md-end">
+          <div class="card border-0 bg-light p-3">
+            <h5 class="text-muted mb-2">IVA a Pagar</h5>
+            <h2 
+              class="mb-0" 
+              [class.text-danger]="tablero.ivaAPagar < 0"
+              [class.text-success]="tablero.ivaAPagar >= 0">
+              {{ tablero.ivaAPagar | currency:'MXN':'symbol':'1.2-2' }}
+            </h2>
+            <small class="text-muted">{{ tablero.ivaAPagar < 0 ? '(Saldo a Favor)' : '(Saldo por Pagar)' }}</small>
+          </div>
+        </div>
+      </div>
+
+     <!-- =============================== -->
+<!-- TABLA FULL WIDTH ARRIBA        -->
+<!-- =============================== -->
+<div class="row mb-4">
+  <div class="col-12">
+    <div class="card border-0 shadow-sm mb-4">
+      <div class="card-header bg-light">
+        <h5 class="mb-0"><i class="fas fa-table me-2"></i> Detalle del IVA</h5>
+      </div>
+
+      <div class="card-body p-0">
+        <div class="table-responsive">
+          <!-- Agrega [ngClass] para el modo oscuro -->
+          <table class="table table-hover mb-0" [ngClass]="{'table-dark': temaActual === 'dark'}">
+            <thead class="table-light">
+              <tr>
+                <th>Concepto</th>
+                <th class="text-end">PUE</th>
+                <th class="text-end">PPD</th>
+                <th class="text-end">Total</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr class="table-primary">
+                <td><i class="fas fa-arrow-right text-primary me-2"></i> IVA causado</td>
+                <td class="text-end">{{ tablero.ivaCausado.pue | currency:'MXN' }}</td>
+                <td class="text-end">{{ tablero.ivaCausado.ppd | currency:'MXN' }}</td>
+                <td class="text-end fw-bold">{{ tablero.ivaCausado.total | currency:'MXN' }}</td>
+              </tr>
+
+              <tr class="table-success">
+                <td><i class="fas fa-arrow-left text-success me-2"></i> IVA acreditable</td>
+                <td class="text-end">{{ tablero.ivaAcreditable.pue | currency:'MXN' }}</td>
+                <td class="text-end">{{ tablero.ivaAcreditable.ppd | currency:'MXN' }}</td>
+                <td class="text-end fw-bold">{{ tablero.ivaAcreditable.total | currency:'MXN' }}</td>
+              </tr>
+            </tbody>
+
+            <tfoot>
+              <tr class="table-danger fw-bold">
+                <td colspan="3">Total Neto</td>
+                <td class="text-end"
+                    [class.text-danger]="tablero.ivaAPagar >= 0"
+                    [class.text-success]="tablero.ivaAPagar < 0">
+                  {{ tablero.ivaAPagar | currency:'MXN' }}
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+      <!-- =============================== -->
+      <!-- GRAFICA DONUT + GRAFICA BARRAS -->
+      <!-- =============================== -->
+      <div class="row mb-4">
+
+        <!-- DONUT -->
+        <div class="col-md-6" *ngIf="chartData">
+          <div class="card border-0 shadow-sm h-100">
+            <div class="card-header bg-light">
+              <h5 class="mb-0"><i class="fas fa-chart-pie me-2"></i> Distribución</h5>
+            </div>
+
+            <div class="card-body text-center">
+
+              <div class="pie-container">
+                <canvas #pieChart></canvas>
+                <div class="chart-center">
+                  <div class="fs-4 fw-bold">{{ chartData.total | currency:'MXN' }}</div>
+                  <small>Total</small>
+                </div>
+              </div>
+
+              <div class="mt-3">
+                <div class="d-flex justify-content-between mb-2">
+                  <span><span class="badge bg-primary me-2">●</span> IVA Causado</span>
+                  <span class="fw-bold">{{ chartData.datasets[0].data[0] | currency:'MXN' }}</span>
+                </div>
+
+                <div class="d-flex justify-content-between">
+                  <span><span class="badge bg-success me-2">●</span> IVA Acreditable</span>
+                  <span class="fw-bold">{{ chartData.datasets[0].data[1] | currency:'MXN' }}</span>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <!-- BARRAS -->
+        <div class="col-md-6" *ngIf="chartData">
+          <div class="card border-0 shadow-sm h-100">
+            <div class="card-header bg-light">
+              <h5 class="mb-0"><i class="fas fa-chart-bar me-2"></i> Comparativa IVA</h5>
+            </div>
+
+            <div class="card-body">
+
+              <div class="barra-item mb-3">
+                <div class="d-flex justify-content-between mb-1">
+                  <span class="fw-bold"><i class="fas fa-arrow-right text-primary me-2"></i> IVA Causado</span>
+                  <span>{{ chartData.datasets[0].data[0] | currency:'MXN' }}</span>
+                </div>
+
+                <div class="progress" style="height: 30px;">
+                  <div class="progress-bar bg-primary" [style.width.%]="getBarPercent(chartData.datasets[0].data[0])"></div>
+                </div>
+              </div>
+
+              <div class="barra-item">
+                <div class="d-flex justify-content-between mb-1">
+                  <span class="fw-bold"><i class="fas fa-arrow-left text-success me-2"></i> IVA Acreditable</span>
+                  <span>{{ chartData.datasets[0].data[1] | currency:'MXN' }}</span>
+                </div>
+
+                <div class="progress" style="height: 30px;">
+                  <div class="progress-bar bg-success" [style.width.%]="getBarPercent(chartData.datasets[0].data[1])"></div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+      </div> <!-- row graficas -->
+
+      <!-- RESUMEN -->
+      <div class="alert alert-info mt-4">
+        <div class="row align-items-center">
+          <div class="col-md-8">
+            <h5 class="mb-1">Resumen del Periodo</h5>
+            <p class="mb-0 text-muted">{{ getNombreMes(tablero.mes) }} {{ tablero.anio }}</p>
+          </div>
+
+          <div class="col-md-4 text-md-end">
+            <h3 class="mb-0"
+                [class.text-danger]="tablero.ivaAPagar < 0"
+                [class.text-success]="tablero.ivaAPagar >= 0">
+              {{ tablero.ivaAPagar | currency:'MXN' }}
+            </h3>
+            <small class="text-muted">
+              {{ tablero.ivaAPagar < 0 ? 'Saldo a Favor' : 'Saldo por Pagar' }}
+            </small>
+          </div>
+        </div>
+      </div>
+
+    </div> <!-- card-body resultados -->
+
+  </div>
+</div>

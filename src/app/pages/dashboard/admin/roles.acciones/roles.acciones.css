@@ -1,0 +1,603 @@
+/* =============================
+   ROLES-ACCIONES / PERMISOS MODAL (THEME SAFE)
+   Usa: --color-primary, --color-navbar, --color-background, --color-text
+============================= */
+
+/* Fondo opaco mejorado */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  z-index: 1040 !important;
+  animation: backdropFadeIn 0.3s ease;
+}
+
+@keyframes backdropFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Contenedor principal */
+.modal-permisos {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 950px;
+  max-width: 90vw;
+  max-height: 85vh;
+  overflow: hidden;
+  transform: translate(-50%, -50%);
+  background: var(--color-background) !important;
+  color: var(--color-text) !important;
+  border: 1px solid color-mix(in srgb, var(--color-text) 12%, transparent) !important;
+  border-radius: 20px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  z-index: 1050 !important;
+  animation: modalSlideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -48%) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+/* Header */
+.modal-header {
+  background: linear-gradient(
+    135deg,
+    var(--color-primary) 0%,
+    color-mix(in srgb, var(--color-primary) 80%, black) 100%
+  );
+  color: #fff;
+  padding: 1.5rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 20px 20px 0 0;
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.header-icon {
+  width: 32px;
+  height: 32px;
+  color: rgba(255, 255, 255, 0.95);
+  stroke: rgba(255, 255, 255, 0.95);
+}
+
+.header-text h3 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.rol-name {
+  margin: 0.25rem 0 0 0;
+  font-size: 0.95rem;
+  opacity: 0.9;
+  font-weight: 500;
+}
+
+.close-btn {
+  background: rgba(255, 255, 255, 0.15);
+  border: none;
+  color: #fff;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+}
+
+.close-btn:hover {
+  background: rgba(255, 255, 255, 0.25);
+  transform: rotate(90deg);
+}
+
+.close-btn i {
+  width: 20px;
+  height: 20px;
+  color: inherit;
+  stroke: currentColor;
+}
+
+/* Body */
+.modal-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0;
+  background: var(--color-background) !important;
+  color: var(--color-text) !important;
+}
+
+.permisos-container {
+  padding: 2rem;
+}
+
+/* Bloque info (antes era azul fijo) */
+.permisos-header {
+  background: color-mix(in srgb, var(--color-primary) 10%, var(--color-background)) !important;
+  border: 1px solid color-mix(in srgb, var(--color-primary) 25%, transparent) !important;
+  border-radius: 12px;
+  padding: 1rem 1.5rem;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: color-mix(in srgb, var(--color-text) 88%, transparent) !important;
+  font-weight: 500;
+}
+
+.info-icon {
+  width: 18px;
+  height: 18px;
+  color: var(--color-primary);
+  stroke: var(--color-primary);
+}
+
+/* Lista de acordeones */
+.acordeon-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.acordeon-item {
+  background: var(--color-background) !important;
+  border: 2px solid color-mix(in srgb, var(--color-text) 10%, transparent) !important;
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.acordeon-item:hover {
+  border-color: color-mix(in srgb, var(--color-text) 16%, transparent) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+/* Header del acordeón */
+.acordeon-header {
+  width: 100%;
+  background: var(--color-navbar) !important;
+  border: none;
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 1rem;
+  color: var(--color-text) !important;
+}
+
+.acordeon-header:hover {
+  background: color-mix(in srgb, var(--color-navbar) 80%, var(--color-background)) !important;
+}
+
+.acordeon-title {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-weight: 600;
+  color: var(--color-text) !important;
+}
+
+.folder-icon {
+  width: 18px;
+  height: 18px;
+  color: var(--color-primary);
+  stroke: var(--color-primary);
+}
+
+.catalogo-name {
+  font-size: 1rem;
+}
+
+.badge-count {
+  background: var(--color-primary);
+  color: #fff;
+  padding: 0.25rem 0.5rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  min-width: 24px;
+  text-align: center;
+}
+
+.flecha {
+  width: 18px;
+  height: 18px;
+  color: color-mix(in srgb, var(--color-text) 55%, transparent) !important;
+  stroke: currentColor;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.flecha.rotated {
+  transform: rotate(180deg);
+}
+
+/* Contenido acordeón */
+.acordeon-content {
+  background: var(--color-background) !important;
+  border-top: 1px solid color-mix(in srgb, var(--color-text) 10%, transparent) !important;
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.permisos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 0.75rem;
+  padding: 1.5rem;
+}
+
+/* Opciones de permiso */
+.permiso-option {
+  margin: 0;
+}
+
+.checkbox-wrapper {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+}
+
+.checkbox-wrapper:hover {
+  background: color-mix(in srgb, var(--color-navbar) 70%, var(--color-background)) !important;
+  border-color: color-mix(in srgb, var(--color-text) 12%, transparent) !important;
+}
+
+.permiso-checkbox {
+  display: none;
+}
+
+.checkmark {
+  width: 18px;
+  height: 18px;
+  border: 2px solid color-mix(in srgb, var(--color-text) 25%, transparent) !important;
+  border-radius: 4px;
+  background: var(--color-background) !important;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+  margin-top: 0.125rem;
+  position: relative;
+}
+
+.permiso-checkbox:checked + .checkmark {
+  background: var(--color-primary) !important;
+  border-color: var(--color-primary) !important;
+}
+
+.permiso-checkbox:checked + .checkmark::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 4px;
+  height: 8px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: translate(-50%, -60%) rotate(45deg);
+}
+
+.permiso-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  flex: 1;
+}
+
+.permiso-clave {
+  font-weight: 600;
+  color: var(--color-text) !important;
+  font-size: 0.9rem;
+}
+
+.permiso-desc {
+  color: color-mix(in srgb, var(--color-text) 60%, transparent) !important;
+  font-size: 0.8rem;
+  line-height: 1.4;
+}
+
+/* Loading */
+.loading-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem;
+  color: color-mix(in srgb, var(--color-text) 60%, transparent) !important;
+}
+
+.loading-icon {
+  width: 48px;
+  height: 48px;
+  color: var(--color-primary);
+  stroke: var(--color-primary);
+  animation: spin 1.5s linear infinite;
+  margin-bottom: 1rem;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.loading-state p {
+  margin: 0;
+  font-weight: 500;
+}
+
+/* Footer */
+.modal-footer {
+  background: var(--color-navbar) !important;
+  border-top: 1px solid color-mix(in srgb, var(--color-text) 10%, transparent) !important;
+  padding: 1.5rem 2rem;
+  border-radius: 0 0 20px 20px;
+  color: var(--color-text) !important;
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.selected-count {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: color-mix(in srgb, var(--color-text) 80%, transparent) !important;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.selected-count i {
+  width: 16px;
+  height: 16px;
+  color: #10b981; /* ok mantener, es estado */
+  stroke: #10b981;
+}
+
+.footer-actions {
+  display: flex;
+  gap: 0.75rem;
+}
+
+/* Botones del footer (scope local) */
+.modal-permisos .btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.modal-permisos .btn i {
+  width: 16px;
+  height: 16px;
+  stroke: currentColor;
+  color: inherit;
+}
+
+.modal-permisos .btn-secondary {
+  background: color-mix(in srgb, var(--color-navbar) 85%, var(--color-background)) !important;
+  color: color-mix(in srgb, var(--color-text) 85%, transparent) !important;
+  border: 2px solid color-mix(in srgb, var(--color-text) 12%, transparent) !important;
+}
+
+.modal-permisos .btn-secondary:hover {
+  background: color-mix(in srgb, var(--color-navbar) 70%, var(--color-background)) !important;
+  border-color: color-mix(in srgb, var(--color-text) 18%, transparent) !important;
+}
+
+.modal-permisos .btn-primary {
+  background: linear-gradient(
+    135deg,
+    var(--color-primary) 0%,
+    color-mix(in srgb, var(--color-primary) 80%, black) 100%
+  ) !important;
+  color: #fff !important;
+  border: 2px solid transparent;
+}
+
+.modal-permisos .btn-primary:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px color-mix(in srgb, var(--color-primary) 30%, transparent);
+}
+
+.modal-permisos .btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* =============================
+   CONTROLES MASIVOS (THEME SAFE)
+============================= */
+.bulk-actions {
+  background: color-mix(in srgb, var(--color-primary) 8%, var(--color-background)) !important;
+  border: 2px solid color-mix(in srgb, var(--color-primary) 18%, transparent) !important;
+  border-radius: 12px;
+  padding: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.bulk-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  color: color-mix(in srgb, var(--color-text) 88%, transparent) !important;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.bulk-icon {
+  width: 20px;
+  height: 20px;
+  color: var(--color-primary);
+  stroke: var(--color-primary);
+}
+
+.bulk-buttons {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.btn-bulk {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  background: var(--color-background) !important;
+  border: 2px solid color-mix(in srgb, var(--color-text) 10%, transparent) !important;
+  border-radius: 8px;
+  color: var(--color-text) !important;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.9rem;
+}
+
+.btn-bulk:hover {
+  background: color-mix(in srgb, var(--color-navbar) 70%, var(--color-background)) !important;
+  border-color: color-mix(in srgb, var(--color-primary) 25%, transparent) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(34, 197, 94, 0.10);
+}
+
+.btn-bulk i {
+  width: 16px;
+  height: 16px;
+  stroke: currentColor;
+  color: inherit;
+}
+
+/* Acciones del acordeón */
+.acordeon-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* Botón seleccionar categoría (theme safe) */
+.btn-category {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: color-mix(in srgb, var(--color-primary) 12%, transparent) !important;
+  border: 1px solid color-mix(in srgb, var(--color-primary) 22%, transparent) !important;
+  border-radius: 6px;
+  color: var(--color-text) !important;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.btn-category:hover {
+  background: color-mix(in srgb, var(--color-primary) 18%, transparent) !important;
+  border-color: color-mix(in srgb, var(--color-primary) 30%, transparent) !important;
+  transform: translateY(-1px);
+}
+
+.btn-category i {
+  width: 14px;
+  height: 14px;
+  stroke: currentColor;
+  color: inherit;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .modal-permisos {
+    width: 95vw;
+    max-height: 90vh;
+  }
+
+  .modal-header {
+    padding: 1.25rem 1.5rem;
+  }
+
+  .permisos-container {
+    padding: 1.5rem;
+  }
+
+  .permisos-grid {
+    grid-template-columns: 1fr;
+    padding: 1rem;
+  }
+
+  .footer-content {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+  }
+
+  .footer-actions {
+    justify-content: stretch;
+  }
+
+  .modal-permisos .btn {
+    flex: 1;
+    justify-content: center;
+  }
+
+  .bulk-buttons {
+    flex-direction: column;
+  }
+
+  .btn-bulk {
+    justify-content: center;
+  }
+
+  .acordeon-actions {
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: flex-end;
+  }
+
+  .btn-category {
+    font-size: 0.75rem;
+    padding: 0.4rem 0.75rem;
+  }
+}

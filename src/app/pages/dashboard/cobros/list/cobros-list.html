@@ -1,0 +1,252 @@
+<!-- cobros-list.html -->
+<div class="container-fluid mt-4">
+  <div class="card shadow-lg border-0 rounded-3 overflow-hidden custom-card">
+    
+    <!-- Header -->
+    <div class="card-header custom-header py-3 px-4">
+      <div class="d-flex justify-content-between align-items-center">
+        <div class="d-flex align-items-center">
+          <i data-feather="dollar-sign" class="me-2 header-icon"></i>
+          <h2 class="h4 mb-0 fw-bold header-title">Gestión de Cobros</h2>
+        </div>
+
+        <!-- Botón "Nuevo cobro" -->
+        <button
+          class="btn custom-btn-float-azul d-flex align-items-center shadow"
+          *ngIf="puedeGestionar "
+          (click)="abrirNuevo()">
+          <i data-feather="plus" class="me-2"></i>
+          <span>Nuevo cobro</span>
+        </button>
+      </div>
+    </div>
+
+   <!-- Filtros -->
+<div class="card-body custom-filters border-bottom py-3 pb-4">
+
+  <!-- FILA SUPERIOR: búsqueda, mes, año, contador -->
+  <div class="row g-3 align-items-center mb-3">
+
+    <!-- Buscar cliente -->
+    <div class="col-md-5" *ngIf="!esCliente">
+      <div class="input-group custom-input-group">
+        <span class="input-group-text custom-input-icon">
+          <i data-feather="search" class="search-icon"></i>
+        </span>
+        <input
+          type="text"
+          class="form-control custom-input"
+          placeholder="Buscar cliente..."
+          [(ngModel)]="texto"
+          (input)="cargar()"
+          maxlength="40">
+      </div>
+    </div>
+
+    <!-- Mes -->
+    <div class="col-md-3 col-lg-2">
+      <select
+        class="form-select custom-select"
+        [(ngModel)]="filtroMes"
+        (change)="cargar()">
+        <option *ngFor="let m of meses" [value]="m.id">
+          {{ m.nombre }}
+        </option>
+      </select>
+    </div>
+
+    <!-- Año (contador tipo pastilla) -->
+    <div class="col-md-2 col-lg-2">
+      <input
+        type="number"
+        class="form-control custom-select filtro-anio-input"
+        placeholder="Año"
+        [(ngModel)]="filtroAnio"
+        (change)="cargar()"
+        step="1">
+    </div>
+
+    <!-- Contador -->
+    <div class="col-md-2 text-md-end ms-auto">
+      <span class="custom-text-muted">
+        Mostrando <strong>{{ lista.length }}</strong> cobros
+      </span>
+    </div>
+
+  </div>
+
+  <!-- FILA INFERIOR: botones de estado -->
+  <div class="row">
+    <div class="col-12">
+      <div class="estado-filtros-group estado-filtros-grandes">
+        <button
+          type="button"
+          class="estado-chip"
+          [class.activo]="modoFiltro === 'todos'"
+          (click)="cambiarModo('todos')">
+          Todos
+        </button>
+
+        <button
+          type="button"
+          class="estado-chip"
+          [class.activo]="modoFiltro === 'pendientes'"
+          (click)="cambiarModo('pendientes')">
+          Pendientes
+        </button>
+
+        <button
+          type="button"
+          class="estado-chip"
+          [class.activo]="modoFiltro === 'pagados'"
+          (click)="cambiarModo('pagados')">
+          Pagados
+        </button>
+
+        <button
+          type="button"
+          class="estado-chip"
+          [class.activo]="modoFiltro === 'atrasados'"
+          (click)="cambiarModo('atrasados')">
+          Atrasados
+        </button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+    <!-- Tabla -->
+    <div class="card-body p-0 custom-table-container tabla-card">
+      <div class="table-responsive">
+        <table class="table table-striped" [ngClass]="{'table-dark': temaActual === 'dark'}">
+          <thead class="custom-table-header">
+            <tr>
+              <th class="th-sortable ps-4" (click)="ordenarPor('folio_formato')">
+                Folio <i [ngClass]="getIconoOrden('folio_formato')"></i>
+              </th>
+              <th class="th-sortable" (click)="ordenarPor('cliente')">
+                Cliente <i [ngClass]="getIconoOrden('cliente')"></i>
+              </th>
+              <th class="th-sortable text-end" (click)="ordenarPor('total')">
+                Total <i [ngClass]="getIconoOrden('total')"></i>
+              </th>
+              <th class="th-sortable" (click)="ordenarPor('mes')">
+                Mes <i [ngClass]="getIconoOrden('mes')"></i>
+              </th>
+              <th class="th-sortable" (click)="ordenarPor('estado_pago')">
+                Estado <i [ngClass]="getIconoOrden('estado_pago')"></i>
+              </th>
+              <th class="text-center pe-4">Acciones</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr *ngFor="let c of lista | paginate: { itemsPerPage: 10, currentPage: page }">
+              <td class="fw-bold ps-4">#{{ c.folio_formato }}</td>
+              <td>{{ c.cliente }}</td>
+              <td class="text-end">
+                {{ c.total | currency:'MXN':'symbol':'1.2-2' }}
+              </td>
+              <td>{{ meses[c.mes - 1]?.nombre }}</td>
+              <td>
+                <span class="badge"
+                      [class.bg-success]="c.estado_pago === 'PAGADO'"
+                      [class.bg-warning]="c.estado_pago !== 'PAGADO'">
+                  {{ c.estado_pago }}
+                </span>
+              </td>
+
+              <!-- Acciones -->
+              <td class="text-center pe-4">
+                <button
+                  class="menu-trigger"
+                  (click)="abrirMenu($event, c)"
+                  [class.abierto]="menu.visible && menu.cobro?.id === c.id">
+                  <i class="fas fa-ellipsis-v"></i>
+                </button>
+              </td>
+            </tr>
+
+            <!-- Mensaje sin datos -->
+            <tr *ngIf="lista.length === 0">
+              <td colspan="6" class="text-center py-5 text-muted">
+                <i data-feather="slash" class="me-2"></i>No se encontraron cobros
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- MENÚ FLOTANTE -->
+        <!-- MENÚ FLOTANTE -->
+        <div
+          class="menu-flotante"
+          *ngIf="menu.visible"
+          [ngStyle]="{ top: menu.y + 'px', left: menu.x + 'px' }">
+
+          <!-- PAGAR → ADMIN y EMPLEADO -->
+          <button
+            class="accion-btn verde"
+            *ngIf="puedeGestionar && menu.cobro?.estado_pago !== 'PAGADO'"
+            (click)="abrirModalPagoDesdeMenu()">
+            <i class="fas fa-check"></i> Pagar
+          </button>
+
+          <!-- RECIBO → TODOS (si está pagado) -->
+          <button
+            class="accion-btn info"
+            *ngIf="menu.cobro?.estado_pago === 'PAGADO' && menu.cobro?.comprobante_pdf"
+            (click)="verReciboDesdeMenu()">
+            <i class="fas fa-file-pdf"></i> Recibo
+          </button>
+
+          <!-- EDITAR → ADMIN y EMPLEADO -->
+          <button
+            class="accion-btn editar"
+            *ngIf="puedeGestionar"
+            (click)="editarDesdeMenu()">
+            <i class="fas fa-pen"></i> Editar
+          </button>
+
+          <!-- ELIMINAR → SOLO ADMIN (opcional, tú decides) -->
+          <button
+            class="accion-btn eliminar"
+            *ngIf="!esCliente"
+            (click)="eliminarDesdeMenu()">
+            <i class="fas fa-trash"></i> Eliminar
+          </button>
+
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Paginación -->
+    <div class="card-footer border-0">
+      <div class="d-flex justify-content-center">
+        <pagination-controls
+          (pageChange)="page = $event"
+          previousLabel="Anterior"
+          nextLabel="Siguiente"
+          class="my-pagination">
+        </pagination-controls>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Componentes modales -->
+<app-cobros-form
+  *ngIf="showForm"
+  [id]="idEditar"
+  (saved)="cargar(); showForm = false"
+  (closed)="showForm = false">
+</app-cobros-form>
+
+<app-cobro-pago-modal
+  *ngIf="modalAbierto"
+  [cobro]="cobroSeleccionado"
+  (cerrado)="modalAbierto = false"
+  (pagado)="cargar()">
+</app-cobro-pago-modal>

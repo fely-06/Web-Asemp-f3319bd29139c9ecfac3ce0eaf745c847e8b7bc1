@@ -1,0 +1,233 @@
+<div class="modal-bg" (click)="cerrarFondo($event)">
+  <div class="modal-card">
+    
+    <!-- Header Mejorado -->
+    <div class="modal-header">
+      <div class="modal-icon-container">
+        <i class="fas fa-credit-card modal-icon"></i>
+      </div>
+      <div class="modal-title-content">
+        <h3 class="modal-title">{{ id ? 'Editar Pago' : 'Registrar Pago' }}</h3>
+        <p class="modal-subtitle">Complete la información del cobro</p>
+      </div>
+      <button class="modal-close" (click)="cerrar()">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="enviar()" class="modal-form">
+
+      <!-- Cliente con Autocomplete Personalizado -->
+      <div class="form-group">
+        <label class="form-label form-label-with-icon"required-label>
+          <i class="fas fa-user label-icon"></i>
+          Cliente
+        </label>
+
+        <div class="autocomplete-container">
+
+          <!-- INPUT DE BÚSQUEDA -->
+          <input 
+  class="custom-input" 
+  [(ngModel)]="clienteBusqueda"
+  [ngModelOptions]="{ standalone: true }"
+  (input)="onClienteBusquedaChange()"
+  (focus)="mostrarSugerencias = true"
+  (blur)="onInputBlur()"
+  placeholder="Escriba para buscar cliente..."
+  autocomplete="off"
+  maxlength="40">
+
+
+          <!-- Lista de sugerencias -->
+          <div class="sugerencias-list" *ngIf="mostrarSugerencias && clientesFiltrados.length > 0">
+            <div 
+              class="sugerencia-item" 
+              *ngFor="let cliente of clientesFiltrados"
+              (mousedown)="seleccionarCliente(cliente)">
+              
+              <div class="sugerencia-nombre">{{ cliente.razon_social }}</div>
+              <small class="sugerencia-info" *ngIf="cliente.rfc">
+                RFC: {{ cliente.rfc }}
+              </small>
+            </div>
+          </div>
+
+          <!-- Sin resultados -->
+          <div class="sugerencias-list" 
+               *ngIf="mostrarSugerencias && clienteBusqueda && clientesFiltrados.length === 0">
+            <div class="sugerencia-item sugerencia-vacia">
+              No se encontraron clientes con "{{ clienteBusqueda }}"
+            </div>
+          </div>
+
+        </div>
+
+        <div class="form-hint">Escriba el nombre del cliente para ver sugerencias</div>
+
+        <!-- CLIENTE SELECCIONADO (hidden) -->
+        <input type="hidden" formControlName="cliente_id">
+
+        <!-- Información del cliente seleccionado -->
+        <div class="cliente-seleccionado-info" *ngIf="clienteSeleccionado">
+          <div class="selected-client-badge">
+            <i class="fas fa-check-circle text-success me-2"></i>
+            <strong>{{ clienteSeleccionado.razon_social }}</strong>
+            <span class="text-muted ms-2" *ngIf="clienteSeleccionado.rfc">
+              ({{ clienteSeleccionado.rfc }})
+            </span>
+
+            <button type="button" class="btn-clear-selection" (click)="limpiarSeleccion()">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Descripción -->
+      <div class="form-group">
+        <label class="form-label form-label-with-icon" required-label>
+          <i class="fas fa-file-alt label-icon"></i>
+          Descripción del servicio
+        </label>
+        <input class="custom-input" 
+               formControlName="descripcion" 
+               placeholder="Ingrese la descripción del servicio..."
+               maxlength="40">
+      </div>
+
+      <!-- Información Fiscal -->
+      <div class="section-divider"><span>Información Fiscal</span></div>
+
+      <div class="row g-3">
+        
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="form-label">Subtotal</label>
+            <div class="input-group">
+              <span class="input-group-text">$</span>
+              <input class="custom-input" formControlName="subtotal" readonly>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="form-label">IVA</label>
+            <div class="input-group">
+              <input class="custom-input" formControlName="iva_porcentaje" readonly>
+              <span class="input-group-text">%</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Periodo -->
+      <div class="section-divider"><span>Periodo</span></div>
+
+      <div class="row g-3">
+
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="form-label"required-label>Mes</label>
+            <select class="custom-select" formControlName="mes">
+              <option *ngFor="let i of [1,2,3,4,5,6,7,8,9,10,11,12]" [ngValue]="i">
+                {{ getMesNombre(i) }}
+              </option>
+            </select>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="form-label"required-label>Año</label>
+            <input class="custom-input" formControlName="anio" readonly>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Retenciones -->
+      <div class="section-divider"><span>Retenciones</span></div>
+
+      <div class="row g-3">
+
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="form-label">ISR Retenido</label>
+            <div class="input-group">
+              <span class="input-group-text">$</span>
+              <input class="custom-input" formControlName="isr_ret" readonly>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="form-label">IVA Retenido</label>
+            <div class="input-group">
+              <span class="input-group-text">$</span>
+              <input class="custom-input" formControlName="iva_ret" readonly>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Resumen -->
+      <div class="section-divider"><span>Resumen</span></div>
+
+      <div class="row g-3">
+
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="form-label" required-label>Estado de Pago</label>
+            <select class="custom-select" formControlName="estado_pago">
+              <option value="PENDIENTE">Pendiente</option>
+              <option value="PAGADO" [disabled]="form.get('estado_pago')?.value !== 'PAGADO'">
+                Pagado
+              </option>
+            </select>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="form-label">Total a Pagar</label>
+            <div class="total-container">
+              <span class="total-currency">MXN</span>
+              <input class="custom-input total-box" formControlName="total" readonly>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Botones -->
+      <div class="modal-actions">
+        <button type="button" class="btn btn-cancel" 
+                (click)="cerrar()" 
+                [disabled]="cargando">
+          <i class="fas fa-times me-2"></i>
+          Cancelar
+        </button>
+        
+        <button type="submit" 
+                class="btn btn-submit" 
+                [disabled]="cargando || form.invalid">
+          <i class="fas me-2" 
+             [class.fa-save]="id" 
+             [class.fa-plus]="!id"></i>
+
+          {{ id ? 'Actualizar' : 'Registrar' }} Pago
+
+          <span class="btn-loading" *ngIf="cargando">
+            <i class="fas fa-spinner fa-spin"></i>
+          </span>
+        </button>
+      </div>
+
+    </form>
+  </div>
+</div>

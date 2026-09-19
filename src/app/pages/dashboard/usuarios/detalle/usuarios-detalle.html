@@ -1,0 +1,12 @@
+<h2>Detalle del Usuario</h2>
+
+<div *ngIf="cargando">Cargando...</div>
+
+<div *ngIf="usuario && !cargando">
+  <p><strong>Nombre:</strong> {{ usuario.nombres }} {{ usuario.apellido_paterno }}</p>
+  <p><strong>Correo:</strong> {{ usuario.correo }}</p>
+  <p><strong>Usuario:</strong> {{ usuario.usuario }}</p>
+  <p><strong>Estatus:</strong> {{ usuario.estatus ? 'Activo' : 'Inactivo' }}</p>
+</div>
+
+<a routerLink="/usuarios">Regresar</a>

@@ -1,0 +1,70 @@
+<div class="auth-wrapper">
+  <div class="animated-bg">
+    <div class="shape shape-1"></div>
+    <div class="shape shape-2"></div>
+    <div class="shape shape-3"></div>
+    <div class="shape shape-4"></div>
+  </div>
+
+  <div class="auth-card">
+    <div class="auth-header">
+      <div class="icon-container">
+        <i data-feather="lock" class="auth-icon"></i>
+      </div>
+      <h2 class="auth-title">Acceso</h2>
+    </div>
+
+    <form class="auth-form" (ngSubmit)="login()">
+      <!-- Usuario o correo -->
+      <div class="form-group"> <!-- 👈 antes era type="email" -->
+        <input  type="text"       
+          class="form-control" 
+          placeholder="Usuario o correo electrónico"
+          [(ngModel)]="email"
+          name="email"
+          required
+        >
+      </div>
+
+      <div class="form-group password-group">
+        <input
+          [type]="showPassword ? 'text' : 'password'"
+          class="form-control password-input"
+          placeholder="Contraseña"
+          [(ngModel)]="password"
+          name="password"
+          required
+        >
+        <button 
+          type="button" 
+          class="password-toggle"
+          (click)="togglePassword()"
+        >
+          <i [attr.data-feather]="showPassword ? 'eye-off' : 'eye'"></i>
+        </button>
+      </div>
+
+      <button 
+        type="submit" 
+        class="btn-login"
+        [disabled]="loading"
+      >
+        <span *ngIf="!loading">Iniciar Sesión</span>
+        <div *ngIf="loading" class="loading-spinner"></div>
+      </button>
+
+      <!-- 👇 mensaje opcional de error  -->
+      <p *ngIf="error" class="error-text">{{ error }}</p>
+    </form>
+
+    <!-- <div class="auth-links">
+      <p class="link-text">
+        ¿Olvidaste tu contraseña? <a href="#" class="link">Restablecer</a>
+      </p>
+      <p class="link-text">
+        ¿No tienes una cuenta? <a href="#" class="link">Registrarse</a>
+      </p>
+    </div>
+    -->
+  </div>
+</div>

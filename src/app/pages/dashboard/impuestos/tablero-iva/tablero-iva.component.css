@@ -1,0 +1,650 @@
+/* ============================= */
+/*  ESTILOS DEL TABLERO - IVA */
+/* ============================= */
+
+.custom-card {
+  border-radius: 12px;
+  overflow: visible !important;
+  background-color: var(--color-background) !important;
+  border: 1px solid var(--color-navbar) !important;
+}
+
+.custom-header {
+  background: linear-gradient(135deg, var(--color-primary) 0%, color-mix(in srgb, var(--color-primary) 80%, black) 100%);
+  color: white !important;
+}
+
+.header-icon {
+  color: white !important;
+}
+
+.header-title {
+  color: white !important;
+}
+
+/* ============================= */
+/*  FILTROS */
+/* ============================= */
+.custom-filters {
+  background-color: var(--color-navbar) !important;
+}
+
+.custom-input {
+  border-radius: 30px !important;
+  padding: 0.75rem 1rem !important;
+  border: 1.5px solid color-mix(in srgb, var(--color-primary) 90%, transparent);
+  background-color: var(--color-background) !important;
+  color: var(--color-text) !important;
+  transition: all 0.25s ease;
+}
+
+.custom-input:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary) 25%, transparent);
+  background-color: var(--color-background) !important;
+}
+
+.custom-select {
+  border-radius: 30px !important;
+  padding: 0.75rem 1rem !important;
+  border: 1.5px solid color-mix(in srgb, var(--color-primary) 90%, transparent);
+  background-color: var(--color-background) !important;
+  color: var(--color-text) !important;
+}
+
+.custom-select:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary) 25%, transparent);
+}
+
+.btn-stepper {
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-navbar);
+  border: 1px solid var(--color-primary);
+  color: var(--color-text);
+  border-radius: 30px !important;
+}
+
+.btn-stepper:hover {
+  background-color: color-mix(in srgb, var(--color-primary) 10%, transparent);
+  border-color: var(--color-primary);
+}
+
+.filtro-anio-input {
+  max-width: 100px;
+  text-align: center;
+  border-radius: 30px !important;
+  background-color: var(--color-background) !important;
+  color: var(--color-text) !important;
+  border: 1.5px solid color-mix(in srgb, var(--color-primary) 90%, transparent);
+}
+
+/* ============================= */
+/*  BOTONES PRINCIPALES */
+/* ============================= */
+.btn-azul {
+  background-color: #0d6efd !important;
+  color: white !important;
+  border-radius: 30px !important;
+  padding: 0.75rem 2rem !important;
+  font-weight: 600;
+  border: none;
+  transition: all 0.3s ease;
+}
+
+.btn-azul:hover:not(:disabled) {
+  background-color: #0b5ed7 !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(13, 110, 253, 0.3);
+}
+
+.btn-azul:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background-color: var(--color-text) !important;
+  opacity: 0.3;
+}
+
+.btn-consultar {
+  padding: 10px 25px !important;
+  font-size: 1rem;
+  border-radius: 12px !important;
+  font-weight: 600;
+}
+
+/* ============================= */
+/*  BOTONES DE ACCIÓN */
+/* ============================= */
+.btn-verde {
+  background-color: #198754 !important;
+  color: white !important;
+  border-radius: 8px;
+  font-weight: 500;
+  transition: all 0.2s ease-in-out;
+  padding: 0.6rem 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border: none !important;
+  font-size: 0.95rem;
+  min-width: 100px;
+}
+
+.btn-verde:hover:not(:disabled) {
+  background-color: #157347 !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(25, 135, 84, 0.4);
+}
+
+.btn-rojo {
+  background-color: #dc3545 !important;
+  color: white !important;
+  border-radius: 8px;
+  font-weight: 500;
+  transition: all 0.2s ease-in-out;
+  padding: 0.6rem 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border: none !important;
+  font-size: 0.95rem;
+  min-width: 100px;
+}
+
+.btn-rojo:hover:not(:disabled) {
+  background-color: #bb2d3b !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.4);
+}
+
+.btn-limpiar {
+  padding: 10px 25px !important;
+  font-size: 1rem;
+  border-radius: 12px !important;
+  font-weight: 600;
+  background-color: #dc3545 !important;
+  color: white !important;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: all 0.2s ease-in-out;
+}
+
+.btn-limpiar:hover:not(:disabled) {
+  background-color: #bb2d3b !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.4);
+}
+
+/* ============================= */
+/*  BADGES */
+/* ============================= */
+.badge-id {
+  background-color: color-mix(in srgb, #0d6efd 15%, transparent) !important;
+  color: #0d6efd !important;
+  font-weight: 500;
+  padding: 0.5em 0.8em;
+  border-radius: 6px;
+}
+
+.badge-rfc {
+  background-color: color-mix(in srgb, #198754 15%, transparent) !important;
+  color: #198754 !important;
+  font-weight: 500;
+  padding: 0.5em 0.8em;
+  border-radius: 6px;
+}
+
+.badge-periodo {
+  background-color: color-mix(in srgb, #ffc107 15%, transparent) !important;
+  color: #ffc107 !important;
+  font-weight: 500;
+  padding: 0.5em 0.8em;
+  border-radius: 6px;
+}
+/* ============================= */
+/*  TABLAS */
+/* ============================= */
+
+/* Tabla general */
+.table {
+  color: var(--color-text) !important;
+}
+
+/* Thead */
+.table thead,
+.table thead th {
+  background-color: var(--color-navbar) !important;
+  color: var(--color-text) !important;
+}
+
+/* Hover de filas */
+.table-hover tbody tr:hover {
+  background-color: color-mix(in srgb, var(--color-primary) 5%, transparent) !important;
+}
+
+/* ===== Colores en LIGHT (cuando NO es table-dark) ===== */
+.table:not(.table-dark) tbody tr.table-primary {
+  background-color: color-mix(in srgb, #0d6efd 10%, transparent) !important;
+  color: var(--color-text) !important;
+}
+
+.table:not(.table-dark) tbody tr.table-success {
+  background-color: color-mix(in srgb, #198754 10%, transparent) !important;
+  color: var(--color-text) !important;
+}
+
+.table:not(.table-dark) tbody tr.table-danger,
+.table:not(.table-dark) tfoot tr.table-danger {
+  background-color: color-mix(in srgb, #dc3545 10%, transparent) !important;
+  color: var(--color-text) !important;
+}
+
+/* ============================= */
+/*  DARK: cuando el <table> tiene .table-dark */
+/* ============================= */
+[data-theme="dark"] .table.table-dark {
+  background-color: #111827 !important;
+  color: #e5e7eb !important;
+  border-color: #374151 !important;
+}
+
+/* Thead aunque sea table-light */
+[data-theme="dark"] .table.table-dark thead,
+[data-theme="dark"] .table.table-dark thead th,
+[data-theme="dark"] .table.table-dark thead.table-light,
+[data-theme="dark"] .table.table-dark thead.table-light th {
+  background-color: #1f2937 !important;
+  color: #e5e7eb !important;
+  border-color: #374151 !important;
+}
+
+/* Colores de filas dentro de table-dark */
+[data-theme="dark"] .table.table-dark tbody tr.table-primary {
+  background-color: rgba(59, 130, 246, 0.18) !important;
+  color: #dbeafe !important;
+}
+
+[data-theme="dark"] .table.table-dark tbody tr.table-success {
+  background-color: rgba(34, 197, 94, 0.16) !important;
+  color: #dcfce7 !important;
+}
+
+[data-theme="dark"] .table.table-dark tfoot tr.table-danger {
+  background-color: rgba(239, 68, 68, 0.16) !important;
+  color: #fee2e2 !important;
+}
+
+/* Hover en dark */
+[data-theme="dark"] .table.table-dark.table-hover tbody tr:hover {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+}
+
+/* ============================= */
+/*  GRÁFICAS */
+/* ============================= */
+.progress {
+  border-radius: 15px;
+  overflow: hidden;
+  background-color: var(--color-navbar);
+}
+
+.progress-bar {
+  border-radius: 15px;
+  transition: width 0.6s ease;
+}
+
+/* Clases de colores específicas */
+.bg-primary {
+  background-color: #0d6efd !important;
+}
+
+.bg-success {
+  background-color: #198754 !important;
+}
+
+.text-primary {
+  color: #0d6efd !important;
+}
+
+.text-success {
+  color: #198754 !important;
+}
+
+.text-danger {
+  color: #dc3545 !important;
+}
+
+.text-warning {
+  color: #ffc107 !important;
+}
+
+/* ============================= */
+/*  AUTOCOMPLETE */
+/* ============================= */
+.autocomplete-container {
+  position: relative;
+  z-index: 999;
+}
+
+.sugerencias-list {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  max-height: 220px;
+  overflow-y: auto;
+  background: var(--color-background) !important;
+  border: 1px solid var(--color-primary);
+  border-top: none;
+  border-radius: 0 0 10px 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  z-index: 99999;
+}
+
+.sugerencia-item {
+  padding: 10px 14px;
+  cursor: pointer;
+  transition: background 0.2s;
+  color: var(--color-text) !important;
+  background-color: var(--color-background) !important;
+}
+
+.sugerencia-item:hover {
+  background: color-mix(in srgb, var(--color-primary) 10%, transparent) !important;
+}
+
+.sugerencia-nombre {
+  font-weight: 500;
+  color: var(--color-text) !important;
+}
+
+.sugerencia-info {
+  color: color-mix(in srgb, var(--color-text) 60%, transparent) !important;
+  font-size: 0.85em;
+}
+
+.sugerencia-vacia {
+  color: color-mix(in srgb, var(--color-text) 50%, transparent) !important;
+  text-align: center;
+  font-style: italic;
+}
+
+.col-md-6, .row {
+  overflow: visible !important;
+}
+
+/* ============================= */
+/*  GRÁFICA PIE */
+/* ============================= */
+.pie-container {
+  position: relative;
+  width: 100%;
+  max-width: 260px;
+  height: 260px;
+  margin: 0 auto;
+}
+
+.pie-container canvas {
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+}
+
+.chart-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  text-align: center;
+  color: var(--color-text) !important;
+}
+
+/* ============================= */
+/*  ALERTS */
+/* ============================= */
+.alert-info {
+  background-color: color-mix(in srgb, #0dcaf0 15%, transparent);
+  border-color: color-mix(in srgb, #0dcaf0 30%, transparent);
+  border-radius: 10px;
+  color: var(--color-text) !important;
+}
+
+.bg-light {
+  background-color: var(--color-navbar) !important;
+  color: var(--color-text) !important;
+}
+
+/* ============================= */
+/*  ESTADOS DE CARGA */
+/* ============================= */
+.spinner-border {
+  width: 3rem;
+  height: 3rem;
+  color: var(--color-primary);
+}
+
+.text-muted {
+  color: color-mix(in srgb, var(--color-text) 50%, transparent) !important;
+}
+
+/* ============================= */
+/*  RESPONSIVE */
+/* ============================= */
+@media (max-width: 768px) {
+  .custom-card {
+    margin: 0 10px;
+  }
+  
+  .card-header {
+    padding: 1rem !important;
+  }
+  
+  .card-body {
+    padding: 1.5rem !important;
+  }
+  
+  .filtro-anio-input {
+    max-width: 80px;
+  }
+  
+  /* Ajustes para el autocomplete en móvil */
+  .autocomplete-container {
+    position: static !important;
+  }
+  
+  .sugerencias-list {
+    position: fixed !important;
+    top: auto !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    max-height: 50vh !important;
+    border-radius: 10px 10px 0 0 !important;
+    z-index: 999999 !important;
+  }
+}
+
+/* ============================= */
+/*  MODO OSCURO ESPECÍFICO */
+/* ============================= */
+[data-theme="dark"] .custom-card {
+  border-color: color-mix(in srgb, var(--color-primary) 30%, transparent) !important;
+}
+
+[data-theme="dark"] .custom-header {
+  background: linear-gradient(135deg, var(--color-primary) 0%, color-mix(in srgb, var(--color-primary) 60%, black) 100%);
+}
+
+[data-theme="dark"] .custom-input:disabled {
+  background-color: color-mix(in srgb, var(--color-background) 80%, black) !important;
+  color: color-mix(in srgb, var(--color-text) 60%, transparent) !important;
+}
+/* ============================= */
+/*  CLASE TABLE-DARK PARA MODO OSCURO */
+/* ============================= */
+.table-dark {
+  background-color: #212529 !important;
+  color: #e9ecef !important;
+  border-color: #373b3e !important;
+}
+
+.table-dark thead th {
+  background-color: #2c3136 !important;
+  color: #e9ecef !important;
+  border-color: #404549 !important;
+}
+
+.table-dark.table-hover tbody tr:hover {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+}
+
+
+
+
+
+/* ============================================================
+   TABLA IVA: COLORES PROPIOS (SIN BOOTSTRAP .table-primary)
+============================================================ */
+
+/* Base tabla */
+.tabla-iva {
+  border-collapse: collapse;
+}
+
+/* Header */
+.tabla-iva thead th {
+  background: var(--color-navbar) !important;
+  color: var(--color-text) !important;
+  border-bottom: 1px solid color-mix(in srgb, var(--color-text) 20%, transparent) !important;
+}
+
+/* Celdas */
+.tabla-iva td,
+.tabla-iva th {
+  border-color: color-mix(in srgb, var(--color-text) 18%, transparent) !important;
+}
+
+/* Hover */
+.tabla-iva.table-hover tbody tr:hover > * {
+  background-color: color-mix(in srgb, var(--color-primary) 6%, transparent) !important;
+}
+
+/* ====== LIGHT ====== */
+.iva-row-causado > * {
+  background-color: #d7e8ff !important; /* azul claro */
+  color: #111 !important;
+}
+
+.iva-row-acreditable > * {
+  background-color: #d7efe3 !important; /* verde claro */
+  color: #111 !important;
+}
+
+.iva-row-neto > * {
+  background-color: #f6d6d8 !important; /* rojo claro */
+  color: #111 !important;
+}
+
+/* ====== DARK ====== */
+[data-theme="dark"] .tabla-iva thead th {
+  background: #1f2937 !important;
+  color: #e5e7eb !important;
+  border-bottom-color: #374151 !important;
+}
+
+[data-theme="dark"] .tabla-iva td,
+[data-theme="dark"] .tabla-iva th {
+  border-color: #374151 !important;
+}
+
+/* Colores oscuros (aquí ajustas intensidad) */
+[data-theme="dark"] .iva-row-causado > * {
+  background-color: rgba(59, 130, 246, 0.28) !important;  /* azul oscuro */
+  color: #eaf2ff !important;
+}
+
+[data-theme="dark"] .iva-row-acreditable > * {
+  background-color: rgba(34, 197, 94, 0.22) !important;   /* verde oscuro */
+  color: #eafff1 !important;
+}
+
+[data-theme="dark"] .iva-row-neto > * {
+  background-color: rgba(239, 68, 68, 0.22) !important;   /* rojo oscuro */
+  color: #ffecec !important;
+}
+
+/* Hover en dark */
+[data-theme="dark"] .tabla-iva.table-hover tbody tr:hover > * {
+  background-color: rgba(255, 255, 255, 0.06) !important;
+}
+
+
+/* =============================
+   FIX LABELS EN MODO OSCURO
+   (Cliente, Mes, Año, etc.)
+============================= */
+:host-context([data-theme="dark"]) .form-label {
+  color: #e5e7eb !important;
+}
+
+/* Iconos dentro del label */
+:host-context([data-theme="dark"]) .form-label i {
+  color: #e5e7eb !important;
+}
+
+/* =============================
+   FIX TEXTOS GENERALES EN DARK
+   (nombre cliente, valores, labels en cards, etc.)
+============================= */
+
+/* Texto base dentro del tablero */
+:host-context([data-theme="dark"]) .custom-card,
+:host-context([data-theme="dark"]) .custom-card .card-body,
+:host-context([data-theme="dark"]) .custom-card .card-header,
+:host-context([data-theme="dark"]) .custom-card h1,
+:host-context([data-theme="dark"]) .custom-card h2,
+:host-context([data-theme="dark"]) .custom-card h3,
+:host-context([data-theme="dark"]) .custom-card h4,
+:host-context([data-theme="dark"]) .custom-card h5,
+:host-context([data-theme="dark"]) .custom-card h6,
+:host-context([data-theme="dark"]) .custom-card p,
+:host-context([data-theme="dark"]) .custom-card span,
+:host-context([data-theme="dark"]) .custom-card small,
+:host-context([data-theme="dark"]) .custom-card div {
+  color: #e5e7eb !important;
+}
+
+/* Mantener los colores semánticos (no los conviertas a blanco) */
+:host-context([data-theme="dark"]) .custom-card .text-primary { color: #93c5fd !important; }
+:host-context([data-theme="dark"]) .custom-card .text-success { color: #86efac !important; }
+:host-context([data-theme="dark"]) .custom-card .text-danger  { color: #ff4141 !important; }
+:host-context([data-theme="dark"]) .custom-card .text-warning { color: #fde047 !important; }
+
+/* Títulos de headers con bg-light (Comparativa IVA, Distribución, Detalle del IVA, etc.) */
+:host-context([data-theme="dark"]) .custom-card .card-header.bg-light {
+  background-color: #1f2937 !important;
+  border-color: #374151 !important;
+}
+:host-context([data-theme="dark"]) .custom-card .card-header.bg-light * {
+  color: #e5e7eb !important;
+}
+
+/* Valores a la derecha en "d-flex justify-content-between" (barras) */
+:host-context([data-theme="dark"]) .custom-card .d-flex.justify-content-between span {
+  color: #e5e7eb !important;
+}
+
+/* Muted en dark (si algunos textos se ven apagados o negros) */
+:host-context([data-theme="dark"]) .custom-card .text-muted {
+  color: #9ca3af !important;
+}

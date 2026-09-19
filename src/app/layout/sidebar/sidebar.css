@@ -1,0 +1,157 @@
+/* ======== SIDEBAR PRINCIPAL ======== */
+.sidebar {
+  width: 280px;
+  height: 100vh;
+  background: var(--color-primary);
+  display: flex;
+  flex-direction: column;
+  color: var(--color-text-sidebar);
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.4s ease, color 0.3s ease, background 0.3s ease;
+}
+
+/* ======== ENCABEZADO ======== */
+.sidebar a.logo-container {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background: transparent;
+  border-radius: 10px;
+  margin: -10px;
+  margin-left: 50px;
+  margin-top: 6px;
+  padding: 0;
+  transition: background-color 0.3s ease;
+}
+
+.sidebar a.logo-container:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: none !important;
+}
+
+.logo-img {
+  display: block;
+  width: 150px;
+  height: auto;
+  object-fit: contain;
+  pointer-events: none;
+  border-radius: 10px;
+}
+
+.sidebar-header h2 {
+  font-size: 1.3rem;
+  margin-left: 12px;
+  font-weight: 600;
+  color: var(--color-text-sidebar);
+}
+
+.sidebar-logo {
+  width: 40px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ======== NAVEGACIÓN ======== */
+.sidebar-nav {
+  flex: 1;
+  padding: 0;
+  overflow-y: auto;
+}
+
+.sidebar-section {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--color-text-sidebar);
+  opacity: 0.7;
+  margin: 20px 20px 10px;
+}
+
+.sidebar a {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  text-decoration: none;
+  color: var(--color-text-sidebar);
+  padding: 12px 20px;
+  margin: 4px 10px;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+}
+
+.sidebar a svg {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+  text-align: center;
+  stroke: var(--color-text-sidebar);
+  transition: transform 0.3s ease, stroke 0.3s ease;
+}
+
+/* Hover */
+.sidebar a:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: var(--color-text-sidebar);
+  transform: translateX(5px);
+}
+
+/* Activo */
+.sidebar a.active {
+  background: rgba(255, 255, 255, 0.25);
+  color: var(--color-text-sidebar);
+  position: relative;
+}
+
+/* Línea lateral del activo */
+.sidebar a.active::before {
+  content: '';
+  position: absolute;
+  left: -10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 4px;
+  height: 70%;
+  background: var(--color-text-sidebar);
+  border-radius: 2px;
+}
+
+/* ======== RESPONSIVE ======== */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+  }
+
+  .sidebar a.active::before {
+    display: none;
+  }
+}
+
+/* ===== EFECTO DESLIZANTE ===== */
+.sidebar {
+  transition: transform 0.4s ease, background 0.3s ease, color 0.3s ease;
+}
+
+.sidebar.sidebar-collapsed {
+  transform: translateX(-100%);
+}
+
+
+.sidebar {
+  background: var(--color-primary);
+}
+
+main, .content, .layout, .page-container {
+  background: var(--color-primary);
+}

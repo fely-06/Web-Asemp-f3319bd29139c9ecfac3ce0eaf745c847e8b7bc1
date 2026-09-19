@@ -1,0 +1,151 @@
+
+
+.dashboard-layout {
+  display: flex;
+  min-height: 100vh;
+  background: #f5f7fa;
+  overflow: hidden;
+}
+/* ===== SIDEBAR ===== */
+app-sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 280px;
+  height: 100vh;
+  z-index: 1000;
+  transform: translateX(0);
+  transition: transform 0.4s ease;
+}
+
+/* Sidebar oculto — se desliza hacia la izquierda */
+.dashboard-layout.sidebar-collapsed app-sidebar {
+  transform: translateX(-100%);
+}
+
+/* ===== CONTENEDOR PRINCIPAL ===== */
+.main-container {
+  background-color: var(--color-background);
+  flex: 1;
+  margin-left: 280px;
+  transition: margin-left 0.4s ease;
+}
+
+/* Ajuste cuando el sidebar está oculto */
+.dashboard-layout.sidebar-collapsed .main-container {
+  margin-left: 0;
+}
+
+/* ===== NAVBAR AJUSTE ===== */
+.dashboard-layout.sidebar-collapsed .navbar {
+  left: 0 !important;
+}
+
+/* ===== CONTENIDO PRINCIPAL ===== */
+.main-content {
+  margin-top: 70px;
+  padding: 30px;
+  min-height: calc(100vh - 70px);
+  transition: all 0.3s ease;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  app-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+  }
+
+  .main-container {
+    margin-left: 0 !important;
+  }
+}
+/* ===== RESPONSIVE - SIDEBAR VERTICAL CON DESENFOQUE ===== */
+@media (max-width: 992px) {
+  /* Sidebar flotante, igual estructura vertical */
+  app-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 260px;
+     background: var(--color-primary);
+    box-shadow: 6px 0 18px rgba(0, 0, 0, 0.25);
+    border-top-right-radius: 12px;
+    border-bottom-right-radius: 12px;
+    transform: translateX(-100%);
+    transition: transform 0.35s ease;
+    z-index: 1050;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Sidebar visible */
+  .dashboard-layout:not(.sidebar-collapsed) app-sidebar {
+    transform: translateX(0);
+  }
+
+  /* Overlay translúcido con blur */
+  .sidebar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(63, 77, 103, 0.25);
+    backdrop-filter: blur(3px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    z-index: 1040;
+  }
+
+  .dashboard-layout:not(.sidebar-collapsed) .sidebar-overlay {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  /* Navbar fijo arriba */
+  .navbar {
+    left: 0 !important;
+    width: 100%;
+    z-index: 1100;
+  }
+
+  /* Contenedor principal sin desplazamiento */
+  .main-container {
+    margin-left: 0 !important;
+    transition: filter 0.3s ease;
+  }
+
+  /* Fondo desenfocado cuando el sidebar está abierto */
+  .dashboard-layout:not(.sidebar-collapsed) .main-container {
+    filter: blur(2px);
+  }
+
+  /* Espaciado cómodo en móvil */
+  .main-content {
+    padding: 20px 15px;
+  }
+
+  /* Sidebar: mantener estructura vertical */
+  .sidebar-nav {
+    flex-direction: column;
+    padding: 15px 0;
+  }
+
+  .sidebar a {
+    flex-direction: row;
+    justify-content: flex-start;
+    padding: 10px 18px;
+    font-size: 0.9rem;
+  }
+
+  .sidebar-section {
+    display: block;
+    margin: 20px 18px 10px;
+    font-size: 0.75rem;
+  }
+}

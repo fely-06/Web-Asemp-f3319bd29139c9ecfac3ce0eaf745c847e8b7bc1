@@ -1,0 +1,467 @@
+/* =============================
+   ACCIONES LIST (THEME SAFE)
+   Usa: --color-primary, --color-navbar, --color-background, --color-text
+============================= */
+
+/* Card principal */
+.custom-card {
+  background: var(--color-background) !important;
+  color: var(--color-text) !important;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border: 1px solid color-mix(in srgb, var(--color-text) 10%, transparent) !important;
+}
+
+/* Header */
+.custom-header {
+  background: linear-gradient(
+    135deg,
+    var(--color-primary) 0%,
+    color-mix(in srgb, var(--color-primary) 80%, black) 100%
+  ) !important;
+  color: #fff !important;
+  border-bottom: none !important;
+}
+
+.custom-header .header-title {
+  color: #fff !important;
+  font-weight: 600;
+}
+
+.custom-header .header-icon {
+  color: #fff !important;
+  stroke: #fff !important;
+}
+
+/* Botón flotante */
+.custom-btn-float-azul {
+  background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%) !important;
+  color: #fff !important;
+  border: none !important;
+  border-radius: 10px !important;
+  padding: 0.6rem 1.2rem !important;
+  font-weight: 500 !important;
+  box-shadow: 0 4px 12px rgba(13, 110, 253, 0.3) !important;
+  transition: all 0.3s ease !important;
+}
+
+.custom-btn-float-azul:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 16px rgba(13, 110, 253, 0.4) !important;
+}
+
+/* Filtros */
+.custom-filters {
+  background: var(--color-navbar) !important;
+  border-bottom: 1px solid color-mix(in srgb, var(--color-text) 10%, transparent) !important;
+}
+
+/* Input group (buscador) */
+.custom-input-group {
+  border: 2px solid color-mix(in srgb, var(--color-primary) 20%, transparent) !important;
+  border-radius: 12px !important;
+  overflow: hidden;
+  background: var(--color-background) !important;
+  transition: all 0.3s ease;
+}
+
+.custom-input-group:focus-within {
+  border-color: var(--color-primary) !important;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary) 15%, transparent) !important;
+}
+
+.custom-input-icon {
+  background: transparent !important;
+  border: none !important;
+  color: var(--color-primary) !important;
+}
+.custom-input-icon i {
+  stroke: currentColor;
+  color: inherit;
+}
+
+.custom-input {
+  border: none !important;
+  background: transparent !important;
+  color: var(--color-text) !important;
+  font-size: 0.95rem;
+}
+.custom-input::placeholder {
+  color: color-mix(in srgb, var(--color-text) 55%, transparent) !important;
+}
+
+.custom-text-muted {
+  color: color-mix(in srgb, var(--color-text) 60%, transparent) !important;
+  font-size: 0.9rem;
+}
+
+/* =============================
+   TABLA (bootstrap striped + theme safe)
+============================= */
+/* =============================
+   TABLA (FIX STRIPED / HOVER)
+============================= */
+
+/* Base */
+.table {
+  color: var(--color-text) !important;
+  margin-bottom: 0;
+}
+
+/* IMPORTANTE: Bootstrap pinta el fondo en td/th.
+   Esto evita las franjas blancas raras. */
+.table > :not(caption) > * > * {
+  background-color: transparent !important;
+  color: var(--color-text) !important;
+  border-color: color-mix(in srgb, var(--color-text) 12%, transparent) !important;
+}
+
+/* Encabezado */
+.table thead th {
+  background: var(--color-navbar) !important;
+  color: var(--color-text) !important;
+  font-weight: 600;
+  border-bottom: 2px solid color-mix(in srgb, var(--color-primary) 55%, transparent) !important;
+}
+
+/* Zebra (odd/even) controlado por tema */
+.table.table-striped tbody tr {
+  background-color: color-mix(in srgb, var(--color-background) 92%, white) !important;
+}
+.table.table-striped tbody tr:nth-of-type(odd) {
+  background-color: color-mix(in srgb, var(--color-background) 86%, var(--color-navbar)) !important;
+}
+
+/* Dark: evita que se “aclare” a blanco */
+[data-theme="dark"] .table.table-striped tbody tr {
+  background-color: color-mix(in srgb, var(--color-background) 88%, black) !important;
+}
+[data-theme="dark"] .table.table-striped tbody tr:nth-of-type(odd) {
+  background-color: color-mix(in srgb, var(--color-background) 82%, var(--color-navbar)) !important;
+}
+
+/* Aplica el fondo del TR a las celdas (porque las celdas son transparentes) */
+.table.table-striped tbody tr > * {
+  background-color: inherit !important;
+}
+
+/* Hover uniforme (en todas las filas) */
+.table tbody tr:hover {
+  background-color: color-mix(in srgb, var(--color-primary) 10%, transparent) !important;
+}
+.table tbody tr:hover > * {
+  background-color: inherit !important;
+}
+
+/* =============================
+   BOTONES (reusa tus clases)
+============================= */
+.btn-azul {
+  background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%) !important;
+  color: #fff !important;
+  border: none !important;
+  border-radius: 8px !important;
+  padding: 0.4rem 0.8rem !important;
+}
+
+.btn-rojo {
+  background: linear-gradient(135deg, #dc3545 0%, #bb2d3b 100%) !important;
+  color: #fff !important;
+  border: none !important;
+  border-radius: 8px !important;
+  padding: 0.4rem 0.8rem !important;
+}
+
+.btn-verde {
+  background: linear-gradient(135deg, #198754 0%, #157347 100%) !important;
+  color: #fff !important;
+  border: none !important;
+  border-radius: 8px !important;
+  padding: 0.4rem 0.8rem !important;
+}
+
+/* =============================
+   MENÚ ⋮ (THEME SAFE + overflow fix)
+============================= */
+.menu-trigger {
+  background: color-mix(in srgb, var(--color-navbar) 85%, white);
+  border: 1px solid color-mix(in srgb, var(--color-text) 12%, transparent);
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: .2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: color-mix(in srgb, var(--color-text) 70%, transparent);
+  position: relative;
+  z-index: 10;
+}
+
+[data-theme="dark"] .menu-trigger {
+  background: color-mix(in srgb, var(--color-navbar) 85%, black);
+}
+
+.menu-trigger:hover {
+  background: color-mix(in srgb, var(--color-navbar) 70%, white);
+  color: var(--color-text);
+}
+
+[data-theme="dark"] .menu-trigger:hover {
+  background: color-mix(in srgb, var(--color-navbar) 70%, black);
+}
+
+.menu-trigger.abierto {
+  background: color-mix(in srgb, var(--color-primary) 12%, transparent) !important;
+  transform: scale(1.05);
+  color: var(--color-text);
+}
+
+/* MENÚ FLOTANTE */
+.menu-flotante {
+  position: absolute !important;
+  z-index: 999999 !important;
+  background: var(--color-background) !important;
+  color: var(--color-text) !important;
+  padding: 8px;
+  width: 140px;
+  border-radius: 12px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  animation: fadeIn .15s ease-out;
+  border: 1px solid color-mix(in srgb, var(--color-text) 12%, transparent) !important;
+}
+
+.menu-flotante::before {
+  content: "";
+  position: absolute;
+  top: -6px;
+  right: 12px;
+  width: 12px;
+  height: 12px;
+  background: var(--color-background) !important;
+  transform: rotate(45deg);
+  border-left: 1px solid color-mix(in srgb, var(--color-text) 12%, transparent) !important;
+  border-top: 1px solid color-mix(in srgb, var(--color-text) 12%, transparent) !important;
+}
+
+/* Botones del menú (mantengo colores de acción) */
+.accion-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-size: 13px;
+  width: 100%;
+  text-align: left;
+  transition: .2s;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.accion-btn.editar { background: #007bff; }
+.accion-btn.editar:hover { background: #0064cf; transform: translateY(-1px); }
+
+.accion-btn.eliminar { background: #dc3545; }
+.accion-btn.eliminar:hover { background: #b52a35; transform: translateY(-1px); }
+
+/* Permitir que el menú salga */
+.tabla-card { position: relative !important; overflow: visible !important; z-index: 1; }
+.table-responsive { overflow: visible !important; }
+
+/* =============================
+   MODAL (THEME SAFE)
+============================= */
+.modal-acciones-custom {
+  position: fixed;
+  inset: 0;
+  z-index: 2100 !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: auto;
+}
+
+.acciones-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.55);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  z-index: 2000 !important;
+  animation: backdropFadeIn .25s ease-out;
+}
+
+.modal-content-custom {
+  background: var(--color-background) !important;
+  color: var(--color-text) !important;
+  border: 1px solid color-mix(in srgb, var(--color-text) 12%, transparent) !important;
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+  width: 90%;
+  max-width: 500px;
+  pointer-events: all;
+  animation: modalSlideIn 0.3s ease-out;
+  position: relative;
+}
+
+.modal-header-custom {
+  padding: 1.5rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--color-text) 10%, transparent) !important;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(
+    135deg,
+    var(--color-primary) 0%,
+    color-mix(in srgb, var(--color-primary) 80%, black) 100%
+  ) !important;
+  color: #fff !important;
+  border-radius: 16px 16px 0 0;
+}
+
+.modal-header-custom h3 {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.modal-header-custom i {
+  stroke: currentColor;
+  color: inherit;
+}
+
+.close-btn-custom {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: #fff;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.modal-body-custom {
+  padding: 1.5rem;
+}
+
+.modal-body-custom label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: var(--color-text) !important;
+}
+
+.form-control-custom {
+  width: 100%;
+  padding: 0.75rem;
+  border: 2px solid color-mix(in srgb, var(--color-text) 12%, transparent) !important;
+  background: var(--color-navbar) !important;
+  color: var(--color-text) !important;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+}
+
+.form-control-custom::placeholder {
+  color: color-mix(in srgb, var(--color-text) 55%, transparent) !important;
+}
+
+.form-control-custom:focus {
+  outline: none;
+  border-color: var(--color-primary) !important;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary) 15%, transparent) !important;
+}
+
+.modal-footer-custom {
+  padding: 1rem 1.5rem;
+  border-top: 1px solid color-mix(in srgb, var(--color-text) 10%, transparent) !important;
+  background: var(--color-background) !important;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  border-radius: 0 0 16px 16px;
+}
+
+/* Animaciones */
+@keyframes modalSlideIn {
+  from { opacity: 0; transform: translateY(-20px) scale(0.95); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-8px) scale(0.95); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes backdropFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .modal-content-custom { width: 95%; margin: 1rem; }
+  .modal-footer-custom { flex-direction: column; }
+  .modal-footer-custom .btn { width: 100%; }
+
+  .menu-flotante { width: 130px; }
+  .accion-btn { padding: 6px 10px; font-size: 12px; }
+}
+
+/* Centrar botón ⋮ */
+td.text-center {
+  vertical-align: middle !important;
+}
+td.text-center.pe-4 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Ordenamiento */
+.th-sortable {
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.th-sortable span {
+  margin-right: 4px;
+}
+
+.orden-icon {
+  font-size: 0.75rem;
+  opacity: 0.4;
+  transition: opacity 0.15s ease, transform 0.15s ease, color 0.15s ease;
+}
+
+.orden-icon.activo {
+  opacity: 1;
+  color: var(--color-primary);
+}
+
+.th-sortable:hover .orden-icon {
+  opacity: 1;
+  color: var(--color-primary);
+  transform: translateY(-1px);
+}
+
+.orden-icon.neutro {
+  color: inherit;
+}
+
+/* Footer/paginación */
+.card-footer {
+  background: var(--color-navbar) !important;
+  border-top: 1px solid color-mix(in srgb, var(--color-text) 10%, transparent) !important;
+  color: var(--color-text) !important;
+}

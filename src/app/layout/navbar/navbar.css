@@ -1,0 +1,625 @@
+/* ======== VARIABLES CON FALLBACKS SUAVES ======== */
+:root {
+  /* Estos son solo fallbacks, se sobreescriben con los temas */
+  --color-navbar: #ffffff;
+  --color-text: #333333;
+  --color-primary: #6366f1;
+  --color-accent: #00e6b8;
+  --color-background: #f8fafc;
+}
+
+[data-theme="dark"] {
+  --color-navbar: #1a1a1a;
+  --color-text: #ffffff;
+  --color-primary: #3b82f6;
+  --color-background: #2d2d2d;
+}
+
+[data-theme="light"] {
+  --color-navbar: #ffffff;
+  --color-text: #333333;
+  --color-primary: #6366f1;
+  --color-background: #f8fafc;
+}
+
+[data-theme="default"] {
+  --color-navbar: #ffffff;
+  --color-text: #333333;
+  --color-primary: #6366f1;
+  --color-background: #f8fafc;
+}
+
+/* ======== NAVBAR ======== */
+.navbar {
+  background: var(--color-navbar);
+  color: var(--color-text);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.05);
+  position: fixed;
+  top: 0;
+  left: 280px;
+  right: 0;
+  z-index: 999;
+  height: 65px;
+  display: flex;
+  align-items: center;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+/* ======== CONTENIDO ======== */
+.navbar-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 0 24px;
+}
+
+/* ======== LADO IZQUIERDO ======== */
+.navbar-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+/* ======== ESTILOS GENERALES PARA BOTONES ======== */
+.menu-toggle,
+.theme-trigger,
+.nav-btn,
+.user-info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  border-radius: 10px;
+  color: var(--color-text);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Cuadrito de fondo para todos los botones - SOLO EN HOVER */
+.menu-toggle::before,
+.theme-trigger::before,
+.nav-btn::before,
+.user-info::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(0, 0, 0, 0.03);
+  border-radius: 8px;
+  transform: translate(-50%, -50%);
+  transition: all 0.3s ease;
+  z-index: 0;
+  opacity: 0;
+}
+
+/* Animación de hover para todos los botones */
+.menu-toggle:hover::before,
+.theme-trigger:hover::before,
+.nav-btn:hover::before,
+.user-info:hover::before {
+  width: 80%;
+  height: 80%;
+  opacity: 1;
+}
+
+.menu-toggle:hover,
+.theme-trigger:hover,
+.nav-btn:hover,
+.user-info:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: scale(1.05);
+}
+
+/* Asegurar que los iconos estén por encima del fondo */
+.menu-toggle i,
+.theme-trigger i,
+.nav-btn i,
+.user-info i {
+  transition: transform 0.3s ease;
+  position: relative;
+  z-index: 1;
+}
+
+.menu-toggle:hover i,
+.theme-trigger:hover i,
+.nav-btn:hover i,
+.user-info:hover i {
+  transform: scale(1.1);
+}
+
+/* ======== BOTÓN MENÚ TOGGLE ======== */
+.menu-toggle {
+  width: 38px;
+  height: 38px;
+  padding: 8px;
+}
+
+.menu-toggle i {
+  width: 20px;
+  height: 20px;
+}
+
+.page-info h1 {
+  font-size: 1.1rem;
+  color: var(--color-text);
+  margin: 0;
+  font-weight: 600;
+}
+
+.breadcrumb {
+  font-size: 0.8rem;
+  color: var(--color-text);
+  opacity: 0.8;
+}
+
+/* ======== LADO DERECHO ======== */
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  position: relative;
+  z-index: 1001;
+}
+
+.navbar-actions {
+  display: flex;
+  gap: 14px;
+}
+
+/* ======== SELECTOR DE TEMA ======== */
+.theme-selector {
+  position: relative;
+  margin-right: 10px;
+}
+
+.theme-trigger {
+  width: 40px;
+  height: 40px;
+  padding: 8px;
+}
+
+.theme-trigger i {
+  width: 20px;
+  height: 20px;
+}
+
+/* Menú desplegable de tema */
+.theme-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 8px;
+  background: var(--color-navbar);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 8px;
+  min-width: 140px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(10px);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: all 0.3s ease;
+  z-index: 1000;
+}
+
+.theme-menu.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.theme-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  background: none;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 12px;
+  color: var(--color-text);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.9rem;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Fondo para las opciones del menú de tema - SOLO EN HOVER */
+.theme-option::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(0, 0, 0, 0.08);
+  border-radius: 6px;
+  transform: translate(-50%, -50%);
+  transition: all 0.3s ease;
+  z-index: 0;
+  opacity: 0;
+}
+
+.theme-option:hover::before {
+  width: 90%;
+  height: 90%;
+  opacity: 1;
+}
+
+.theme-option:hover {
+  transform: scale(1.02);
+}
+
+.theme-option.active {
+  background: rgba(255, 255, 255, 0.15);
+  position: relative;
+}
+
+.theme-option.active::after {
+  content: '';
+  position: absolute;
+  right: 12px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-accent, #00e6b8);
+  z-index: 1;
+}
+
+.theme-option i {
+  width: 18px;
+  height: 18px;
+  transition: transform 0.2s ease;
+  position: relative;
+  z-index: 1;
+}
+
+.theme-option:hover i {
+  transform: scale(1.1);
+}
+
+.theme-option span {
+  position: relative;
+  z-index: 1;
+}
+
+/* ======== BOTONES DE ACCIÓN ======== */
+.nav-btn {
+  width: 38px;
+  height: 38px;
+  padding: 8px;
+  position: relative;
+}
+
+.nav-btn i {
+  width: 18px;
+  height: 18px;
+}
+
+/* Badge de notificaciones */
+.notification-badge {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  background: var(--color-accent, #00e6b8);
+  color: #fff;
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  font-size: 0.65rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  transition: transform 0.3s ease;
+  z-index: 2;
+}
+
+.nav-btn:hover .notification-badge {
+  transform: scale(1.1);
+}
+
+/* ======== MENÚ DE USUARIO ======== */
+.user-menu-container {
+  position: relative;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  cursor: pointer;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Fondo hover para user-info */
+.user-info::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(0, 0, 0, 0.03);
+  border-radius: 8px;
+  transform: translate(-50%, -50%);
+  transition: all 0.3s ease;
+  z-index: 0;
+  opacity: 0;
+}
+
+.user-info:hover::before {
+  width: 100%;
+  height: 100%;
+  opacity: 1;
+}
+
+.user-info i {
+  width: 16px;
+  height: 16px;
+  transition: transform 0.3s ease;
+  position: relative;
+  z-index: 1;
+}
+
+.user-info i.rotated {
+  transform: rotate(180deg);
+}
+
+/* Asegurar que el contenido del user-info esté por encima del fondo */
+.user-avatar,
+.user-details,
+.user-info i {
+  position: relative;
+  z-index: 1;
+}
+
+/* Avatar de usuario */
+.user-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 0.8rem;
+  overflow: hidden;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+  flex-shrink: 0;
+}
+
+.user-info:hover .user-avatar {
+  transform: scale(1.05);
+}
+
+.user-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.user-info:hover .user-avatar img {
+  transform: scale(1.05);
+}
+
+/* Detalles del usuario - ESPACIO REDUCIDO */
+.user-details {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: -30px; /* 👈 CAMBIA: de 2px a 4px */
+  min-width: 0;
+  flex: 1;
+}
+.user-name {
+  color: var(--color-text);
+  font-weight: 500;
+  font-size: 0.8rem;  /* 👈 TAMAÑO DE FUENTE - aproximadamente 14.4px */
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 120px;   /* 👈 ANCHO MÁXIMO */
+  margin-bottom: 1px; /* 👈 Separación debajo del nombre */
+}
+
+.user-role {
+  color: var(--color-text);
+  opacity: 0.7;
+  font-size: 0.75rem;  /* 👈 TAMAÑO DE FUENTE - aproximadamente 12px */
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 120px;    /* 👈 ANCHO MÁXIMO */
+  margin-top: 1px; /* 👈 Separación arriba del rol */
+}
+
+/* Menú desplegable de usuario */
+.user-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 8px;
+  background: var(--color-navbar);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 8px;
+  min-width: 180px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(10px);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: all 0.3s ease;
+  z-index: 1000;
+}
+
+.user-menu.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.user-menu-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  background: none;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 12px;
+  color: var(--color-text);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.9rem;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Fondo para las opciones del menú de usuario - SOLO EN HOVER */
+.user-menu-option::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(0, 0, 0, 0.08);
+  border-radius: 6px;
+  transform: translate(-50%, -50%);
+  transition: all 0.3s ease;
+  z-index: 0;
+  opacity: 0;
+}
+
+.user-menu-option:hover::before {
+  width: 90%;
+  height: 90%;
+  opacity: 1;
+}
+
+.user-menu-option:hover {
+  transform: scale(1.02);
+}
+
+.user-menu-option i {
+  width: 18px;
+  height: 18px;
+  transition: transform 0.2s ease;
+  position: relative;
+  z-index: 1;
+}
+
+.user-menu-option:hover i {
+  transform: scale(1.1);
+}
+
+.user-menu-option span {
+  position: relative;
+  z-index: 1;
+}
+
+.user-menu-option.logout {
+  color: #ef4444;
+}
+
+.user-menu-option.logout:hover {
+  color: #dc2626;
+}
+
+.user-menu-divider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.1);
+  margin: 6px 0;
+}
+
+/* ======== ICONOS FEATHER ======== */
+svg,
+.navbar i {
+  stroke: var(--color-text);
+  color: var(--color-text);
+  transition: stroke 0.3s ease, color 0.3s ease;
+}
+
+/* ======== RESPONSIVE ======== */
+@media (max-width: 768px) {
+  .navbar {
+    left: 0;
+  }
+
+  .navbar-content {
+    padding: 0 16px;
+  }
+
+  .page-info h1,
+  .breadcrumb {
+    display: none;
+  }
+
+  .user-details {
+    display: none;
+  }
+
+  .menu-toggle {
+    width: 34px;
+    height: 34px;
+    padding: 6px;
+  }
+  
+  .theme-trigger {
+    width: 36px;
+    height: 36px;
+    padding: 6px;
+  }
+  
+  .nav-btn {
+    width: 34px;
+    height: 34px;
+    padding: 6px;
+  }
+  
+  .user-info {
+    padding: 4px 6px;
+  }
+  
+  .theme-menu {
+    right: -10px;
+    min-width: 130px;
+  }
+
+  .user-menu {
+    right: -10px;
+    min-width: 160px;
+  }
+}
+
+/* ======== AJUSTE NAVBAR CON SIDEBAR ======== */
+:host-context(.dashboard-layout.sidebar-collapsed) .navbar {
+  left: 0;
+  transition: left 0.4s ease;
+}
+
+:host-context(.dashboard-layout) .navbar {
+  left: 280px;
+  transition: left 0.4s ease;
+}

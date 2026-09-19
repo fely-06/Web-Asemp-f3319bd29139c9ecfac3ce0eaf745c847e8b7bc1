@@ -1,0 +1,85 @@
+<!-- navbar.html -->
+<nav class="navbar">
+  <div class="navbar-content">
+    <div class="navbar-left">
+      <button class="menu-toggle" (click)="toggleSidebar()">
+        <i data-feather="menu"></i>
+      </button>
+      <div class="page-info">
+        <h1>{{ pageTitle }}</h1>
+        <span class="breadcrumb">{{ breadcrumb }}</span>
+      </div>
+    </div>
+    
+    <div class="navbar-right">
+      <!-- Selector de tema simplificado -->
+      <div class="theme-selector">
+        <button class="theme-trigger" (click)="toggleThemeMenu()" title="Cambiar tema">
+          <i data-feather="sun"></i>
+        </button>
+        
+        <div class="theme-menu" [class.show]="isThemeMenuOpen">
+          <button class="theme-option" (click)="setTheme('light')" [class.active]="currentTheme === 'light'">
+            <i data-feather="sun"></i>
+            <span>Claro</span>
+          </button>
+          
+          <button class="theme-option" (click)="setTheme('dark')" [class.active]="currentTheme === 'dark'">
+            <i data-feather="moon"></i>
+            <span>Oscuro</span>
+          </button>
+          
+          <button class="theme-option" (click)="setTheme('default')" [class.active]="currentTheme === 'default'">
+            <i data-feather="monitor"></i>
+            <span>Sistema</span>
+          </button>
+        </div>
+      </div>
+      
+      <!--ICONOS DE NOTIFICACIONES Y MENSAJES PODRIA USARLOS DESPUES-->
+    <!--<div class="navbar-actions">
+        <button class="nav-btn" title="Notificaciones">
+          <i data-feather="bell"></i>
+          <span class="notification-badge">3</span>
+        </button>
+        <button class="nav-btn" title="Mensajes">
+          <i data-feather="message-square"></i>
+        </button>
+      </div>-->
+      
+      <!-- Menú de usuario -->
+      <div class="user-menu-container">
+        <div class="user-info" (click)="toggleUserMenu()">
+          <div class="user-avatar">
+            <span *ngIf="userAvatar">{{userAvatar}}{{userAvatarApellido}}</span>
+            <span *ngIf="!userAvatar" class="avatar-fallback">?</span>
+          </div>
+
+          <div class="user-details">
+            <span class="user-name">{{ userName }}</span>
+            <small *ngIf="userRol" class="user-role">{{ userRol }}</small>
+          </div>
+
+          <i data-feather="chevron-down" [class.rotated]="isUserMenuOpen"></i>
+        </div>
+        
+        <div class="user-menu" [class.show]="isUserMenuOpen">
+          <button class="user-menu-option" (click)="goToProfile()">
+            <i data-feather="user"></i>
+            <span>Mi Perfil</span>
+          </button>
+          
+          <button class="user-menu-option" (click)="goToSettings()">
+            <i data-feather="settings"></i>
+            <span>Configuración</span>
+          </button>
+          
+          <button class="user-menu-option logout" (click)="logout()">
+            <i data-feather="log-out"></i>
+            <span>Cerrar Sesión</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>

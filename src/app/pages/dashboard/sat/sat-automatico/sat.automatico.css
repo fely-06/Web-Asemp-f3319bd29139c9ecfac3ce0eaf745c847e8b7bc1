@@ -1,0 +1,1505 @@
+/* ===== CONTENEDOR PRINCIPAL ===== */
+.sat-auto-container {
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  min-height: 100vh;
+  padding: 0;
+}
+
+/* ===== TARJETAS ===== */
+.sat-auto-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  margin: 0 2rem 2rem;
+  border: 1px solid #e2e8f0;
+  overflow: hidden;
+}
+
+.card-header {
+    
+  padding: 1.5rem 2rem;
+  border-bottom: 1px solid #e2e8f0;
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+}
+
+.card-header h3 {
+    
+  margin: 0;
+  color: #1e293b;
+  font-size: 1.25rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.card-header .card-subtitle {
+    
+  margin: 0.25rem 0 0;
+  color: #64748b;
+  font-size: 0.9rem;
+}
+
+.card-body {
+  padding: 2rem;
+}
+
+/* ===== FORMULARIO ===== */
+.auto-form-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.form-group-auto {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-label {
+  font-weight: 600;
+  color: #374151;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.form-label i {
+  color: var(--color-primary);
+  width: 16px;
+  font-size: 0.8rem;
+}
+
+.form-control-auto {
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 0.65rem 1rem;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+  background: white;
+  color: #374151;
+  width: 100%;
+}
+
+.form-control-auto:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary) 15%, transparent);
+}
+
+.form-hint {
+  font-size: 0.8rem;
+  color: #64748b;
+  margin-top: 0.25rem;
+}
+
+/* ===== SELECCIÓN DE CLIENTES ===== */
+.clientes-section {
+  margin: 2rem 0;
+  padding: 1.5rem;
+  background: #f8fafc;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+}
+
+.section-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Radio buttons mejorados */
+.clientes-modo {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.radio-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  user-select: none;
+}
+
+.radio-label input[type="radio"] {
+  display: none;
+}
+
+.radio-custom {
+  width: 18px;
+  height: 18px;
+  border: 2px solid #cbd5e1;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.radio-label input[type="radio"]:checked + .radio-custom {
+  border-color: var(--color-primary);
+  background: var(--color-primary);
+}
+
+.radio-label input[type="radio"]:checked + .radio-custom::after {
+  content: '';
+  width: 8px;
+  height: 8px;
+  background: white;
+  border-radius: 50%;
+}
+
+.radio-text {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #374151;
+  font-weight: 500;
+}
+
+/* Panel de selección manual */
+.clientes-panel {
+  background: white;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  padding: 1rem;
+  margin-top: 1rem;
+}
+
+.clientes-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.search-wrapper {
+  position: relative;
+  flex: 1;
+}
+
+.search-wrapper i {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #64748b;
+}
+
+.search-input {
+  width: 100%;
+  padding: 0.65rem 1rem 0.65rem 2.5rem;
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 0.9rem;
+}
+
+.toolbar-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.btn-toolbar {
+  padding: 0.6rem 1rem;
+  border: 1px solid #d1d5db;
+  background: white;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #374151;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn-toolbar:hover {
+  background: #f3f4f6;
+  border-color: #9ca3af;
+}
+
+/* Lista de clientes */
+.clientes-list-container {
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+
+.clientes-scroll {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.cliente-card {
+  padding: 1rem;
+  border-bottom: 1px solid #e2e8f0;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.2s ease;
+}
+
+.cliente-card:hover {
+  background: #f8fafc;
+}
+
+.cliente-card.activo {
+  background: color-mix(in srgb, var(--color-primary) 8%, transparent);
+  border-left: 3px solid var(--color-primary);
+}
+
+.cliente-info {
+  flex: 1;
+}
+
+.cliente-nombre {
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 0.25rem;
+}
+
+.cliente-details {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+}
+
+.cliente-rfc {
+  color: var(--color-primary);
+  font-weight: 500;
+  font-family: 'Courier New', monospace;
+}
+
+.cliente-separator {
+  color: #94a3b8;
+}
+
+.cliente-email {
+  color: #64748b;
+}
+
+.cliente-check {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #10b981;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+}
+
+/* Resumen y badges */
+.clientes-resumen {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #374151;
+  font-weight: 500;
+}
+
+.badge-selected {
+  background: var(--color-primary);
+  color: white;
+  padding: 0.25rem 0.5rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.clientes-todos-info {
+  background: #e6f4ff;
+  border: 1px solid #91caff;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-top: 1rem;
+}
+
+.info-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #006d75;
+}
+
+.info-badge i {
+  color: #08979c;
+}
+
+/* ===== BOTÓN CREAR ===== */
+.form-actions {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.btn-create-job {
+  background: linear-gradient(135deg, #0c75ff 0%, #0c59ff 100%);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 1rem 2.5rem;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+}
+
+.btn-create-job:hover:not(:disabled) {
+  background: linear-gradient(135deg, #0c39ff 0%, #0c39ff 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(16, 117, 185, 0.4);
+}
+
+.btn-create-job:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn-create-job.loading {
+  background: #64748b;
+}
+
+.btn-content {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+/* ===== TABLA DE JOBS ===== */
+/* ===== TABLA (BASE) ===== */
+.jobs-table {
+  color: var(--color-text);
+}
+
+.jobs-table thead th {
+  background: var(--color-navbar) !important;
+  color: var(--color-text) !important;
+  border-bottom: 1px solid color-mix(in srgb, var(--color-text) 15%, transparent) !important;
+}
+
+/* Quita fondos “raros” en celdas */
+.jobs-table td {
+  background: transparent !important;
+  color: var(--color-text) !important;
+  border-bottom: 1px solid color-mix(in srgb, var(--color-text) 12%, transparent) !important;
+}
+
+/* ===== STRIPED (CLARO) ===== */
+.jobs-table.table-striped > tbody > tr:nth-of-type(odd) > * {
+  background: color-mix(in srgb, var(--color-navbar) 35%, transparent) !important;
+}
+
+.jobs-table.table-striped > tbody > tr:nth-of-type(even) > * {
+  background: transparent !important;
+}
+
+/* Hover */
+.jobs-table tbody tr:hover > * {
+  background: color-mix(in srgb, var(--color-primary) 10%, transparent) !important;
+}
+
+/* ===== OSCURO: cuando el root tiene data-theme="dark" ===== */
+[data-theme="dark"] .jobs-table {
+  color: var(--color-text) !important;
+}
+
+[data-theme="dark"] .jobs-table thead th {
+  background: color-mix(in srgb, var(--color-navbar) 80%, black) !important;
+}
+
+/* El punto crítico: striped en oscuro */
+[data-theme="dark"] .jobs-table.table-striped > tbody > tr:nth-of-type(odd) > * {
+  background: color-mix(in srgb, var(--color-navbar) 55%, black) !important;
+}
+
+[data-theme="dark"] .jobs-table.table-striped > tbody > tr:nth-of-type(even) > * {
+  background: transparent !important;
+}
+
+[data-theme="dark"] .jobs-table tbody tr:hover > * {
+  background: color-mix(in srgb, var(--color-primary) 12%, black) !important;
+}
+
+
+/* Badges y estados */
+.badge-tipo {
+  padding: 0.4rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.badge-tipo.emitidos {
+  background: #e6f7ff;
+  color: #006d75;
+}
+
+.badge-tipo.recibidos {
+  background: #f6ffed;
+  color: #389e0d;
+}
+
+.badge-clientes {
+  background: #f0f5ff;
+  color: #1d39c4;
+  padding: 0.4rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.estado-badge {
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  display: inline-block;
+}
+
+.estado-badge.pendiente {
+  background: #fff7e6;
+  color: #d46b08;
+}
+
+.estado-badge.ejecutando {
+  background: #e6f4ff;
+  color: #1677ff;
+}
+
+.estado-badge.completado {
+  background: #f6ffed;
+  color: #52c41a;
+}
+
+.estado-badge.error {
+  background: #fff2f0;
+  color: #ff4d4f;
+}
+
+.estado-badge.cancelado {
+  background: #fafafa;
+  color: #8c8c8c;
+}
+
+/* Acciones en tabla */
+.acciones-cell {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.btn-action {
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  border: none;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.logs-btn {
+  background: #e6f4ff;
+  color: #1677ff;
+}
+
+.logs-btn:hover {
+  background: #d4e6ff;
+}
+
+.cancel-btn {
+  background: #fff1f0;
+  color: #ff4d4f;
+}
+
+.cancel-btn:hover {
+  background: #ffccc7;
+}
+
+/* Estado vacío */
+.empty-state {
+  padding: 3rem 1rem;
+}
+
+.empty-content {
+  text-align: center;
+  color: #94a3b8;
+}
+
+.empty-content i {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  color: #cbd5e1;
+}
+
+.empty-content p {
+  margin: 0;
+  font-weight: 500;
+}
+
+.empty-content small {
+  font-size: 0.9rem;
+  color: #94a3b8;
+}
+
+/* ===== MODAL DE LOGS ===== */
+.sat-modal {
+  position: fixed;
+  top: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 600px;
+  max-height: 80vh;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-header {
+    text-align: center ;
+  padding: 1.5rem;
+  border-bottom: 1px solid #e2e8f0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-header h3 {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #1e293b;
+}
+
+.btn-close {
+  border: none;
+  background: transparent;
+  color: #64748b;
+  cursor: pointer;
+  font-size: 1.2rem;
+  transition: color 0.2s ease;
+}
+
+.btn-close:hover {
+  color: #374151;
+}
+
+.modal-body {
+  padding: 1.5rem;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.logs-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.log-item {
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 1rem;
+  background: #f8fafc;
+}
+
+.log-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.log-accion {
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.log-fecha {
+  font-size: 0.85rem;
+  color: #64748b;
+}
+
+.log-detalle {
+  color: #374151;
+  margin-bottom: 0.5rem;
+  line-height: 1.5;
+}
+
+.log-meta {
+  display: flex;
+  gap: 1rem;
+  font-size: 0.85rem;
+}
+
+.log-cliente {
+  color: #374151;
+}
+
+.log-estado {
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+.log-estado.exito {
+  background: #f6ffed;
+  color: #52c41a;
+}
+
+.log-estado.error {
+  background: #fff2f0;
+  color: #ff4d4f;
+}
+
+.empty-logs {
+  text-align: center;
+  padding: 2rem;
+  color: #94a3b8;
+  border: 2px dashed #e2e8f0;
+  border-radius: 8px;
+}
+
+.modal-footer {
+  padding: 1rem 1.5rem;
+  border-top: 1px solid #e2e8f0;
+  text-align: center;
+}
+
+.btn-close-modal {
+  background: #64748b;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 0.6rem 1.5rem;
+  cursor: pointer;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: background 0.2s ease;
+}
+
+.btn-close-modal:hover {
+  background: #475569;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1200px) {
+  .auto-form-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .sat-auto-container {
+    padding: 1rem;
+  }
+  
+  .sat-auto-card {
+    margin: 0 0 1.5rem;
+  }
+  
+  .card-header,
+  .card-body {
+    padding: 1rem;
+  }
+  
+  .auto-form-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .clientes-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .toolbar-actions {
+    justify-content: stretch;
+  }
+  
+  .btn-toolbar {
+    flex: 1;
+    justify-content: center;
+  }
+  
+  .sat-modal {
+    width: 95%;
+    top: 5%;
+    max-height: 90vh;
+  }
+  
+  .jobs-table {
+    display: block;
+    overflow-x: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .clientes-modo {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .form-actions {
+    margin-top: 1rem;
+  }
+  
+  .btn-create-job {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* ===== MODO OSCURO ===== */
+[data-theme="dark"] .sat-auto-container {
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+}
+
+[data-theme="dark"] .sat-auto-card {
+  background: #1e293b;
+  border-color: #334155;
+}
+
+[data-theme="dark"] .card-header {
+  background: #334155;
+  border-bottom-color: #475569;
+}
+
+[data-theme="dark"] .card-header h3 {
+  color: #f1f5f9;
+}
+
+[data-theme="dark"] .card-subtitle {
+  color: #94a3b8;
+}
+
+[data-theme="dark"] .form-label {
+  color: #cbd5e1;
+}
+
+[data-theme="dark"] .form-control-auto {
+  background: #334155;
+  border-color: #475569;
+  color: #f1f5f9;
+}
+
+[data-theme="dark"] .form-control-auto:focus {
+  border-color: var(--color-primary);
+}
+
+[data-theme="dark"] .clientes-section {
+  background: #334155;
+  border-color: #475569;
+}
+
+[data-theme="dark"] .section-title {
+  color: #f1f5f9;
+}
+
+[data-theme="dark"] .clientes-panel {
+  background: #1e293b;
+  border-color: #475569;
+}
+
+[data-theme="dark"] .cliente-card {
+  border-bottom-color: #475569;
+}
+
+[data-theme="dark"] .cliente-card:hover {
+  background: #334155;
+}
+
+[data-theme="dark"] .cliente-nombre {
+  color: #f1f5f9;
+}
+
+[data-theme="dark"] .jobs-table th {
+  background: #334155;
+  color: #cbd5e1;
+  border-bottom-color: #475569;
+}
+
+[data-theme="dark"] .jobs-table td {
+  border-bottom-color: #475569;
+  color: #cbd5e1;
+}
+
+[data-theme="dark"] .jobs-table tr:hover {
+  background: #334155;
+}
+
+[data-theme="dark"] .sat-modal {
+  background: #1e293b;
+}
+
+[data-theme="dark"] .modal-header {
+  border-bottom-color: #475569;
+}
+
+[data-theme="dark"] .modal-header h3 {
+  color: #f1f5f9;
+}
+
+[data-theme="dark"] .log-item {
+  background: #334155;
+  border-color: #475569;
+}
+
+[data-theme="dark"] .log-accion {
+  color: #f1f5f9;
+}
+
+
+/* ===== BACKDROP PARA MODAL ===== */
+/* ===== BACKDROP PARA MODAL ===== */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);     /* Fondo más claro */
+  backdrop-filter: blur(3px);          /* Desenfoque */
+  -webkit-backdrop-filter: blur(3px);  /* Soporte en Safari */
+  z-index: 2000;                       /* Encima del navbar y sidebar */
+}
+
+/* Asegurar que el modal esté encima */
+/* ===== MODAL ===== */
+.sat-modal {
+  position: fixed;
+  top: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 600px;
+  max-height: 80vh;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  z-index: 2100;              /* Más alto que el backdrop */
+  display: flex;
+  flex-direction: column;
+}
+
+
+/* ===== REEMPLAZO PARA SAT-AUTO-CONTAINER ===== */
+.sat-auto-content {
+  width: 100%;
+  max-width: 2000px; /* Ajusta este valor según necesites */
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+/* Fuerza a que las cards ocupen el 100% del nuevo contenedor */
+.sat-auto-content .sat-auto-card {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+/* Expande el grid del formulario */
+.sat-auto-content .auto-form-grid {
+  width: 100%;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+/* Expande la tabla */
+.sat-auto-content .jobs-table {
+  width: 100%;
+  min-width: 100%;
+}
+
+/* Expande los contenedores de clientes */
+.sat-auto-content .clientes-section,
+.sat-auto-content .clientes-panel {
+  width: 100%;
+}
+@media (min-width: 1200px) {
+  .sat-auto-content {
+    max-width: 1200px;
+    padding: 0;
+  }
+}
+
+@media (min-width: 1400px) {
+  .sat-auto-content {
+    max-width: 1400px;
+  }
+}
+
+@media (min-width: 1600px) {
+  .sat-auto-content {
+    max-width: 1600px;
+  }
+}
+
+
+
+/* Agrega esto a tu archivo sat.automatico.css */
+
+/* ===== PAGINACIÓN MEJORADA ===== */
+.card-footer {
+  padding: 1rem 1.5rem !important;
+  background-color: var(--color-navbar) !important;
+  border-top: 1px solid #dee2e6 !important;
+}
+
+.card-footer .d-flex {
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+}
+
+/* Select de items por página */
+.select-items-pagina {
+  padding: 0.4rem 1rem;
+  border: 1px solid #ced4da;
+  border-radius: 6px;
+  background-color: white;
+  color: #495057;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 130px;
+}
+
+.select-items-pagina:hover {
+  border-color: #0d6efd;
+  background-color: #f8f9fa;
+}
+
+.select-items-pagina:focus {
+  outline: none;
+  border-color: #0d6efd;
+  box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.25);
+}
+
+/* Contador de página */
+.pagina-contador {
+  font-size: 0.9rem;
+  color: #6c757d;
+  font-weight: 500;
+}
+
+/* Paginación ngx-pagination */
+.my-pagination .ngx-pagination {
+  margin-bottom: 0;
+  padding: 0;
+}
+
+.my-pagination .ngx-pagination li {
+  margin: 0 2px;
+}
+
+.my-pagination .ngx-pagination li a,
+.my-pagination .ngx-pagination li.current,
+.my-pagination .ngx-pagination li.disabled {
+  border-radius: 6px;
+  padding: 0.5rem 0.75rem;
+  min-width: 40px;
+  text-align: center;
+  border: 1px solid #dee2e6;
+  background-color: white;
+  color: #495057;
+  transition: all 0.2s ease;
+}
+
+.my-pagination .ngx-pagination li.current {
+  background-color: var(--color-primary) !important;
+  color: white !important;
+  border-color: var(--color-primary) !important;
+  font-weight: 600;
+}
+
+.my-pagination .ngx-pagination li a:hover {
+  background-color: #f8f9fa;
+  border-color: #adb5bd;
+  text-decoration: none;
+}
+
+.my-pagination .ngx-pagination .pagination-previous a,
+.my-pagination .ngx-pagination .pagination-next a {
+  padding: 0.5rem 1rem;
+  font-weight: 500;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .card-footer .d-flex {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .my-pagination .ngx-pagination li {
+    margin: 2px;
+  }
+  
+  .my-pagination .ngx-pagination li a,
+  .my-pagination .ngx-pagination li.current,
+  .my-pagination .ngx-pagination li.disabled {
+    padding: 0.4rem 0.6rem;
+    min-width: 36px;
+    font-size: 0.85rem;
+  }
+  
+  .select-items-pagina {
+    width: 100%;
+    max-width: 200px;
+  }
+}
+
+/* Modo oscuro */
+[data-theme="dark"] .select-items-pagina {
+  background-color: #2b2b2b;
+  border-color: #444;
+  color: #ddd;
+}
+
+[data-theme="dark"] .select-items-pagina:hover {
+  background-color: #3a3a3a;
+  border-color: #0d6efd;
+}
+
+[data-theme="dark"] .pagina-contador {
+  color: #aaa;
+}
+
+[data-theme="dark"] .my-pagination .ngx-pagination li a,
+[data-theme="dark"] .my-pagination .ngx-pagination li.current,
+[data-theme="dark"] .my-pagination .ngx-pagination li.disabled {
+  background-color: #2b2b2b;
+  border-color: #444;
+  color: #ddd;
+}
+
+[data-theme="dark"] .my-pagination .ngx-pagination li.current {
+  background-color: var(--color-primary) !important;
+  color: white !important;
+}
+
+[data-theme="dark"] .my-pagination .ngx-pagination li a:hover {
+  background-color: #3a3a3a;
+  border-color: #555;
+}
+/* Select de items por página */
+.form-select-sm {
+  font-size: 0.85rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+}
+
+/* Ajustes responsive para paginación */
+@media (max-width: 768px) {
+  .card-footer .d-flex {
+    flex-direction: column;
+    text-align: center;
+    gap: 1rem;
+  }
+  
+  .my-pagination .ngx-pagination {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .form-select-sm {
+    margin-top: 0.5rem;
+  }
+}
+
+/* ===== ORDENAMIENTO ===== */
+.th-sortable {
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.th-sortable i {
+  margin-left: 6px;
+}
+
+.orden-icon {
+  font-size: 0.75rem;
+  opacity: 0.4;
+  transition: opacity 0.15s ease, transform 0.15s ease, color 0.15s ease;
+}
+
+.orden-icon.activo {
+  opacity: 1;
+  color: var(--color-primary);
+}
+
+.orden-icon.neutro {
+  color: #6c757d;
+}
+
+.th-sortable:hover .orden-icon {
+  opacity: 1;
+  color: var(--color-primary);
+  transform: translateY(-1px);
+}
+
+/* ===== AJUSTES DE TABLA CON PAGINACIÓN ===== */
+.table-responsive {
+  min-height: 300px;
+}
+
+/* Estilo para filas según estado */
+.fila-pendiente {
+  background-color: rgba(255, 247, 230, 0.3) !important;
+}
+
+.fila-ejecutando {
+  background-color: rgba(230, 244, 255, 0.3) !important;
+}
+
+.fila-completado {
+  background-color: rgba(246, 255, 237, 0.3) !important;
+}
+
+.fila-error {
+  background-color: rgba(255, 242, 240, 0.3) !important;
+}
+
+.fila-cancelado {
+  background-color: rgba(250, 250, 250, 0.3) !important;
+}
+
+/* ===== BOTONES DE ACCIÓN EN TABLA ===== */
+.acciones-cell .btn-action {
+  padding: 0.4rem 0.75rem;
+  font-size: 0.8rem;
+}
+
+/* ===== MODO OSCURO PARA PAGINACIÓN ===== */
+[data-theme="dark"] .my-pagination .ngx-pagination li a,
+[data-theme="dark"] .my-pagination .ngx-pagination li.current,
+[data-theme="dark"] .my-pagination .ngx-pagination li.disabled {
+  background-color: #2b2b2b;
+  border-color: #444;
+  color: #ddd;
+}
+
+[data-theme="dark"] .my-pagination .ngx-pagination li.current {
+  background-color: var(--color-primary) !important;
+  color: white !important;
+}
+
+[data-theme="dark"] .my-pagination .ngx-pagination li a:hover {
+  background-color: #3a3a3a;
+}
+
+[data-theme="dark"] .form-select-sm {
+  background-color: #3a3a3a;
+  color: #f8f9fa;
+  border-color: #555;
+}
+
+[data-theme="dark"] .orden-icon.neutro {
+  color: #aaa;
+}
+
+
+
+
+
+/* ============================================================
+   SAT AUTOMÁTICO - THEME SAFE (alineado a tus variables)
+   Objetivo:
+   - Quitar hardcode (#f8fafc, #1e293b, etc.)
+   - Evitar choques con .card-header/.card-body globales
+   - Mantener tu diseño, pero “responsive” a tema claro/oscuro
+   IMPORTANTE: pega esto AL FINAL del CSS del módulo
+============================================================ */
+
+/* 1) Fondo del módulo */
+.sat-auto-container{
+  background: var(--color-background) !important;
+}
+
+/* 2) Card principal */
+.sat-auto-card{
+  background: var(--color-navbar) !important;
+  border-color: color-mix(in srgb, var(--color-text) 10%, transparent) !important;
+  box-shadow: 0 4px 20px rgba(0,0,0,.08) !important;
+}
+
+/* 3) Evita que el CSS global de Bootstrap/otros te rompa header/body:
+      (solo afectamos los header/body dentro de .sat-auto-card) */
+.sat-auto-card > .card-header{
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--color-navbar) 92%, white) 0%,
+    color-mix(in srgb, var(--color-navbar) 80%, white) 100%
+  ) !important;
+  border-bottom-color: color-mix(in srgb, var(--color-text) 10%, transparent) !important;
+}
+
+.sat-auto-card > .card-header h3{
+  color: var(--color-text) !important;
+}
+
+.sat-auto-card > .card-header .card-subtitle{
+  color: color-mix(in srgb, var(--color-text) 60%, transparent) !important;
+}
+
+.sat-auto-card > .card-body{
+  background: transparent !important;
+  color: var(--color-text) !important;
+}
+
+/* 4) Form controls */
+.form-label,
+.radio-text,
+.clientes-resumen{
+  color: var(--color-text) !important;
+}
+
+.form-control-auto,
+.search-input{
+  background: var(--color-background) !important;
+  color: var(--color-text) !important;
+  border-color: color-mix(in srgb, var(--color-text) 12%, transparent) !important;
+}
+
+.form-control-auto:focus,
+.search-input:focus{
+  outline: none !important;
+  border-color: var(--color-primary) !important;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary) 15%, transparent) !important;
+}
+
+/* 5) Sección clientes */
+.clientes-section{
+  background: color-mix(in srgb, var(--color-navbar) 70%, white) !important;
+  border-color: color-mix(in srgb, var(--color-text) 10%, transparent) !important;
+}
+
+.section-title{
+  color: var(--color-text) !important;
+}
+
+.clientes-panel,
+.clientes-list-container{
+  background: var(--color-background) !important;
+  border-color: color-mix(in srgb, var(--color-text) 10%, transparent) !important;
+}
+
+.search-wrapper i{
+  color: color-mix(in srgb, var(--color-text) 55%, transparent) !important;
+}
+
+/* Cards de cliente */
+.cliente-card{
+  border-bottom-color: color-mix(in srgb, var(--color-text) 10%, transparent) !important;
+}
+
+.cliente-card:hover{
+  background: color-mix(in srgb, var(--color-primary) 6%, transparent) !important;
+}
+
+.cliente-nombre{
+  color: var(--color-text) !important;
+}
+
+.cliente-email,
+.cliente-separator{
+  color: color-mix(in srgb, var(--color-text) 60%, transparent) !important;
+}
+
+/* 6) Botones toolbar */
+.btn-toolbar{
+  background: var(--color-background) !important;
+  color: var(--color-text) !important;
+  border-color: color-mix(in srgb, var(--color-text) 12%, transparent) !important;
+}
+
+.btn-toolbar:hover{
+  background: color-mix(in srgb, var(--color-navbar) 55%, transparent) !important;
+  border-color: color-mix(in srgb, var(--color-text) 20%, transparent) !important;
+}
+
+/* 7) Botón crear */
+.btn-create-job{
+  box-shadow: 0 6px 18px rgba(13,110,253,.25) !important;
+}
+
+/* 8) Filtros de JOBS (tu bloque que usa custom-filters/custom-input-group) */
+.sat-jobs-filtros{
+  background: var(--color-navbar) !important;
+}
+
+.sat-jobs-filtros .custom-input-group{
+  background: var(--color-background) !important;
+  border-color: color-mix(in srgb, var(--color-primary) 20%, transparent) !important;
+}
+
+.sat-jobs-filtros .custom-input-icon{
+  color: var(--color-primary) !important;
+}
+
+.sat-jobs-filtros .custom-input{
+  color: var(--color-text) !important;
+}
+
+.sat-jobs-filtros .custom-input::placeholder{
+  color: color-mix(in srgb, var(--color-text) 55%, transparent) !important;
+}
+
+.sat-jobs-filtros .custom-select{
+  background: var(--color-background) !important;
+  color: var(--color-text) !important;
+  border-color: color-mix(in srgb, var(--color-text) 12%, transparent) !important;
+}
+
+/* 9) Tabla jobs (solo colores base; estados ya los tienes) */
+.jobs-table th{
+  background: color-mix(in srgb, var(--color-navbar) 70%, white) !important;
+  color: var(--color-text) !important;
+  border-bottom-color: color-mix(in srgb, var(--color-text) 12%, transparent) !important;
+}
+
+.jobs-table td{
+  color: var(--color-text) !important;
+  border-bottom-color: color-mix(in srgb, var(--color-text) 10%, transparent) !important;
+}
+
+.jobs-table tr:hover{
+  background: color-mix(in srgb, var(--color-primary) 6%, transparent) !important;
+}
+
+/* 10) Modal logs (por encima de navbar/sidebar) */
+.modal-backdrop{
+  z-index: 2000 !important;
+  background: rgba(0,0,0,.35) !important;
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+}
+
+.sat-modal{
+  z-index: 2100 !important;
+  background: var(--color-navbar) !important;
+  border: 1px solid color-mix(in srgb, var(--color-text) 10%, transparent) !important;
+}
+
+.sat-modal .modal-header h3{
+  color: var(--color-text) !important;
+}
+
+.sat-modal .btn-close{
+  color: color-mix(in srgb, var(--color-text) 60%, transparent) !important;
+}
+
+.log-item{
+  background: var(--color-background) !important;
+  border-color: color-mix(in srgb, var(--color-text) 10%, transparent) !important;
+}
+
+.log-accion,
+.log-detalle,
+.log-cliente{
+  color: var(--color-text) !important;
+}
+
+.log-fecha{
+  color: color-mix(in srgb, var(--color-text) 60%, transparent) !important;
+}
+
+/* 11) Dark mode: solo ajustes finos (sin hardcode fuerte) */
+[data-theme="dark"] .clientes-section{
+  background: color-mix(in srgb, var(--color-navbar) 88%, black) !important;
+}
+
+[data-theme="dark"] .jobs-table tr:hover{
+  background: color-mix(in srgb, var(--color-primary) 10%, transparent) !important;
+}
+
+
+
+/* ===========================
+   JOBS TABLE - THEME FIX
+   (sin cambiar tu HTML)
+=========================== */
+
+/* Contenedor tabla */
+.custom-table-container,
+.tabla-card {
+  background: var(--color-navbar) !important;
+}
+
+/* Base table */
+table.jobs-table {
+  width: 100%;
+  background: transparent !important;
+  color: var(--color-text) !important;
+}
+
+/* Header */
+table.jobs-table thead th {
+  background: color-mix(in srgb, var(--color-navbar) 70%, white) !important;
+  color: var(--color-text) !important;
+  border-bottom: 2px solid color-mix(in srgb, var(--color-text) 12%, transparent) !important;
+}
+
+/* Celdas */
+table.jobs-table td {
+  color: var(--color-text) !important;
+  border-bottom: 1px solid color-mix(in srgb, var(--color-text) 10%, transparent) !important;
+}
+
+/* Quita el blanco/negro feo que mete bootstrap con striped */
+table.jobs-table.table-striped > tbody > tr:nth-of-type(odd) > * {
+  background-color: color-mix(in srgb, var(--color-background) 35%, transparent) !important;
+  color: var(--color-text) !important;
+}
+
+/* Hover */
+table.jobs-table tbody tr:hover > * {
+  background-color: color-mix(in srgb, var(--color-primary) 7%, transparent) !important;
+}
+
+/* Cuando aplicas table-dark, que no reviente colores */
+table.jobs-table.table-dark {
+  background: transparent !important;
+}
+table.jobs-table.table-dark thead th {
+  background: color-mix(in srgb, var(--color-navbar) 85%, black) !important;
+  color: var(--color-text) !important;
+}
+table.jobs-table.table-dark td {
+  color: var(--color-text) !important;
+}
+
+/* badges dentro de tabla (si se apagan en dark) */
+.badge-tipo,
+.badge-clientes,
+.estado-badge {
+  color: inherit;
+}

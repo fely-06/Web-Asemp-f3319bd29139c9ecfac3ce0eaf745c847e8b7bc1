@@ -1,0 +1,22 @@
+<h2>{{ id ? 'Editar rol' : 'Nuevo rol' }}</h2>
+
+<form (ngSubmit)="guardar()">
+  <div>
+    <label>Nombre</label>
+    <input type="text" [(ngModel)]="modelo.nombre" name="nombre" />
+  </div>
+
+  <div>
+    <label>Descripción</label>
+    <input type="text" [(ngModel)]="modelo.descripcion" name="descripcion" />
+  </div>
+
+  <div>
+    <label>
+      <input type="checkbox" [(ngModel)]="modelo.estatus" name="estatus" />
+      Activo
+    </label>
+  </div>
+
+  <button type="submit">Guardar</button>
+</form>

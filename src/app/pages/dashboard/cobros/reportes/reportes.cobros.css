@@ -1,0 +1,606 @@
+/* ========================================================= */
+/*  SISTEMA ASEMP - ESTILOS PARA REPORTES DE COBROS          */
+/* ========================================================= */
+
+/* ============================= */
+/* ENCABEZADO DE TARJETAS */
+/* ============================= */
+.custom-header {
+  background-color: var(--color-primary) !important;
+  color: white !important;
+  border-bottom: 1px solid var(--color-primary) !important;
+}
+.custom-header .header-title,
+.custom-header .header-icon {
+  color: white !important;
+  stroke: white !important;
+}
+
+/* ================================================== */
+/* BOTONES DE ACCIÓN */
+/* ================================================== */
+.custom-btn-float-azul {
+  background-color: #0d6efd !important;
+  color: #ffffff !important;
+  font-weight: 600;
+  border: none !important;
+  border-radius: 8px;
+  padding: 0.5rem 1.1rem;
+  transition: all 0.25s ease;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+}
+.custom-btn-float-azul:hover {
+  background-color: #0b5ed7 !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(13, 110, 253, 0.4);
+  color: white;
+  text-decoration: none;
+}
+
+/* Botón Excel */
+.custom-btn-excel {
+  background-color: #198754 !important;
+  color: #ffffff !important;
+  font-weight: 600;
+  border: none !important;
+  border-radius: 8px;
+  padding: 0.5rem 1.1rem;
+  transition: all 0.25s ease;
+  display: inline-flex;
+  align-items: center;
+}
+.custom-btn-excel:hover {
+  background-color: #155d32 !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(29, 111, 66, 0.4);
+}
+
+/* Botón PDF */
+.custom-btn-pdf {
+  background-color: #dc3545 !important;
+  color: #ffffff !important;
+  font-weight: 600;
+  border: none !important;
+  border-radius: 8px;
+  padding: 0.5rem 1.1rem;
+  transition: all 0.25s ease;
+  display: inline-flex;
+  align-items: center;
+}
+.custom-btn-pdf:hover {
+  background-color: #6a0000 !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(139, 0, 0, 0.4);
+}
+
+/* ============================ */
+/* FILTROS */
+/* ============================ */
+.custom-filters {
+  background-color: var(--color-navbar) !important;
+  padding-top: 1.5rem !important;
+  padding-bottom: 1.5rem !important;
+}
+
+/* =============================================== */
+/* AJUSTES VISUALES DE FILTROS */
+/* =============================================== */
+.custom-select {
+  border-radius: 30px !important;
+  padding: 0.7rem 1.2rem !important;
+  border: 1.5px solid color-mix(in srgb, var(--color-primary) 100%, transparent) !important;
+  background-color: var(--color-background) !important;
+  color: var(--color-text) !important;
+  transition: all 0.25s ease;
+  font-size: 0.95rem;
+  appearance: none;
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 0.8rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+.custom-select:hover {
+  border-color: var(--color-background);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+.custom-select:focus {
+  border-color: var(--color-primary);
+  background-color: var(--color-background)  !important;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-background) 25%, transparent);
+}
+
+/* Año tipo pastilla */
+.filtro-anio-input {
+  border-radius: 30px !important;
+  padding: 0.7rem 1.2rem !important;
+  border: 1.5px solid color-mix(in srgb, var(--color-primary) 100%, transparent) !important;
+  background-color: var(--color-background) !important;
+  color: var(--color-text) !important;
+  transition: all 0.25s ease;
+  font-size: 0.95rem;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+.filtro-anio-input:focus {
+  border-color: var(--color-primary);
+  background-color: var(--color-background)  !important;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-background) 25%, transparent);
+  outline: none;
+}
+
+/* ============================= */
+/* ORDENAMIENTO DE COLUMNAS */
+/* ============================= */
+.th-sortable {
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+  transition: background-color 0.15s ease;
+}
+
+.th-sortable:hover {
+  background-color: color-mix(in srgb, var(--color-primary) 15%, transparent) !important;
+}
+
+.th-sortable i {
+  margin-left: 6px;
+}
+
+/* Iconos de orden */
+.orden-icon {
+  font-size: 0.75rem;
+  opacity: 0.4;
+  transition: opacity 0.15s ease, transform 0.15s ease, color 0.15s ease;
+}
+
+.orden-icon.activo {
+  opacity: 1;
+  color: var(--color-primary);
+}
+
+.th-sortable:hover .orden-icon {
+  opacity: 1;
+  color: var(--color-primary);
+  transform: translateY(-1px);
+}
+
+/* ============================= */
+/* AUTOCOMPLETE MEJORADO */
+/* ============================= */
+.autocomplete-container {
+  position: relative;
+}
+
+.autocomplete-input-group {
+  border: 1.5px solid color-mix(in srgb, var(--color-primary) 100%, transparent);
+  border-radius: 30px !important;
+  overflow: hidden;
+  background: var(--color-background);
+  transition: all 0.25s ease;
+}
+
+.autocomplete-input-group:focus-within {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary) 20%, transparent);
+}
+
+.autocomplete-input-group .input-group-text {
+  background: transparent;
+  border: none;
+  color: var(--color-text);
+  padding-left: 1rem;
+}
+
+.autocomplete-input {
+  border: none !important;
+  background: transparent !important;
+  color: var(--color-text) !important;
+  padding: 0.7rem 0.5rem 0.7rem 0 !important;
+  font-size: 0.95rem;
+  flex: 1;
+}
+
+.autocomplete-input:focus {
+  outline: none;
+  box-shadow: none !important;
+}
+
+.autocomplete-clear-btn {
+  background: transparent;
+  border: none;
+  color: #6c757d;
+  padding: 0.7rem 1rem;
+  transition: color 0.2s;
+  border-left: 1px solid color-mix(in srgb, var(--color-primary) 20%, transparent);
+}
+
+.autocomplete-clear-btn:hover {
+  color: #dc3545;
+  background: transparent;
+}
+
+/* Dropdown de sugerencias */
+.autocomplete-dropdown {
+  position: absolute;
+  top: calc(100% + 5px);
+  left: 0;
+  right: 0;
+  z-index: 1050;
+  background: var(--color-background);
+  border: 1px solid color-mix(in srgb, var(--color-primary) 30%, transparent);
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  max-height: 350px;
+  overflow-y: auto;
+  animation: fadeInDown 0.2s ease;
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.dropdown-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--color-text) 10%, transparent);
+  background: color-mix(in srgb, var(--color-background) 90%, transparent);
+}
+
+.dropdown-header .btn-close-sm {
+  background: none;
+  border: none;
+  color: var(--color-text);
+  opacity: 0.6;
+  padding: 0.25rem;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.dropdown-header .btn-close-sm:hover {
+  opacity: 1;
+}
+
+.dropdown-content {
+  max-height: 250px;
+  overflow-y: auto;
+}
+
+.dropdown-item {
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+  border-bottom: 1px solid color-mix(in srgb, var(--color-text) 5%, transparent);
+}
+
+.dropdown-item:last-child {
+  border-bottom: none;
+}
+
+.dropdown-item:hover {
+  background-color: color-mix(in srgb, var(--color-primary) 8%, transparent);
+}
+
+.dropdown-item-all {
+  background-color: color-mix(in srgb, var(--color-primary) 4%, transparent);
+  font-weight: 500;
+  border-top: 2px solid color-mix(in srgb, var(--color-primary) 20%, transparent);
+}
+
+.dropdown-item-all:hover {
+  background-color: color-mix(in srgb, var(--color-primary) 15%, transparent);
+}
+
+.item-title {
+  font-weight: 500;
+  color: var(--color-text);
+  margin-bottom: 0.25rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.item-subtitle {
+  font-size: 0.85rem;
+  color: color-mix(in srgb, var(--color-text) 60%, transparent);
+  display: flex;
+  align-items: center;
+}
+
+.dropdown-footer {
+  padding: 0.75rem 1rem;
+  text-align: center;
+  border-top: 1px solid color-mix(in srgb, var(--color-text) 10%, transparent);
+  background: color-mix(in srgb, var(--color-background) 95%, transparent);
+}
+
+/* ============================= */
+/* BADGES PARA ESTADOS */
+/* ============================= */
+.badge {
+  font-size: 0.75rem;
+  padding: 0.35rem 0.65rem;
+  border-radius: 20px;
+  font-weight: 600;
+}
+
+.bg-warning {
+  background-color: #ffc107 !important;
+  color: #000 !important;
+}
+
+.bg-success {
+  background-color: #198754 !important;
+  color: #fff !important;
+}
+
+.bg-danger {
+  background-color: #dc3545 !important;
+  color: #fff !important;
+}
+
+/* ============================= */
+/* TABLA MEJORADA */
+/* ============================= */
+.custom-table-header {
+  background: color-mix(in srgb, var(--color-primary) 10%, transparent) !important;
+  color: var(--color-text) !important;
+}
+
+.custom-table-header th {
+  font-weight: 600;
+  border-bottom: 2px solid var(--color-primary) !important;
+  padding: 1rem !important;
+}
+
+.table-hover tbody tr:hover {
+  background-color: color-mix(in srgb, var(--color-primary) 5%, transparent) !important;
+}
+
+/* Contador de registros */
+.results-count {
+  margin-top: 1rem;
+}
+
+.results-count .badge {
+  padding: 0.6rem 1rem;
+  border-radius: 20px;
+  font-weight: 500;
+  font-size: 0.9rem;
+  background-color: color-mix(in srgb, var(--color-primary) 10%, transparent);
+  color: var(--color-text);
+}
+
+/* ============================= */
+/* RESPONSIVIDAD */
+/* ============================= */
+@media (max-width: 992px) {
+  .custom-card {
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 0 10px;
+  }
+
+  .custom-header {
+    flex-direction: column;
+    text-align: center;
+    gap: 1rem;
+  }
+
+  .custom-header h2 {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .custom-filters .row {
+    flex-direction: column;
+  }
+
+  .custom-filters .col-md-2,
+  .custom-filters .col-md-3 {
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 1rem;
+  }
+
+  .autocomplete-dropdown {
+    position: fixed;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%);
+    width: 90vw;
+    max-width: 400px;
+    max-height: 70vh;
+    z-index: 1060;
+  }
+  
+  .export-buttons {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .export-buttons .btn {
+    width: 100%;
+  }
+  
+  /* Responsividad para ordenamiento en móvil */
+  .th-sortable {
+    font-size: 0.85rem;
+  }
+  
+  .orden-icon {
+    font-size: 0.65rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .table-responsive {
+    border: none;
+    overflow-x: hidden;
+    padding: 0 5px;
+  }
+
+  table.table {
+    display: block;
+    width: 100%;
+    border: 0;
+  }
+
+  table.table thead {
+    display: none;
+  }
+
+  table.table tbody {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  table.table tbody tr {
+    display: block;
+    width: 100%;
+    background: var(--color-background);
+    border: 1px solid color-mix(in srgb, var(--color-primary) 20%, transparent);
+    border-left: 5px solid var(--color-primary);
+    border-radius: 12px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+    padding: 1rem 1.2rem;
+    margin: 0 auto;
+    max-width: 96%;
+  }
+
+  table.table tbody td {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.45rem 0;
+    border: none;
+    font-size: 0.92rem;
+    word-break: break-word;
+  }
+
+  table.table tbody td::before {
+    content: attr(data-label);
+    font-weight: 600;
+    color: var(--color-text);
+    flex-basis: 45%;
+    text-align: left;
+  }
+
+  .badge {
+    align-self: flex-start;
+    margin-top: 2px;
+  }
+}
+
+/* Paginación compacta */
+@media (max-width: 576px) {
+  .my-pagination {
+    font-size: 0.85rem;
+  }
+}
+
+/* ============================= */
+/* MODO OSCURO */
+/* ============================= */
+[data-theme="dark"] .custom-select,
+[data-theme="dark"] .filtro-anio-input {
+  background-color: #3a3a3a !important;
+  border-color: #666 !important;
+  color: #f8f9fa !important;
+  box-shadow: 0 2px 6px rgba(255, 255, 255, 0.05);
+}
+
+[data-theme="dark"] .custom-btn-float-azul {
+  background-color: #0b5ed7 !important;
+  color: #f8f9fa !important;
+}
+[data-theme="dark"] .custom-btn-excel {
+  background-color: #155d32 !important;
+  color: #f8f9fa !important;
+}
+[data-theme="dark"] .custom-btn-pdf {
+  background-color: #6a0000 !important;
+  color: #f8f9fa !important;
+}
+
+[data-theme="dark"] .bg-warning {
+  background-color: #ffca2c !important;
+  color: #000 !important;
+}
+
+[data-theme="dark"] .bg-success {
+  background-color: #157347 !important;
+}
+
+[data-theme="dark"] .bg-danger {
+  background-color: #bb2d3b !important;
+}
+
+/* Modo oscuro para autocomplete */
+[data-theme="dark"] .autocomplete-input-group {
+  background-color: #3a3a3a !important;
+  border-color: #666 !important;
+}
+
+[data-theme="dark"] .autocomplete-input-group:focus-within {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary) 30%, black);
+}
+
+[data-theme="dark"] .autocomplete-dropdown {
+  background-color: #2b2b2b !important;
+  border-color: #555 !important;
+}
+
+[data-theme="dark"] .dropdown-header {
+  background-color: #333 !important;
+  border-color: #444 !important;
+}
+
+[data-theme="dark"] .dropdown-item {
+  border-color: #444 !important;
+}
+
+[data-theme="dark"] .dropdown-item:hover {
+  background-color: #3a3a3a !important;
+}
+
+[data-theme="dark"] .dropdown-item-all {
+  background-color: #333 !important;
+  border-color: #555 !important;
+}
+
+[data-theme="dark"] .custom-table-header {
+  background: #333 !important;
+}
+
+[data-theme="dark"] .table-hover tbody tr:hover {
+  background-color: #3a3a3a !important;
+}
+
+[data-theme="dark"] .results-count .badge {
+  background-color: #444 !important;
+  color: #f8f9fa !important;
+}
+
+/* Modo oscuro para ordenamiento */
+[data-theme="dark"] .th-sortable:hover {
+  background-color: #3a3a3a !important;
+}
+
+[data-theme="dark"] .orden-icon.activo {
+  color: var(--color-primary);
+}

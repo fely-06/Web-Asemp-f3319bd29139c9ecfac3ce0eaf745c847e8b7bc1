@@ -1,0 +1,166 @@
+/* ===========================
+   SEGURIDAD TABS (THEME SAFE)
+   Usa: --color-primary, --color-navbar, --color-background, --color-text
+=========================== */
+
+.seguridad-container {
+  padding: 0;
+  min-height: 100vh;
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--color-background) 92%, white) 0%,
+    color-mix(in srgb, var(--color-background) 78%, white) 100%
+  );
+  color: var(--color-text);
+}
+
+/* =======================
+   HEADER
+=========================== */
+.titulo {
+  font-size: 28px;
+  font-weight: 700;
+  margin: 0;
+  padding: 2rem 2rem 0.5rem;
+  color: var(--color-text);
+  background: var(--color-navbar);
+  border-bottom: 1px solid color-mix(in srgb, var(--color-text) 12%, transparent);
+}
+
+.subtitulo {
+  font-size: 15px;
+  font-weight: 400;
+  margin: 0;
+  padding: 0 2rem 1.5rem;
+  color: color-mix(in srgb, var(--color-text) 60%, transparent);
+  background: var(--color-navbar);
+}
+
+/* =======================
+   TABS
+=========================== */
+.tabs {
+  display: flex;
+  gap: 0;
+  margin-bottom: 0;
+  padding: 0 2rem;
+  background: var(--color-navbar);
+  border-bottom: 2px solid color-mix(in srgb, var(--color-text) 12%, transparent);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+.tabs button {
+  background: transparent;
+  border: none;
+  padding: 1.2rem 1.8rem;
+  font-size: 15px;
+  cursor: pointer;
+
+  color: color-mix(in srgb, var(--color-text) 62%, transparent);
+  border-bottom: 3px solid transparent;
+
+  transition: all 0.3s ease;
+  font-weight: 500;
+
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Feather icons */
+.tabs button i {
+  stroke: currentColor;
+  color: inherit;
+}
+
+.tabs button:hover {
+  color: var(--color-primary);
+  background: color-mix(in srgb, var(--color-background) 55%, white);
+}
+
+/* ACTIVO (LIGHT) */
+.tabs button.active {
+  color: var(--color-text);
+  font-weight: 600;
+  border-bottom-color: var(--color-text);
+}
+
+/* =======================
+   CONTENIDO
+=========================== */
+.tab-content {
+  background: transparent;
+  padding: 2rem;
+  min-height: calc(100vh - 200px);
+}
+
+/* =======================
+   DARK MODE (FIX REAL)
+=========================== */
+[data-theme="dark"] .seguridad-container {
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--color-background) 90%, black) 0%,
+    color-mix(in srgb, var(--color-background) 75%, black) 100%
+  );
+}
+
+[data-theme="dark"] .tabs button {
+  color: color-mix(in srgb, var(--color-text) 65%, transparent);
+}
+
+[data-theme="dark"] .tabs button:hover {
+  background: color-mix(in srgb, var(--color-navbar) 80%, black);
+  color: var(--color-text);
+}
+
+/* ACTIVO EN DARK → COLOR TEXT (BLANCO REAL) */
+[data-theme="dark"] .tabs button.active {
+  color: var(--color-text) !important;
+  border-bottom-color: var(--color-text) !important;
+  background: color-mix(in srgb, var(--color-navbar) 85%, black);
+}
+
+[data-theme="dark"] .tabs button.active i {
+  stroke: var(--color-text);
+  color: var(--color-text);
+}
+
+/* =======================
+   RESPONSIVE
+=========================== */
+@media (max-width: 768px) {
+  .titulo {
+    padding: 1.5rem 1rem 0.5rem;
+    font-size: 24px;
+  }
+
+  .subtitulo {
+    padding: 0 1rem 1rem;
+  }
+
+  .tabs {
+    padding: 0 1rem;
+    overflow-x: auto;
+  }
+
+  .tabs button {
+    padding: 1rem 1.2rem;
+    white-space: nowrap;
+    font-size: 14px;
+  }
+
+  .tab-content {
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .tabs button {
+    padding: 0.8rem 1rem;
+  }
+
+  .tab-content {
+    padding: 0.5rem;
+  }
+}

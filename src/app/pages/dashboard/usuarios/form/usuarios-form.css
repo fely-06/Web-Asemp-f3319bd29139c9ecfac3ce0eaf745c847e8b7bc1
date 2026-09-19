@@ -1,0 +1,220 @@
+/* ============================= */
+/*  MODAL FORM USUARIOS CON COLORES DINÁMICOS */
+/* ============================= */
+
+/* Fondo general desenfocado */
+.modal {
+  background: rgba(0, 0, 0, 0.15); /* ligeramente oscuro */
+  backdrop-filter: blur(3px);       /* desenfoque suave */
+  animation: fadeIn 0.3s ease-in-out;
+  transition: background 0.3s ease;
+}
+
+/* Contenedor principal */
+.modal-content {
+  border-radius: 10px;
+  overflow: hidden;
+  animation: slideIn 0.3s ease-in-out;
+  background-color: var(--color-background) !important;
+  color: var(--color-text) !important;
+  border: 1px solid var(--color-navbar) !important;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+}
+
+/* Encabezado */
+.modal-header {
+  background-color: var(--color-primary) !important;
+  color: white !important;
+  border-bottom: 1px solid var(--color-primary) !important;
+}
+
+.modal-title i {
+  color: white !important;
+}
+
+/* Cuerpo del modal */
+.modal-body {
+  background-color: var(--color-background) !important;
+  color: var(--color-text) !important;
+}
+
+/* Campos */
+.form-control,
+.form-select {
+  border-radius: 6px;
+  border: 1px solid var(--color-primary);
+  background-color: var(--color-navbar);
+  color: var(--color-text);
+  padding: 0.65rem 0.9rem;
+  transition: all 0.2s ease-in-out;
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 0.2rem color-mix(in srgb, var(--color-primary) 25%, transparent);
+}
+
+/* Texto auxiliar */
+.text-muted {
+  color: color-mix(in srgb, var(--color-text) 65%, transparent) !important;
+}
+
+/* Pie del modal */
+.modal-footer {
+  border-top: 1px solid var(--color-navbar);
+  background-color: var(--color-background);
+}
+
+/* Botones */
+.btn {
+  border-radius: 6px;
+  font-weight: 500;
+  transition: all 0.2s ease-in-out;
+}
+
+/* Botón principal */
+.btn-primary {
+  background-color: var(--color-primary) !important;
+  border-color: var(--color-primary) !important;
+  color: white !important;
+}
+
+.btn-primary:hover {
+  background-color: color-mix(in srgb, var(--color-primary) 85%, black) !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+}
+
+/* Botón cancelar */
+.btn-outline-secondary {
+  color: var(--color-text);
+  border-color: var(--color-navbar);
+  background-color: var(--color-background);
+}
+
+.btn-outline-secondary:hover {
+  background-color: color-mix(in srgb, var(--color-text) 10%, transparent);
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideIn {
+  from { transform: translateY(-20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* ==== TAMAÑO RESPONSIVO ==== */
+
+/* Modal centrado y ancho máximo */
+.modal-dialog {
+  width: 100%;
+  max-width: 700px;
+  margin: 1rem auto;
+}
+
+/* En pantallas pequeñas */
+@media (max-width: 768px) {
+  .modal-dialog {
+    max-width: 85%;
+    margin: 1.2rem auto;
+    border-radius: 12px;
+  }
+}
+
+/* En pantallas muy pequeñas */
+@media (max-width: 480px) {
+  .modal-dialog {
+    max-width: 90%;
+    margin: 0.8rem auto;
+  }
+}
+
+/* ==== MODO OSCURO FINO ==== */
+[data-theme="dark"] .modal-content {
+  background-color: #1e1e1e !important;
+  border-color: #343a40 !important;
+  color: #f8f9fa !important;
+}
+
+[data-theme="dark"] .modal-header {
+  background-color: #343a40 !important;
+  border-bottom-color: #444 !important;
+}
+
+[data-theme="dark"] .form-control,
+[data-theme="dark"] .form-select {
+  background-color: #2b2b2b !important;
+  border-color: #444 !important;
+  color: #f8f9fa !important;
+}
+
+[data-theme="dark"] .form-control::placeholder {
+  color: #aaa !important;
+}
+
+[data-theme="dark"] .modal-footer {
+  background-color: #1e1e1e !important;
+  border-top-color: #444 !important;
+}
+
+
+
+
+
+/* ============================= */
+/* BOTONES DE MODAL USUARIOS     */
+/* ============================= */
+
+/* Crear (verde) */
+.btn-crear {
+  background-color: #198754 !important;
+  color: #ffffff !important;
+  font-weight: 600;
+  border: none !important;
+  border-radius: 6px;
+  padding: 0.45rem 1.2rem;
+  transition: all 0.2s ease;
+}
+.btn-crear:hover {
+  background-color: #157347 !important;
+  box-shadow: 0 4px 10px rgba(25, 135, 84, 0.4);
+  transform: translateY(-1px);
+}
+
+/* Actualizar (azul) */
+.btn-actualizar {
+  background-color: #0d6efd !important;
+  color: #ffffff !important;
+  font-weight: 600;
+  border: none !important;
+  border-radius: 6px;
+  padding: 0.45rem 1.2rem;
+  transition: all 0.2s ease;
+}
+.btn-actualizar:hover {
+  background-color: #0b5ed7 !important;
+  box-shadow: 0 4px 10px rgba(13, 110, 253, 0.4);
+  transform: translateY(-1px);
+}
+
+/* Cancelar (rojo) */
+.btn-cancelar {
+  background-color: #dc3545 !important;
+  color: #ffffff !important;
+  font-weight: 600;
+  border: none !important;
+  border-radius: 6px;
+  padding: 0.45rem 1.2rem;
+  transition: all 0.2s ease;
+}
+.btn-cancelar:hover {
+  background-color: #bb2d3b !important;
+  box-shadow: 0 4px 10px rgba(220, 53, 69, 0.4);
+  transform: translateY(-1px);
+}
+

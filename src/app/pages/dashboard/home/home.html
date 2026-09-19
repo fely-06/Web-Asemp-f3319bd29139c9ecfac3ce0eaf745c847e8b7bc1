@@ -1,0 +1,114 @@
+<div class="dashboard-container">
+
+  <!-- HERO -->
+  <section class="hero-banner">
+    <div class="hero-overlay"></div>
+    <img src="../../../../assets/images/Bienvenido.jpg" class="hero-image" />
+    <div class="hero-text">
+      <h1>Bienvenido a Asesoría Empresarial</h1>
+      <p>Optimiza tus procesos fiscales con el Panel ASEMP</p>
+    </div>
+  </section>
+
+  <!-- PANEL ADMIN / EMPLEADO -->
+  <div *ngIf="rol !== 'Cliente'; else panelCliente">
+
+    <div class="header">
+      <h2>Panel Fiscal ASEMP</h2>
+      <p class="subtitle">Resumen general de actividades y solicitudes SAT</p>
+    </div>
+
+    <!-- TARJETAS -->
+    <div class="cards">
+      <div class="card info">
+        <h3>{{ totalSolicitudes }}</h3><p>Solicitudes SAT</p>
+      </div>
+
+      <div class="card success">
+        <h3>{{ descargasExitosas }}</h3><p>Descargas exitosas</p>
+      </div>
+
+      <div class="card warning">
+        <h3>{{ solicitudesPendientes }}</h3><p>Pendientes</p>
+      </div>
+
+      <div class="card danger">
+        <h3>{{ erroresSat }}</h3><p>Errores SAT</p>
+      </div>
+    </div>
+
+    <div class="separator"></div>
+
+    <!-- TABLA FINAL IGUAL A SAT -->
+    <div class="recent">
+      <h4>Últimas solicitudes SAT</h4>
+
+      <table class="tabla-dashboard">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Cliente</th>
+            <th>Tipo</th>
+            <th>Estado</th>
+            <th>Fecha</th>
+          </tr>
+        </thead>
+        <tbody>
+
+          <tr *ngFor="let s of ultimasSolicitudes">
+            <td>{{ s.id }}</td>
+            <td>{{ s.cliente }}</td>
+            <td>{{ s.tipo_solicitud }}</td>
+
+            <td>
+              <span class="estado"
+                [ngClass]="{
+                  'estado-pendiente':  s.estado_solicitud === 1,
+                  'estado-proceso':   s.estado_solicitud === 2,
+                  'estado-ok':        s.estado_solicitud === 3,
+                  'estado-error':     s.estado_solicitud === 4,
+                  'estado-rechazada': s.estado_solicitud === 5,
+                  'estado-vencida':   s.estado_solicitud === 6,
+                  'estado-creada':    s.estado_solicitud === 0
+                }">
+                {{ s.estado_solicitud_texto }}
+              </span>
+            </td>
+
+            <td>{{ s.fecha_creacion | date:'short' }}</td>
+          </tr>
+
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+  <!-- PANEL CLIENTE -->
+  <ng-template #panelCliente>
+    <div class="header">
+      <h2>Bienvenido</h2>
+      <p class="subtitle">Accede a tus certificados SAT desde el menú.</p>
+    </div>
+
+    <div class="cards">
+      <div class="card info">
+        <h3>Certificados SAT</h3>
+        <p>Consulta y descarga tus archivos desde “Certificados”.</p>
+      </div>
+    </div>
+
+    
+<div class="cards">
+    <div *ngIf="tienePagosPendientes" class="alerta-pago">
+  <i class="fa-solid fa-exclamation-circle"></i>
+  Tienes pagos pendientes. Consulta tu sección de Cobros.
+</div>
+
+</div>
+
+
+    
+  </ng-template>
+
+</div>

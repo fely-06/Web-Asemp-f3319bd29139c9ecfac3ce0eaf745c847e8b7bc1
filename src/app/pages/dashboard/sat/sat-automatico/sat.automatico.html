@@ -1,0 +1,369 @@
+<!-- Reemplaza el div sat-auto-content con esto: -->
+<div class="sat-auto-content">
+  <!-- ===== FORMULARIO DE CREACIÓN ===== -->
+  <div class="sat-auto-card">
+    <div class="card-header">
+      <h3><i class="fas fa-plus-circle"></i> Crear nueva solicitud automática</h3>
+      <p class="card-subtitle">Configura los parámetros de ejecución automática</p>
+    </div>
+
+    <div class="card-body">
+      <div class="auto-form-grid">
+        <!-- Tipo -->
+        <div class="form-group-auto">
+          <label class="form-label"required-label>
+            <i class="fas fa-tasks"></i> Tipo de solicitud
+          </label>
+          <select class="form-control-auto" [(ngModel)]="tipoSolicitud" required>
+            <option value="">Seleccionar tipo...</option>
+            <option value="emitidos">CFDI Emitidos</option>
+            <option value="recibidos">CFDI Recibidos</option>
+          </select>
+        </div>
+
+        <!-- Fecha inicio -->
+        <div class="form-group-auto">
+          <label class="form-label"required-label>
+            <i class="fas fa-calendar-alt"></i> Fecha inicio
+          </label>
+          <input type="date" class="form-control-auto" [(ngModel)]="rangoInicio" required />
+        </div>
+
+        <!-- Fecha fin -->
+        <div class="form-group-auto">
+          <label class="form-label"required-label>
+            <i class="fas fa-calendar-check"></i> Fecha fin
+          </label>
+          <input type="date" class="form-control-auto" [(ngModel)]="rangoFin" required />
+        </div>
+
+        <!-- Fecha programada -->
+        <div class="form-group-auto">
+          <label class="form-label"required-label>
+            <i class="fas fa-clock"></i> Fecha y hora de ejecución
+          </label>
+          <input type="datetime-local" class="form-control-auto" [(ngModel)]="fechaProgramada" required />
+        </div>
+
+        <!-- Intervalo -->
+        <div class="form-group-auto">
+          <label class="form-label"required-label>
+            <i class="fas fa-history"></i> Intervalo (minutos)
+          </label>
+          <input type="number" class="form-control-auto" [(ngModel)]="intervalo" min="5" placeholder="30" />
+          <span class="form-hint">Mínimo 5 minutos</span>
+        </div>
+
+        <!-- Reintentos -->
+        <div class="form-group-auto">
+          <label class="form-label"required-label>
+            <i class="fas fa-redo"></i> Máximo de reintentos
+          </label>
+          <input type="number" class="form-control-auto" [(ngModel)]="maxReintentos" min="1" placeholder="3" />
+          <span class="form-hint">Intentos tras error</span>
+        </div>
+      </div>
+
+      <!-- ===== SELECCIÓN DE CLIENTES ===== -->
+      <div class="clientes-section">
+        <h4 class="section-title">
+          <i class="fas fa-users"></i> Alcance de clientes
+        </h4>
+
+        <div class="clientes-modo">
+          <label class="radio-label">
+            <input type="radio" [(ngModel)]="modoClientes" value="todos" />
+            <span class="radio-custom"></span>
+            <span class="radio-text">
+              <i class="fas fa-globe"></i>
+              Todos los clientes activos ({{ clientes.length }})
+            </span>
+          </label>
+
+          <label class="radio-label">
+            <input type="radio" [(ngModel)]="modoClientes" value="manual" />
+            <span class="radio-custom"></span>
+            <span class="radio-text">
+              <i class="fas fa-hand-pointer"></i>
+              Selección manual
+            </span>
+          </label>
+        </div>
+
+        <!-- Panel de selección manual -->
+        <div *ngIf="modoClientes === 'manual'" class="clientes-panel">
+          <div class="clientes-toolbar">
+            <div class="search-wrapper">
+              <i class="fas fa-search"></i>
+              <input
+                type="text"
+                class="search-input"
+                [(ngModel)]="filtroCliente"
+                placeholder="Buscar cliente por nombre o RFC..."
+              />
+            </div>
+
+            <div class="toolbar-actions">
+              <button class="btn-toolbar" type="button" (click)="seleccionarTodosFiltrados()">
+                <i class="fas fa-check-double"></i>
+                Seleccionar filtrados
+              </button>
+              <button class="btn-toolbar" type="button" (click)="limpiarSeleccion()">
+                <i class="fas fa-times"></i>
+                Limpiar selección
+              </button>
+            </div>
+          </div>
+
+          <div class="clientes-list-container">
+            <div class="clientes-scroll">
+              <div
+                *ngFor="let c of clientesFiltrados()"
+                class="cliente-card"
+                (click)="toggleCliente(c.id)"
+                [class.activo]="clientesSeleccionados.includes(c.id)"
+              >
+                <div class="cliente-info">
+                  <div class="cliente-nombre">{{ c.razon_social }}</div>
+                  <div class="cliente-details">
+                    <span class="cliente-rfc">{{ c.rfc }}</span>
+                    <span class="cliente-separator">•</span>
+                    <span class="cliente-email">{{ c.correo_electronico || 'Sin email' }}</span>
+                  </div>
+                </div>
+                <div class="cliente-check">
+                  <i class="fas fa-check" *ngIf="clientesSeleccionados.includes(c.id)"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="clientes-resumen">
+            <span class="badge-selected">{{ clientesSeleccionados.length }}</span>
+            clientes seleccionados
+          </div>
+        </div>
+
+        <div *ngIf="modoClientes === 'todos'" class="clientes-todos-info">
+          <div class="info-badge">
+            <i class="fas fa-info-circle"></i>
+            Se aplicará a <strong>{{ clientes.length }}</strong> clientes activos
+          </div>
+        </div>
+      </div>
+
+      <!-- Botón crear -->
+      <div class="form-actions">
+        <button 
+  class="btn-create-job" 
+  (click)="crearJob()" 
+  [disabled]="cargando"
+  [class.loading]="cargando">
+  
+  <span class="btn-content">
+    <i class="fas fa-calendar-plus" *ngIf="!cargando"></i>
+    <span class="spinner-border spinner-border-sm" *ngIf="cargando"></span>
+    {{ cargando ? 'Creando solicitud...' : 'Crear solicitud automática' }}
+  </span>
+</button>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== LISTA DE JOBS CON PAGINACIÓN ===== -->
+  <div class="sat-auto-card">
+    <div class="card-header">
+      <h3><i class="fas fa-list-alt"></i> Solicitudes automáticas creadas</h3>
+      <p class="card-subtitle">Historial de ejecuciones automáticas</p>
+    </div>
+
+    <!-- FILTROS (Nuevo) -->
+    <div class="card-body custom-filters border-bottom py-3 sat-jobs-filtros pb-4">
+      <div class="row g-3 align-items-center">
+        <div class="col-md-4">
+          <div class="input-group custom-input-group">
+            <span class="input-group-text custom-input-icon">
+              <i class="fas fa-search"></i>
+            </span>
+            <input
+              type="text"
+              class="form-control custom-input"
+              placeholder="Buscar por ID o tipo..."
+              [(ngModel)]="terminoBusquedaJobs"
+              (input)="filtrarJobs()"
+              maxlength="30">
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <select
+            class="form-select custom-select"
+            [(ngModel)]="criterioBusquedaJobs"
+            (change)="filtrarJobs()">
+            <option value="id">Por ID</option>
+            <option value="tipo">Por Tipo</option>
+            <option value="estado">Por Estado</option>
+          </select>
+        </div>
+
+        <div class="col-md-5 text-md-end">
+          <span class="custom-text-muted">
+            Mostrando <strong>{{ jobsFiltrados.length }}</strong> de <strong>{{ jobs.length }}</strong> solicitudes
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- TABLA -->
+    <div class="card-body p-0 custom-table-container tabla-card">
+      <div class="table-responsive">
+       <table class="table table-striped jobs-table" [ngClass]="{'table-dark': temaActual === 'dark'}">
+
+
+
+          <thead class="custom-table-header">
+            <tr>
+              <th class="th-sortable ps-4" (click)="ordenarJobsPor('id')">
+                ID <i [ngClass]="getIconoOrdenJobs('id')"></i>
+              </th>
+              <th class="th-sortable" (click)="ordenarJobsPor('tipoSolicitud')">
+                Tipo <i [ngClass]="getIconoOrdenJobs('tipoSolicitud')"></i>
+              </th>
+              <th class="th-sortable" (click)="ordenarJobsPor('fechaProgramada')">
+                Fecha programada <i [ngClass]="getIconoOrdenJobs('fechaProgramada')"></i>
+              </th>
+              <th class="th-sortable" (click)="ordenarJobsPor('estado')">
+                Estado <i [ngClass]="getIconoOrdenJobs('estado')"></i>
+              </th>
+              <th>Clientes</th>
+              <th class="text-center pe-4">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let j of jobsFiltrados | paginate: { itemsPerPage: itemsPorPagina, currentPage: pageJobs }"
+                [class]="getEstadoRowClass(j.estado)">
+              <td class="job-id ps-4">#{{ j.id }}</td>
+              <td>
+                <span class="badge-tipo" [class]="j.tipoSolicitud">
+                  {{ j.tipoSolicitud === 'emitidos' ? 'Emitidos' : 'Recibidos' }}
+                </span>
+              </td>
+              <td>
+                <div class="fecha-programada">{{ j.fechaProgramada | date:'short' }}</div>
+                <small class="text-muted">{{ j.fechaProgramada | date:'dd/MM/yyyy' }}</small>
+              </td>
+              <td>
+                <span class="estado-badge" [class]="j.estado">
+                  {{ getEstadoTexto(j.estado) }}
+                </span>
+              </td>
+              <td>
+                <span class="badge-clientes">
+                  <i class="fas fa-user-friends"></i>
+                  {{ j.clientesIds?.length || j.clientes?.length || 0 }}
+                </span>
+              </td>
+              <td class="text-center pe-4">
+                <div class="d-flex justify-content-center gap-2">
+                  <button class="btn-action logs-btn" (click)="abrirLogs(j.id)" title="Ver logs">
+                    <i class="fas fa-file-alt"></i>
+                    Logs
+                  </button>
+                  <!-- Botón eliminar para cualquier estado excepto ejecutando -->
+    <button *ngIf="j.estado !== 'ejecutando'" 
+            class="btn-action cancel-btn" 
+            (click)="eliminarJob(j.id, j.estado)"
+            title="Eliminar">
+      <i class="fas fa-trash"></i>
+      Eliminar
+    </button>
+                </div>
+              </td>
+            </tr>
+
+            <!-- Sin resultados -->
+            <tr *ngIf="jobsFiltrados.length === 0">
+              <td colspan="6" class="text-center py-5 text-muted">
+                <i class="fas fa-calendar-times me-2"></i>
+                No se encontraron solicitudes automáticas
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- PAGINACIÓN (Nuevo) -->
+    <!-- PAGINACIÓN (Reemplaza el card-footer actual) -->
+<div class="card-footer border-0">
+  <div class="d-flex justify-content-between align-items-center flex-wrap">
+    <div class="pagina-contador mb-2 mb-md-0">
+      Página {{ pageJobs }} de {{ totalPaginas }} • 
+      <span class="text-muted">{{ jobsFiltrados.length }} resultados</span>
+    </div>
+    
+    <div class="mb-2 mb-md-0">
+      <pagination-controls
+        (pageChange)="pageJobs = $event"
+        previousLabel="‹"
+        nextLabel="›"
+        previousTitle="Página anterior"
+        nextTitle="Página siguiente"
+        class="my-pagination">
+      </pagination-controls>
+    </div>
+    
+    <div class="mt-2 mt-md-0">
+      <select class="select-items-pagina" 
+              [(ngModel)]="itemsPorPagina" 
+              (change)="pageJobs = 1">
+        <option value="5">5 por página</option>
+        <option value="10">10 por página</option>
+        <option value="15">15 por página</option>
+        <option value="20">20 por página</option>
+        <option value="50">50 por página</option>
+      </select>
+    </div>
+  </div>
+</div>
+  </div>
+
+  <!-- ===== MODAL DE LOGS ===== -->
+  <div class="modal-backdrop" *ngIf="verLogs" (click)="cerrarLogs()"></div>
+  
+  <div class="sat-modal" *ngIf="verLogs" role="dialog" aria-modal="true">
+    <div class="modal-header">
+      <h3><i class="fas fa-file-alt"></i> Historial de logs - Job #{{ jobSeleccionadoId }}</h3>
+      <button class="btn-close" (click)="cerrarLogs()" aria-label="Cerrar">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    
+    <div class="modal-body">
+      <div class="logs-container">
+        <div *ngFor="let log of logsSeleccionados" class="log-item">
+          <div class="log-header">
+            <span class="log-accion">{{ log.accion }}</span>
+            <span class="log-fecha">{{ log.fecha | date:'dd/MM/yyyy HH:mm:ss' }}</span>
+          </div>
+          <div class="log-detalle">{{ log.detalle }}</div>
+        </div>
+        
+        <div *ngIf="logsSeleccionados.length === 0" class="empty-logs">
+          <i class="fas fa-info-circle"></i>
+          No hay registros de logs para esta solicitud
+        </div>
+      </div>
+    </div>
+    
+    <div class="modal-footer">
+      <button class="btn-close-modal" (click)="cerrarLogs()">
+        <i class="fas fa-times"></i>
+        Cerrar
+      </button>
+    </div>
+  </div>
+
+</div>
+

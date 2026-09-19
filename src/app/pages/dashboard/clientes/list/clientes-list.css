@@ -1,0 +1,709 @@
+/* ========================================================= */
+/*  SISTEMA ASEMP - ESTILOS GLOBALES (MODALES + LISTAS)      */
+/* ========================================================= */
+
+
+/* ============================= */
+/*  MODAL FORM (USUARIOS / CLIENTES) */
+/* ============================= */
+
+/* Fondo general desenfocado */
+.modal {
+  background: rgba(0, 0, 0, 0.15); /* Fondo oscuro translúcido */
+  backdrop-filter: blur(3px);       /* Desenfoque elegante */
+  animation: fadeIn 0.3s ease-in-out;
+  transition: background 0.3s ease;
+}
+
+/* Contenedor principal del modal */
+.modal-content {
+  border-radius: 10px;
+  overflow: hidden;
+  animation: slideIn 0.3s ease-in-out;
+  background-color: var(--color-background) !important;
+  color: var(--color-text) !important;
+  border: 1px solid var(--color-navbar) !important;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+}
+
+/* Encabezado del modal */
+.modal-header {
+  background-color: var(--color-primary) !important;
+  color: white !important;
+  border-bottom: 1px solid var(--color-primary) !important;
+}
+.modal-title i {
+  color: white !important;
+}
+
+/* Cuerpo del modal */
+.modal-body {
+  background-color: var(--color-background) !important;
+  color: var(--color-text) !important;
+}
+
+/* Campos de entrada */
+.form-control,
+.form-select {
+  border-radius: 6px;
+  border: 1px solid var(--color-primary);
+  background-color: var(--color-background);
+  color: var(--color-text);
+  padding: 0.65rem 0.9rem;
+  transition: all 0.2s ease-in-out;
+}
+.form-control:focus,
+.form-select:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 0.2rem color-mix(in srgb, var(--color-primary) 25%, transparent);
+}
+
+/* Texto auxiliar */
+.text-muted {
+  color: color-mix(in srgb, var(--color-text) 65%, transparent) !important;
+}
+
+/* Pie del modal */
+.modal-footer {
+  border-top: 1px solid var(--color-navbar);
+  background-color: var(--color-background);
+}
+
+/* Botones base */
+.btn {
+  border-radius: 6px;
+  font-weight: 500;
+  transition: all 0.2s ease-in-out;
+}
+
+/* Botón primario */
+.btn-primary {
+  background-color: var(--color-primary) !important;
+  border-color: var(--color-primary) !important;
+  color: white !important;
+}
+.btn-primary:hover {
+  background-color: color-mix(in srgb, var(--color-primary) 85%, black) !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+}
+
+/* Botón cancelar */
+.btn-outline-secondary {
+  color: var(--color-text);
+  border-color: var(--color-navbar);
+  background-color: var(--color-background);
+}
+.btn-outline-secondary:hover {
+  background-color: color-mix(in srgb, var(--color-text) 10%, transparent);
+}
+
+
+/* ============================= */
+/* ENCABEZADO DE TARJETAS (CUSTOM-HEADER) */
+/* ============================= */
+.custom-header {
+  background-color: var(--color-primary) !important;
+  color: white !important;
+  border-bottom: 1px solid var(--color-primary) !important;
+}
+.custom-header .header-title,
+.custom-header .header-icon {
+  color: white !important;
+  stroke: white !important;
+}
+
+
+/* ============================= */
+/* ANIMACIONES DEL MODAL */
+/* ============================= */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes slideIn {
+  from { transform: translateY(-20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+
+/* ============================= */
+/* RESPONSIVIDAD DEL MODAL */
+/* ============================= */
+
+/* Modal centrado */
+.modal-dialog {
+  width: 100%;
+  max-width: 700px;
+  margin: 1rem auto;
+}
+
+/* Tablets */
+@media (max-width: 768px) {
+  .modal-dialog {
+    max-width: 90%;
+    margin: 1.2rem auto;
+  }
+  .modal-footer {
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+  .modal-footer .btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* Móviles */
+@media (max-width: 480px) {
+  .modal-dialog {
+    max-width: 95%;
+    margin: 0.8rem auto;
+  }
+}
+
+
+/* ============================= */
+/* MODO OSCURO DEL MODAL */
+/* ============================= */
+[data-theme="dark"] .modal-content {
+  background-color: #1e1e1e !important;
+  border-color: #343a40 !important;
+  color: #f8f9fa !important;
+}
+[data-theme="dark"] .modal-header {
+  background-color: #343a40 !important;
+  border-bottom-color: #444 !important;
+}
+[data-theme="dark"] .form-control,
+[data-theme="dark"] .form-select {
+  background-color: #2b2b2b !important;
+  border-color: #444 !important;
+  color: #f8f9fa !important;
+}
+[data-theme="dark"] .form-control::placeholder {
+  color: #aaa !important;
+}
+[data-theme="dark"] .modal-footer {
+  background-color: #1e1e1e !important;
+  border-top-color: #444 !important;
+}
+
+
+/* ================================================== */
+/* BOTONES DE ACCIÓN GLOBALES (AZUL, VERDE, ROJO)     */
+/* ================================================== */
+
+/* Botón azul - acciones principales */
+.btn-azul,
+.custom-btn-float-azul {
+  background-color: #0d6efd !important;
+  color: #ffffff !important;
+  font-weight: 600;
+  border: none !important;
+  border-radius: 8px;
+  padding: 0.5rem 1.1rem;
+  transition: all 0.25s ease;
+}
+.btn-azul:hover,
+.custom-btn-float-azul:hover {
+  background-color: #0b5ed7 !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(13, 110, 253, 0.4);
+}
+
+/* Botón verde - confirmación o guardado */
+.btn-verde,
+.custom-btn-float-verde {
+  background-color: #198754 !important;
+  color: #ffffff !important;
+  font-weight: 600;
+  border: none !important;
+  border-radius: 8px;
+  padding: 0.5rem 1.1rem;
+  transition: all 0.25s ease;
+}
+.btn-verde:hover,
+.custom-btn-float-verde:hover {
+  background-color: #157347 !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(25, 135, 84, 0.4);
+}
+
+/* Botón rojo - eliminar o cancelar */
+.btn-rojo,
+.custom-btn-float-rojo {
+  background-color: #dc3545 !important;
+  color: #ffffff !important;
+  font-weight: 600;
+  border: none !important;
+  border-radius: 8px;
+  padding: 0.5rem 1.1rem;
+  transition: all 0.25s ease;
+}
+.btn-rojo:hover,
+.custom-btn-float-rojo:hover {
+  background-color: #bb2d3b !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.4);
+}
+
+/* Botones modo oscuro */
+[data-theme="dark"] .btn-azul,
+[data-theme="dark"] .custom-btn-float-azul {
+  background-color: #0b5ed7 !important;
+  color: #f8f9fa !important;
+}
+[data-theme="dark"] .btn-verde,
+[data-theme="dark"] .custom-btn-float-verde {
+  background-color: #157347 !important;
+  color: #f8f9fa !important;
+}
+[data-theme="dark"] .btn-rojo,
+[data-theme="dark"] .custom-btn-float-rojo {
+  background-color: #bb2d3b !important;
+  color: #f8f9fa !important;
+}
+
+
+/* ================================================== */
+/* RESPONSIVIDAD LISTAS (CLIENTES / USUARIOS)         */
+/* ================================================== */
+
+/* Ajuste general del card contenedor */
+@media (max-width: 992px) {
+  .custom-card {
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 0 10px;
+  }
+
+  .custom-header {
+    flex-direction: column;
+    text-align: center;
+    gap: 1rem;
+  }
+
+  .custom-header h2 {
+    font-size: 1.1rem;
+  }
+
+  .custom-btn-float-azul {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* ============================ */
+/* FILTROS */
+/* ============================ */
+.custom-filters {
+  background-color: var(--color-navbar) !important;
+}
+
+
+/* Filtros apilados */
+@media (max-width: 768px) {
+  .custom-filters .row {
+    flex-direction: column;
+  }
+
+  .custom-filters .col-md-4,
+  .custom-filters .col-md-3,
+  .custom-filters .col-md-5 {
+    width: 100%;
+    max-width: 100%;
+    text-align: center;
+  }
+
+  .custom-filters .custom-input-group {
+    width: 100%;
+  }
+
+  .custom-text-muted {
+
+    display: block;
+    margin-top: 10px;
+  }
+}
+
+.custom-text-muted {
+  color: color-mix(in srgb, var(--color-text) 60%, transparent) !important;
+}
+
+
+
+/* Tabla tipo “cards” */
+@media (max-width: 768px) {
+  .table-responsive {
+    border: none;
+    overflow-x: hidden;
+    padding: 0 5px;
+    overflow: visible !important;
+  }
+
+  table.table {
+    display: block;
+    width: 100%;
+    border: 0;
+  }
+
+  table.table thead {
+    display: none;
+  }
+
+  table.table tbody {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  table.table tbody tr {
+    display: block;
+    width: 100%;
+    background: var(--color-background);
+    border: 1px solid color-mix(in srgb, var(--color-primary) 20%, transparent);
+    border-left: 5px solid var(--color-primary);
+    border-radius: 12px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+    padding: 1rem 1.2rem;
+    margin: 0 auto;
+    max-width: 96%;
+  }
+
+  table.table tbody td {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.45rem 0;
+    border: none;
+    font-size: 0.92rem;
+    word-break: break-word;
+  }
+
+  table.table tbody td::before {
+    content: attr(data-label);
+    font-weight: 600;
+    color: var(--color-text);
+    flex-basis: 45%;
+    text-align: left;
+  }
+
+  .dropdown {
+    text-align: center;
+  }
+
+  .btn-group {
+    display: flex;
+    justify-content: center;
+    gap: 0.4rem;
+  }
+
+  .badge {
+    font-size: 0.8rem;
+    padding: 0.3rem 0.6rem;
+  }
+}
+
+/* Paginación compacta */
+@media (max-width: 576px) {
+  .my-pagination {
+    font-size: 0.85rem;
+  }
+}
+
+
+
+/* =============================================== */
+/* AJUSTES VISUALES DE FILTROS - INPUT Y SELECT    */
+/* =============================================== */
+
+/* =============================================== */
+/* 🔹 Grupo del input de búsqueda (icono + campo)  */
+/* =============================================== */
+.custom-input-group {
+  border: 1.5px solid color-mix(in srgb, var(--color-primary) 90%, transparent); /* 🔧 color del borde */
+  border-radius: 30px !important; /* redondeado tipo "pill" */
+  overflow: hidden;
+  background-color: #f8f9fa; /* 🔧 color de fondo del grupo completo */
+  transition: all 0.25s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08); /* 🔧 sombra del contenedor */
+}
+.custom-input-group:focus-within {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary) 30%, transparent);
+}
+
+/* =============================================== */
+/* 🔹 Icono de la lupa a la izquierda              */
+/* =============================================== */
+.custom-input-icon {
+  background-color: var(--color-background) !important; /* 🔧 color de fondo del icono */
+  color: var(--color-text)  !important; /* 🔧 color del icono */
+  border: none !important;
+  padding: 0 1rem;
+}
+
+/* =============================================== */
+/* 🔹 Campo de texto de búsqueda                   */
+/* =============================================== */
+.custom-input {
+  border: none !important;
+  padding: 0.7rem 1rem !important;
+  border-top-right-radius: 30px !important;
+  border-bottom-right-radius: 30px !important;
+  font-size: 0.95rem;
+  background-color: var(--color-background) !important; /* 🔧 color de fondo del campo de texto */
+  color: var(--color-text);
+  transition: all 0.2s ease-in-out;
+}
+.custom-input:focus {
+  outline: none;
+  background-color: var(--color-background) !important; /* mantiene color al enfocarse */
+  box-shadow: none !important;
+}
+
+/* =============================================== */
+/* 🔹 SELECT (filtro de criterios de búsqueda)     */
+/* =============================================== */
+.custom-select {
+  border-radius: 30px !important;
+  padding: 0.7rem 1.2rem !important;
+  border: 1.5px solid color-mix(in srgb, var(--color-primary) 100%, transparent) !important; /* 🔧 color del borde */
+  background-color: var(--color-background) !important; /* 🔧 color de fondo del select */
+  color: var(--color-text) !important;
+  transition: all 0.25s ease;
+  font-size: 0.95rem;
+  appearance: none;
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 0.8rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08); /* 🔧 sombra sutil */
+}
+.custom-select:hover {
+  border-color: var(--color-background);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+.custom-select:focus {
+  border-color: var(--color-primary);
+  background-color: var(--color-background)  !important;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-background) 25%, transparent);
+}
+
+/* =============================================== */
+/* 🔹 MODO OSCURO                                 */
+/* =============================================== */
+[data-theme="dark"] .custom-input-group {
+  background-color: #2b2b2b !important;
+  border-color: #555 !important;
+  box-shadow: 0 2px 6px rgba(255, 255, 255, 0.06);
+}
+[data-theme="dark"] .custom-input-icon {
+  background-color: color-mix(in srgb, var(--color-primary) 90%, black);
+}
+[data-theme="dark"] .custom-input {
+  background-color: #3a3a3a !important;
+  color: #f8f9fa !important;
+}
+[data-theme="dark"] .custom-select {
+  background-color: #3a3a3a !important;
+  border-color: #666 !important;
+  color: #f8f9fa !important;
+  box-shadow: 0 2px 6px rgba(255, 255, 255, 0.05);
+}
+
+
+
+
+/* ============================= */
+/* Color a los Roles en el formulario */
+
+
+
+
+
+
+/* ============================= */
+/* BOTÓN ⋮ */
+/* ============================= */
+.menu-trigger {
+  background: #f1f3f4;
+  border: none;
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: .2s ease;
+}
+
+.menu-trigger:hover {
+  background: #e0e0e0;
+}
+
+.menu-trigger.abierto {
+  background: #d0d0d0 !important;
+  transform: scale(1.05);
+  
+}
+
+
+/* ============================= */
+/* MENÚ FLOTANTE (FIJO COMO SAT) */
+/* ============================= */
+.menu-flotante {
+  position: absolute !important;
+  z-index: 999999;
+  background: white;
+  padding: 10px;
+  width: 170px;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  animation: fadeIn .15s ease-out;
+}
+
+/* ============================= */
+/* FLECHITA */
+/* ============================= */
+.menu-flotante::before {
+  content: "";
+  position: absolute;
+  top: -8px;
+  right: 14px;
+  width: 14px;
+  height: 14px;
+  background: white;
+  transform: rotate(45deg);
+  box-shadow: -2px -2px 4px rgba(0,0,0,0.06);
+}
+/* ============================= */
+/* BOTONES DEL MENÚ */
+/* ============================= */
+.accion-btn {
+  display: absolute;
+  align-items: center;
+  gap: 8px;
+
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+
+  font-size: 14px;
+  width: 100%;
+  text-align: left;
+  transition: .2s;
+  color: white;
+  
+}
+
+.accion-btn.editar {
+  background: #007bff;
+}
+.accion-btn.editar:hover {
+  background: #0064cf;
+}
+
+.accion-btn.eliminar {
+  background: #dc3545;
+}
+.accion-btn.eliminar:hover {
+  background: #b52a35;
+}
+
+/* Animación */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ============================= */
+/* PERMITIR QUE EL MENÚ SALGA FUERA DEL TD */
+/* ============================= */
+td {
+  position: relative;
+  overflow: visible !important;
+}
+.menu-flotante {
+  position: absolute !important;
+  
+}
+
+/* PERMITIR QUE EL MENÚ SALGA COMPLETO */
+.tabla-card {
+  position: relative !important;
+  overflow: visible !important;
+  z-index: 1;
+}
+
+.table-responsive {
+  overflow: visible !important;
+}
+
+
+.custom-card {
+  overflow: visible !important;
+}
+
+.custom-table-container {
+  overflow: visible !important;
+}
+
+.card-body {
+  overflow: visible !important;
+}
+
+
+
+/* Columnas ordenables */
+.th-sortable {
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.th-sortable span {
+  margin-right: 4px;
+}
+
+/* Iconos */
+.orden-icon {
+  font-size: 0.75rem;
+  opacity: 0.4;
+  transition: opacity 0.15s ease, transform 0.15s ease, color 0.15s ease;
+}
+
+.orden-icon.activo {
+  opacity: 1;
+  color: var(--color-primary) !important;
+}
+
+.th-sortable:hover .orden-icon {
+  opacity: 1;
+  color: var(--color-primary) !important;
+  transform: translateY(-1px);
+}
+
+.orden-icon.neutro {
+  color: inherit;
+}
+
+
+
+
+
+.btn-pagar {
+  background: #f1f3f4;
+  border: none;
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.btn-pagar:hover {
+  background: #dcdfe2;
+}

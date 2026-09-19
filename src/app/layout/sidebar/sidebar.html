@@ -1,0 +1,125 @@
+<aside class="sidebar">
+  <!-- Encabezado -->
+  <div class="sidebar-header">
+    <a class="logo-container" routerLink="/dashboard/home" aria-label="Ir a inicio">
+      <img src="assets/images/LOGO.png" alt="Mi Empresa" class="logo-img">
+    </a>
+  </div>
+
+  <!-- Navegación -->
+  <nav class="sidebar-nav">
+
+    <p class="sidebar-section">NAVEGACIÓN</p>
+
+    <!-- Inicio -->
+    <a routerLink="/dashboard/home" routerLinkActive="active">
+      <i data-feather="home"></i>
+      <span>Inicio</span>
+    </a>
+
+    <!-- Usuarios -->
+    <a *ngIf="sesion.tiene('usuarios.ver')"
+       routerLink="/dashboard/usuarios"
+       routerLinkActive="active">
+      <i data-feather="user"></i>
+      <span>Usuarios</span>
+    </a>
+
+    <!-- Clientes -->
+    <a *ngIf="sesion.tiene('clientes.ver')"
+       routerLink="/dashboard/clientes"
+       routerLinkActive="active">
+      <i data-feather="users"></i>
+      <span>Clientes</span>
+    </a>
+
+    <!-- Departamentos -->
+    <a *ngIf="sesion.tiene('departamentos.ver')"
+       routerLink="/dashboard/departamentos"
+       routerLinkActive="active">
+      <i data-feather="layers"></i>
+      <span>Departamentos</span>
+    </a>
+
+
+
+    <!-- NUEVA PÁGINA DE SEGURIDAD (TABS) -->
+    <a *ngIf="sesion.tiene('roles.ver') ||
+              sesion.tiene('acciones.ver') ||
+              sesion.tiene('roles.permisos')"
+       routerLink="/dashboard/seguridad"
+       routerLinkActive="active">
+      <i data-feather="shield"></i>
+      <span>Seguridad</span>
+    </a>
+
+
+    <a *ngIf="sesion.tiene('certificados.ver')"
+   routerLink="/dashboard/certificados"
+   routerLinkActive="active">
+   <i data-feather="key"></i>
+   <span>Certificados</span>
+</a>
+
+
+
+    <!-- ======================================== -->
+    <!-- ADMINISTRACIÓN -->
+    <!-- ======================================== -->
+    <p class="sidebar-section"
+       *ngIf="sesion.tiene('sat.ver') || sesion.tiene('dashboard.ver')">
+      ADMINISTRACIÓN
+    </p>
+
+    <!-- SAT -->
+    <a *ngIf="sesion.tiene('sat.ver')"
+       routerLink="/dashboard/sat"
+       routerLinkActive="active">
+      <i data-feather="file-text"></i>
+      <span>SAT</span>
+    </a>
+    
+    <!-- Impuestos -->
+<a *ngIf="sesion.tiene('impuestos.ver')"
+   routerLink="/dashboard/impuestos/iva"
+   routerLinkActive="active">
+   <i data-feather="bar-chart"></i>
+   <span>Impuestos (IVA)</span>
+</a>
+
+
+
+    <!-- Cobros -->
+<!-- Cobros -->
+<a *ngIf="sesion.tiene('ccobros.ver')"
+   routerLink="/dashboard/cobros"
+   routerLinkActive="active"
+   [routerLinkActiveOptions]="{ exact: true }">
+   <i data-feather="dollar-sign"></i>
+   <span>Cobros</span>
+</a>
+
+<!-- Reportes de Cobros -->
+<a *ngIf="sesion.tiene('ccobros.ver') && rol !== 'Cliente'"
+   routerLink="/dashboard/cobros/reportes"
+   routerLinkActive="active"
+   [routerLinkActiveOptions]="{ exact: true }">
+   <i data-feather="bar-chart-2"></i>
+   <span>Reportes de Cobros</span>
+</a>
+
+
+    <p class="sidebar-section" *ngIf="rol === 'Administrador'">
+      SISTEMA
+    </p>
+
+    <!-- Configuración -->
+    <a *ngIf="rol === 'Administrador'"
+       routerLink="/dashboard/configuracion"
+       routerLinkActive="active">
+       <i data-feather="settings"></i>
+       <span>Configuración</span>
+    </a>
+
+  </nav>
+</aside>

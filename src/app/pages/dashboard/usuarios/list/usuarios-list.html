@@ -1,0 +1,215 @@
+<!-- Lista de usuarios -->
+<div class="container-fluid mt-4">
+
+  <!-- 🔥 Contenedor que fija la posición del menú (igual que en SAT) -->
+  <div class="tabla-card">
+
+    <div class="card shadow-lg border-0 rounded-3 overflow-hidden custom-card">
+      <!-- Header -->
+      <div class="card-header custom-header py-3 px-4">
+        <div class="d-flex justify-content-between align-items-center">
+          <div class="d-flex align-items-center">
+            <i data-feather="users" class="me-2 header-icon"></i>
+            <h2 class="h4 mb-0 fw-bold header-title">Gestión de Usuarios</h2>
+          </div>
+
+          <!-- Botón "Nuevo usuario" -->
+          <button class="btn custom-btn-float-azul d-flex align-items-center shadow"
+        *permiso="'usuarios.crear'"
+        (click)="abrirModalNuevo()">
+  <i data-feather="user-plus" class="me-2"></i>
+  <span>Nuevo usuario</span>
+</button>
+
+        </div>
+      </div>
+
+      <!-- Filtros -->
+      <div class="card-body custom-filters border-bottom pb-5">
+        <div class="row g-3 align-items-center">
+          <div class="col-md-4">
+            <div class="input-group custom-input-group">
+              <span class="input-group-text custom-input-icon">
+                <i data-feather="search" class="search-icon"></i>
+              </span>
+              <input 
+                type="text"
+                class="form-control custom-input"
+                placeholder="Buscar..."
+                [(ngModel)]="terminoBusqueda"
+                (input)="filtrarUsuarios()"
+                maxlength="40">
+            </div>
+          </div>
+
+          <div class="col-md-3">
+            <select class="form-select custom-select" [(ngModel)]="criterioBusqueda" (change)="filtrarUsuarios()">
+              <option value="nombres">Por Nombres</option>
+              <option value="apellidos">Por Apellidos</option>
+              <option value="usuario">Por Usuario</option>
+              <option value="correo">Por Correo</option>
+              <option value="departamento">Por Departamento</option>
+              <option value="rol">Por Rol</option>
+            </select>
+          </div>
+
+          <div class="col-md-5 text-md-end">
+            <span class="custom-text-muted">
+              Mostrando <strong>{{usuariosFiltrados.length}}</strong> de <strong>{{usuarios.length}}</strong> usuarios
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tabla -->
+      <div class="card-body p-0 custom-table-container">
+        <div class="table-responsive">
+          <table class="table table-striped" [ngClass]="{'table-dark': temaActual === 'dark'}">
+            <thead class="custom-table-header">
+  <tr>
+
+    <th class="th-sortable ps-4" (click)="ordenarPor('id')">
+      ID <i [ngClass]="getIconoOrden('id')"></i>
+    </th>
+
+    <th class="th-sortable" (click)="ordenarPor('nombres')">
+      Nombres <i [ngClass]="getIconoOrden('nombres')"></i>
+    </th>
+
+    <th class="th-sortable" (click)="ordenarPor('apellido_paterno')">
+      Apellido Paterno <i [ngClass]="getIconoOrden('apellido_paterno')"></i>
+    </th>
+
+    <th class="th-sortable" (click)="ordenarPor('apellido_materno')">
+      Apellido Materno <i [ngClass]="getIconoOrden('apellido_materno')"></i>
+    </th>
+
+    <th class="th-sortable" (click)="ordenarPor('usuario')">
+      Usuario <i [ngClass]="getIconoOrden('usuario')"></i>
+    </th>
+
+    <th class="th-sortable" (click)="ordenarPor('correo')">
+      Correo <i [ngClass]="getIconoOrden('correo')"></i>
+    </th>
+
+    <th class="th-sortable" (click)="ordenarPor('rol_nombre')">
+      Rol <i [ngClass]="getIconoOrden('rol_nombre')"></i>
+    </th>
+
+    <th class="th-sortable" (click)="ordenarPor('departamento_nombre')">
+      Departamento <i [ngClass]="getIconoOrden('departamento_nombre')"></i>
+    </th>
+
+    <th class="th-sortable" (click)="ordenarPor('estatus')">
+      Estatus <i [ngClass]="getIconoOrden('estatus')"></i>
+    </th>
+
+    <th class="text-center pe-4">
+      Acciones
+    </th>
+
+  </tr>
+</thead>
+
+
+            <tbody>
+              <tr *ngFor="let u of usuariosFiltrados | paginate: { itemsPerPage: 8, currentPage: page }">
+                <td data-label="ID" class="fw-bold ps-4">#{{u.id}}</td>
+                <td data-label="Nombres">{{u.nombres}}</td>
+                <td data-label="Apellido Paterno">{{u.apellido_paterno}}</td>
+                <td data-label="Apellido Materno">{{u.apellido_materno}}</td>
+                <td data-label="Usuario">
+                  <span class="badge custom-badge-user">{{u.usuario}}</span>
+                </td>
+                <td data-label="Correo">
+                  <a [href]="'mailto:'+u.correo" class="text-decoration-none custom-email">{{u.correo}}</a>
+                </td>
+                <td data-label="Rol">
+                  <span
+                    class="badge custom-badge-rol"
+                    [ngClass]="{
+                      'rol-cliente': u.rol?.nombre === 'Cliente',
+                      'rol-administrador': u.rol?.nombre === 'Administrador',
+                      'rol-empleado': u.rol?.nombre === 'Empleado'
+                    }"
+                  >
+                    {{ u.rol?.nombre || '-' }}
+                  </span>
+                </td>
+
+                <td data-label="Departamento">
+                  <span class="badge custom-badge-department">{{u.departamento?.nombre || '-'}}</span>
+                </td>
+
+                <td data-label="Estatus">
+                  <span class="badge custom-badge-status" [ngClass]="u.estatus ? 'status-active' : 'status-inactive'">
+                    {{u.estatus ? 'Activo' : 'Inactivo'}}
+                  </span>
+                </td>
+
+                <!-- Acciones -->
+                <td class="text-center pe-4">
+                  <button 
+                    class="menu-trigger"
+                    (click)="abrirMenu($event, u)"
+                    [class.abierto]="menu.visible && menu.usuario?.id === u.id">
+                    <i class="fas fa-ellipsis-v"></i>
+                  </button>
+                </td>
+              </tr>
+
+              <!-- Mensaje sin datos -->
+              <tr *ngIf="usuariosFiltrados.length === 0">
+                <td colspan="10" class="text-center py-5 text-muted">
+                  <i data-feather="slash" class="me-2"></i>No se encontraron usuarios
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Paginación -->
+      <div class="card-footer border-0">
+        <div class="d-flex justify-content-center">
+          <pagination-controls 
+            (pageChange)="page=$event"
+            previousLabel="Anterior"
+            nextLabel="Siguiente"
+            class="my-pagination">
+          </pagination-controls>
+        </div>
+      </div>
+    </div>
+
+    <!-- MENÚ FLOTANTE (posición absoluta respecto a tabla-card) -->
+    <div 
+      class="menu-flotante"
+      *ngIf="menu.visible"
+      [ngStyle]="{ top: menu.y + 'px', left: menu.x + 'px' }">
+
+      <button class="accion-btn editar"
+        *permiso="'usuarios.editar'"
+        (click)="editarDesdeMenu()">
+  <i class="fas fa-pen"></i> Editar
+</button>
+
+<button class="accion-btn eliminar"
+        *permiso="'usuarios.eliminar'"
+        (click)="eliminarDesdeMenu()">
+  <i class="fas fa-trash"></i> Eliminar
+</button>
+
+    </div>
+
+  </div><!-- tabla-card -->
+</div>
+
+<!-- MODAL FORM -->
+<app-usuarios-form
+  *ngIf="mostrarModal"
+  [show]="mostrarModal"
+  [id]="editingId"
+  (saved)="onSaved()"
+  (closed)="cerrarModal()">
+</app-usuarios-form>

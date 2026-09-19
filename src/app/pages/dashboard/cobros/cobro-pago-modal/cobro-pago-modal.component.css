@@ -1,0 +1,586 @@
+/* ============================= */
+/* MODAL DE PAGO - CORREGIDO     */
+/* ============================= */
+
+/* Backdrop con z-index alto para sobreponerse al sidebar/navbar */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(3px);
+  z-index: 10000;
+  animation: fadeIn 0.3s ease;
+}
+
+/* Contenedor principal del modal - CORREGIDO */
+.modal-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 480px;
+  max-width: 95vw; /* ← Aumentado de 90vw a 95vw */
+  max-height: 95vh; /* ← Aumentado de 90vh a 95vh */
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  border-radius: 20px;
+  box-shadow: 
+    0 20px 60px rgba(0, 0, 0, 0.25),
+    0 0 0 1px rgba(255, 255, 255, 0.1);
+  z-index: 10001;
+  animation: modalSlideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  
+  /* ← NUEVO: Flexbox para mejor manejo del contenido */
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header Elegante - CORREGIDO */
+.modal-header {
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary) 100%);
+  color: white;
+  padding: 1.75rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0; /* ← IMPORTANTE: Evita que el header se encoja */
+}
+
+.modal-header::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 120px;
+  height: 120px;
+  background: radial-gradient(circle at top right, rgba(255,255,255,0.1) 0%, transparent 70%);
+  border-radius: 0 0 0 100%;
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex: 1;
+}
+
+.header-icon {
+  width: 50px;
+  height: 50px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  backdrop-filter: blur(10px);
+}
+
+.header-text h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.header-subtitle {
+  margin: 0.25rem 0 0 0;
+  opacity: 0.9;
+  font-size: 0.9rem;
+  font-weight: 400;
+}
+
+.close-btn {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  flex-shrink: 0;
+}
+
+.close-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: rotate(90deg);
+}
+
+/* Cuerpo del Modal - CORREGIDO */
+.modal-body {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  overflow-y: auto; /* ← Solo el body hace scroll */
+  flex: 1; /* ← IMPORTANTE: Ocupa el espacio disponible */
+  min-height: 0; /* ← IMPORTANTE: Permite que flex: 1 funcione correctamente */
+  max-height: none; /* ← QUITAR max-height anterior */
+}
+
+/* Sección de Información - CORREGIDO */
+.info-section {
+  background: white;
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  flex-shrink: 0; /* ← Evita que se encoja */
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0 0 1.25rem 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #2d3748;
+}
+
+.section-title i {
+  color: #0061a8;
+}
+
+.info-grid {
+  display: grid;
+}
+
+.info-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease;
+}
+
+.info-item:last-child {
+  border-bottom: none;
+}
+
+.info-item:hover {
+  background: rgba(0, 97, 168, 0.02);
+  border-radius: 8px;
+  margin: 0 -0.5rem;
+  padding: 0.75rem 0.5rem;
+}
+
+.info-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 500;
+  color: #4a5568;
+  font-size: 0.95rem;
+}
+
+.info-label i {
+  color: #0061a8;
+  width: 16px;
+  text-align: center;
+}
+
+.info-value {
+  font-weight: 600;
+  color: #2d3748;
+  font-size: 0.95rem;
+}
+
+/* Sección Total - CORREGIDO */
+.total-section {
+  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+  border: 2px solid #0061a8;
+  border-radius: 16px;
+  padding: 1.5rem;
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0; /* ← IMPORTANTE: Evita que se encoja */
+}
+
+.total-section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 80px;
+  height: 80px;
+  background: radial-gradient(circle at top right, rgba(0, 97, 168, 0.1) 0%, transparent 70%);
+}
+
+.total-content {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  position: relative;
+  z-index: 2;
+}
+
+.total-icon {
+  width: 50px;
+  height: 50px;
+  background: #0061a8;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.3rem;
+}
+
+.total-text {
+  flex: 1;
+}
+
+.total-label {
+  font-size: 0.9rem;
+  color: #4a5568;
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+}
+
+.total-amount {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #0061a8;
+  line-height: 1;
+}
+
+/* Sección de Alerta - CORREGIDO */
+.alert-section {
+  background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+  border: 1px solid #bbf7d0;
+  border-radius: 16px;
+  padding: 1.25rem;
+  flex-shrink: 0; /* ← IMPORTANTE: Evita que se encoja */
+}
+
+.alert-content {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.alert-icon {
+  width: 40px;
+  height: 40px;
+  background: #16a34a;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+.alert-text {
+  flex: 1;
+}
+
+.alert-text strong {
+  display: block;
+  color: #15803d;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.alert-text p {
+  margin: 0;
+  color: #166534;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+/* Sección de Botones - CORREGIDO */
+.actions-section {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.5rem;
+  flex-shrink: 0; /* ← IMPORTANTE: Evita que se encoja */
+}
+
+.btn-cancel, .btn-confirm {
+  flex: 1;
+  padding: 1rem 1.5rem;
+  border: none;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 52px;
+}
+
+.btn-cancel {
+  background: #f8fafc;
+  color: #64748b;
+  border: 1px solid #e2e8f0;
+}
+
+.btn-cancel:hover {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.btn-confirm {
+  background: linear-gradient(135deg, #0061a8 0%, #004f86 100%);
+  color: white;
+  box-shadow: 0 4px 15px rgba(0, 97, 168, 0.3);
+}
+
+.btn-confirm:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 97, 168, 0.4);
+}
+
+.btn-confirm:active {
+  transform: translateY(0);
+}
+
+/* ============================= */
+/* ANIMACIONES                   */
+/* ============================= */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -48%) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+/* ============================= */
+/* RESPONSIVE MEJORADO           */
+/* ============================= */
+@media (max-width: 768px) {
+  .modal-container {
+    width: 95vw;
+    max-width: 95vw; /* ← Aseguramos que use todo el ancho disponible */
+    max-height: 97vh; /* ← Más altura en móviles */
+    margin: 0.5rem;
+  }
+  
+  .modal-header {
+    padding: 1.5rem;
+  }
+  
+  .modal-body {
+    padding: 1.5rem;
+    max-height: none; /* ← Quitamos max-height fijo */
+  }
+  
+  .actions-section {
+    flex-direction: column-reverse;
+  }
+  
+  .header-content {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+  
+  .header-text h2 {
+    font-size: 1.3rem;
+  }
+  
+  .header-icon {
+    width: 45px;
+    height: 45px;
+    font-size: 1.2rem;
+  }
+  
+  .total-content {
+    flex-direction: column;
+    text-align: center;
+    gap: 0.75rem;
+  }
+  
+  .total-icon {
+    width: 45px;
+    height: 45px;
+    font-size: 1.2rem;
+  }
+  
+  .total-amount {
+    font-size: 1.3rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .modal-container {
+    width: 98vw;
+    max-width: 98vw;
+    max-height: 98vh; /* ← Máxima altura en pantallas muy pequeñas */
+    margin: 0.25rem;
+    border-radius: 16px; /* ← Bordes ligeramente más pequeños */
+  }
+  
+  .modal-header {
+    padding: 1.25rem;
+  }
+  
+  .modal-body {
+    padding: 1.25rem;
+    gap: 1rem; /* ← Menos espacio entre elementos */
+  }
+  
+  .info-section,
+  .total-section,
+  .alert-section {
+    padding: 1.25rem;
+  }
+  
+  .btn-cancel,
+  .btn-confirm {
+    padding: 0.875rem 1.25rem;
+    font-size: 0.9rem;
+    min-height: 48px; /* ← Botones ligeramente más pequeños */
+  }
+  
+  /* ← NUEVO: Ajustes para pantallas muy pequeñas */
+  @media (max-height: 600px) {
+    .modal-container {
+      max-height: 99vh;
+    }
+    
+    .modal-body {
+      padding: 1rem;
+      gap: 0.75rem;
+    }
+    
+    .info-section,
+    .total-section,
+    .alert-section {
+      padding: 1rem;
+    }
+    
+    .section-title {
+      margin-bottom: 1rem;
+    }
+  }
+}
+
+/* ============================= */
+/* SCROLLBAR PERSONALIZADO       */
+/* ============================= */
+.modal-body::-webkit-scrollbar {
+  width: 6px;
+}
+
+.modal-body::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 3px;
+}
+
+.modal-body::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+
+.modal-body::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* ============================= */
+/* ESTILOS PARA MODO OSCURO      */
+/* ============================= */
+[data-theme="dark"] .modal-container {
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .info-section {
+  background: #334155;
+  border-color: rgba(255, 255, 255, 0.1);
+  color: #e2e8f0;
+}
+
+[data-theme="dark"] .section-title {
+  color: #e2e8f0;
+}
+
+[data-theme="dark"] .info-label {
+  color: #cbd5e1;
+}
+
+[data-theme="dark"] .info-value {
+  color: #f1f5f9;
+}
+
+[data-theme="dark"] .total-section {
+  background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
+  border-color: #3b82f6;
+}
+
+[data-theme="dark"] .total-amount {
+  color: #dbeafe;
+}
+
+[data-theme="dark"] .alert-section {
+  background: linear-gradient(135deg, #065f46 0%, #047857 100%);
+  border-color: #10b981;
+}
+
+[data-theme="dark"] .alert-text strong {
+  color: #a7f3d0;
+}
+
+[data-theme="dark"] .alert-text p {
+  color: #d1fae5;
+}
+
+[data-theme="dark"] .btn-cancel {
+  background: #374151;
+  color: #d1d5db;
+  border-color: #4b5563;
+}
+
+[data-theme="dark"] .btn-cancel:hover {
+  background: #4b5563;
+  border-color: #6b7280;
+}
+
+/* ============================= */
+/* ESTILOS DE ACCESIBILIDAD      */
+/* ============================= */
+@media (prefers-reduced-motion: reduce) {
+  .modal-backdrop,
+  .modal-container,
+  .close-btn,
+  .btn-cancel,
+  .btn-confirm,
+  .info-item {
+    animation: none;
+    transition: none;
+  }
+}
+
+/* Focus styles para accesibilidad */
+.close-btn:focus,
+.btn-cancel:focus,
+.btn-confirm:focus {
+  outline: 2px solid #0061a8;
+  outline-offset: 2px;
+}

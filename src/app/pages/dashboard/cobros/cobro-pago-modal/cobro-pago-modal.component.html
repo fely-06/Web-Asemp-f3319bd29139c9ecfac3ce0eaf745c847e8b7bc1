@@ -1,0 +1,106 @@
+<div class="modal-backdrop" (click)="cerrar()">
+  <div class="modal-container" (click)="$event.stopPropagation()">
+
+    <!-- Header Elegante -->
+    <div class="modal-header">
+      <div class="header-content">
+        <div class="header-icon">
+          <i class="fas fa-receipt"></i>
+        </div>
+        <div class="header-text">
+          <h2>Registrar Pago</h2>
+          <p class="header-subtitle">Confirmar y generar recibo del cobro</p>
+        </div>
+      </div>
+      <button class="close-btn" (click)="cerrar()">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+
+    <div class="modal-body">
+
+      <!-- Información del Cobro -->
+      <div class="info-section">
+        <h3 class="section-title">
+          <i class="fas fa-info-circle"></i>
+          Detalles del Cobro
+        </h3>
+        
+        <div class="info-grid">
+          <div class="info-item">
+            <div class="info-label">
+              <i class="fas fa-user"></i>
+              Cliente
+            </div>
+            <div class="info-value">{{ cobro?.cliente }}</div>
+          </div>
+
+          <div class="info-item">
+            <div class="info-label">
+              <i class="fas fa-calendar"></i>
+              Mes
+            </div>
+            <div class="info-value">{{ cobro?.mes }}</div>
+          </div>
+
+          <div class="info-item">
+            <div class="info-label">
+              <i class="fas fa-file-invoice-dollar"></i>
+              Subtotal
+            </div>
+            <div class="info-value">{{ cobro?.subtotal | currency:'MXN' }}</div>
+          </div>
+
+          <div class="info-item">
+            <div class="info-label">
+              <i class="fas fa-percentage"></i>
+              IVA
+            </div>
+            <div class="info-value">{{ cobro?.iva | currency:'MXN' }}</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Total Destacado -->
+      <div class="total-section">
+        <div class="total-content">
+          <div class="total-icon">
+            <i class="fas fa-hand-holding-usd"></i>
+          </div>
+          <div class="total-text">
+            <div class="total-label">Total a Pagar</div>
+            <div class="total-amount">{{ cobro?.total | currency:'MXN' }}</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Nota Informativa -->
+      <div class="alert-section">
+        <div class="alert-content">
+          <div class="alert-icon">
+            <i class="fas fa-file-pdf"></i>
+          </div>
+          <div class="alert-text">
+            <strong>Recibo automático</strong>
+            <p>Se generará automáticamente un recibo PDF del pago que se abrirá en una nueva ventana.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Botones de Acción -->
+      <div class="actions-section">
+        <button class="btn-cancel" (click)="cerrar()">
+          <i class="fas fa-times"></i>
+          Cancelar
+        </button>
+        
+        <button class="btn-confirm" (click)="pagar()">
+          <i class="fas fa-check-circle"></i>
+          Confirmar Pago y Generar Recibo
+        </button>
+      </div>
+
+    </div>
+
+  </div>
+</div>

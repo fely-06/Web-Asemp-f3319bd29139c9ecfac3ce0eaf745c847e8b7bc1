@@ -1,0 +1,248 @@
+/* === HERO BANNER === */
+.hero-banner {
+  position: relative;
+  width: 100%;
+  height: 300px;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  margin-bottom: 2rem;
+}
+
+.hero-image {
+  width: 100%;
+  height: 120%; /* ← un poco más alta */
+  object-fit: cover;
+  filter: brightness(70%);
+  transform: scale(1.1); /* ← inicia ligeramente ampliada */
+  transition: transform 0.4s ease;
+  will-change: transform;
+}
+
+
+.hero-banner:hover .hero-image {
+  transform: scale(1.1);
+  filter: brightness(80%);
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.25),
+    rgba(0, 0, 0, 0.5)
+  );
+  z-index: 1;
+}
+
+.hero-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: white;
+  z-index: 2;
+  animation: fadeIn 1.2s ease forwards;
+}
+
+.hero-text h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  text-shadow: 0 3px 6px rgba(0, 0, 0, 0.5);
+}
+
+.hero-text p {
+  font-size: 1rem;
+  opacity: 0.9;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+
+/* Efecto suave al aparecer */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -60%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+}
+
+
+.dashboard-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 1.5rem;
+  background-color: var(--color-navbar);
+  min-height: 100vh;
+}
+
+.header {
+  text-align: center;
+}
+
+.header h2 {
+  color: var(--color-primary); /* Guinda ASEMP */
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: var(--color-text);
+}
+
+.header .subtitle {
+  color: #666;
+  font-size: 0.95rem;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+.card {
+  background: white;
+  padding: 1rem;
+  border-radius: 0.75rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  text-align: center;
+  transition: transform 0.2s ease;
+  
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  
+}
+
+.card h3 {
+  font-size: 2rem;
+  margin: 0;
+}
+
+.card p {
+  margin: 0;
+}
+
+.card.info {
+  background: linear-gradient(135deg, #b3d4fc, #d9e8ff);
+  color: #0b3d91;
+  border-left: none;
+}
+
+.card.success {
+  background: linear-gradient(135deg, #b9f6ca, #e1fbe6);
+  color: #155d27;
+  border-left: none;
+}
+
+.card.warning {
+  background: linear-gradient(135deg, #fff4b3, #fff9d9);
+  color: #6b5a00;
+  border-left: none;
+}
+
+.card.danger {
+  background: linear-gradient(135deg, #ffb3b8, #ffd9db);
+  color: #7a1c1c;
+  border-left: none;
+}
+
+
+
+.recent {
+  background: #fff;
+  padding: 1rem;
+  border-radius: 0.75rem;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+.recent h4 {
+  color: var(--color-primary);
+  margin-bottom: 0.75rem;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th {
+  background-color: var(--color-primary);
+  color: white;
+  text-align: center;
+  padding: 8px;
+}
+
+.table td {
+  text-align: center;
+  padding: 6px;
+  border-bottom: 1px solid #ddd;
+}
+
+
+.separator {
+  height: 30px;
+}
+
+.tabla-dashboard {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tabla-dashboard th {
+  background: var(--color-primary);
+  color: white;
+  padding: 10px;
+  text-align: center;
+  font-weight: 600;
+}
+
+.tabla-dashboard td {
+  padding: 8px;
+  text-align: center;
+  background: #f8f8f8;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.tabla-dashboard tr:hover td {
+  background: #ececec;
+}
+
+.alerta-pago {
+  background: linear-gradient(135deg, #fff0a8, #ffe27a);
+  padding: 16px 22px;
+  border-radius: 12px;
+  color: #4b3b00;
+  font-weight: 700;
+  border: 2px solid #ffce45;
+  margin-bottom: 1.4rem;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(255, 193, 7, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 1.05rem;
+
+  animation: alertaPulse 1.6s ease-in-out infinite;
+}
+
+.alerta-pago i {
+  font-size: 1.4rem;
+  color: #b27900;
+}
+
+@keyframes alertaPulse {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.03); }
+  100% { transform: scale(1); }
+}
+
+
+

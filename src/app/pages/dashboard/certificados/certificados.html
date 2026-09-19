@@ -1,0 +1,170 @@
+<div class="container-fluid mt-4">
+  <div class="card shadow-lg border-0 rounded-3 overflow-hidden custom-card">
+    <!-- Header -->
+    <div class="card-header custom-header py-3 px-4">
+      <div class="d-flex justify-content-between align-items-center">
+        <div class="d-flex align-items-center">
+          <i data-feather="file-text" class="me-2 header-icon"></i>
+          <h2 class="h4 mb-0 fw-bold header-title">Certificados SAT</h2>
+        </div>
+        
+        <!-- Texto informativo (opcional) -->
+        <div class="text-white">
+          <small>Descarga de archivos .cer, .key, .pfx y contraseña</small>
+        </div>
+      </div>
+    </div>
+
+    <!-- Filtros -->
+    <!-- Filtros (solo Admin y Empleado) -->
+<div 
+  class="card-body custom-filters border-bottom py-3 certificados-filtros pb-5"
+  *ngIf="!esCliente">
+
+      <div class="row g-3 align-items-center">
+        <div class="col-md-4">
+          <div class="input-group custom-input-group">
+            <span class="input-group-text custom-input-icon">
+              <i data-feather="search" class="search-icon"></i>
+            </span>
+            <input
+              type="text"
+              class="form-control custom-input"
+              placeholder="Buscar..."
+              [(ngModel)]="terminoBusqueda"
+              (input)="filtrarCertificados()"
+              maxlength="40">
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <select
+            class="form-select custom-select"
+            [(ngModel)]="criterioBusqueda"
+            (change)="filtrarCertificados()">
+            <option value="cliente">Por Cliente</option>
+            <option value="rfc">Por RFC</option>
+            <option value="id">Por ID</option>
+          </select>
+        </div>
+
+        <div class="col-md-5 text-md-end">
+          <span class="custom-text-muted">
+            Mostrando <strong>{{certificadosFiltrados.length}}</strong> de <strong>{{certificados.length}}</strong> certificados
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tabla -->
+    <div class="card-body p-0 custom-table-container tabla-card">
+      <div class="table-responsive">
+        <table class="table table-striped" [ngClass]="{'table-dark': temaActual === 'dark'}">
+          <thead class="custom-table-header">
+            <tr>
+              <th class="th-sortable ps-4" (click)="ordenarPor('id')">
+                ID <i [ngClass]="getIconoOrden('id')"></i>
+              </th>
+
+              <th class="th-sortable" (click)="ordenarPor('cliente')">
+                Cliente <i [ngClass]="getIconoOrden('cliente')"></i>
+              </th>
+
+              <th class="th-sortable" (click)="ordenarPor('rfc')">
+                RFC <i [ngClass]="getIconoOrden('rfc')"></i>
+              </th>
+
+              <th (click)="ordenarPor('fecha_vigencia_fin')">
+                Vigencia del Certificado
+                <i [class]="getIconoOrden('fecha_vigencia_fin')"></i>
+              </th>
+
+
+              <th class="text-center">.CER</th>
+              <th class="text-center">.KEY</th>
+              <th class="text-center">.PFX</th>
+              <th class="text-center pe-4">Contraseña</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr *ngFor="let c of certificadosFiltrados | paginate: { itemsPerPage: 8, currentPage: page }">
+              <td class="fw-bold ps-4">#{{c.id}}</td>
+              <td>{{c.cliente}}</td>
+              <td>
+                <span class="badge bg-secondary">{{c.rfc}}</span>
+              </td>
+
+              <td>
+  <span *ngIf="c.fecha_vigencia_inicio && c.fecha_vigencia_fin">
+    {{ c.fecha_vigencia_inicio | date:'dd/MM/yyyy' }}
+    -
+    {{ c.fecha_vigencia_fin | date:'dd/MM/yyyy' }}
+  </span>
+
+  <span *ngIf="!c.fecha_vigencia_fin" class="text-muted">
+    No disponible
+  </span>
+</td>
+
+              <!-- CER -->
+              <td class="text-center">
+                <button class="btn btn-sm btn-azul" 
+                        (click)="descargar(c, 'cer')"
+                        title="Descargar .CER">
+                  <i data-feather="download"></i>
+                </button>
+              </td>
+
+              <!-- KEY -->
+              <td class="text-center">
+                <button class="btn btn-sm btn-azul" 
+                        (click)="descargar(c, 'key')"
+                        title="Descargar .KEY">
+                  <i data-feather="download"></i>
+                </button>
+              </td>
+
+              <!-- PFX -->
+              <td class="text-center">
+                <button class="btn btn-sm btn-azul" 
+                        (click)="descargar(c, 'pfx')"
+                        title="Descargar .PFX">
+                  <i data-feather="download"></i>
+                </button>
+              </td>
+
+              <!-- PASSWORD -->
+              <td class="text-center pe-4">
+                <button class="btn btn-sm btn-verde" 
+                        (click)="verPassword(c)"
+                        title="Ver contraseña">
+                  <i data-feather="eye"></i>
+                </button>
+              </td>
+            </tr>
+
+            <!-- Mensaje sin datos -->
+            <tr *ngIf="certificadosFiltrados.length === 0">
+              <td colspan="7" class="text-center py-5 text-muted">
+                <i data-feather="file-text" class="me-2"></i>No se encontraron certificados
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Paginación -->
+    <div class="card-footer border-0">
+      <div class="d-flex justify-content-center">
+        <pagination-controls
+          (pageChange)="page = $event"
+          previousLabel="Anterior"
+          nextLabel="Siguiente"
+          class="my-pagination">
+        </pagination-controls>
+      </div>
+    </div>
+  </div>
+</div>

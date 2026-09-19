@@ -1,0 +1,32 @@
+<div class="seguridad-container">
+
+  <h2 class="titulo">Seguridad del Sistema</h2>
+  <p class="subtitulo">Administra los permisos y accesos del sistema</p>
+
+  <div class="tabs">
+    <button 
+      [class.active]="activeTab === 'roles'"
+      (click)="activeTab = 'roles'">
+      <i data-feather="users"></i>
+      Roles
+    </button>
+
+    <button 
+      [class.active]="activeTab === 'acciones'"
+      (click)="activeTab = 'acciones'">
+      <i data-feather="key"></i>
+      Acciones
+    </button>
+
+  </div>
+
+  <div class="tab-content">
+    <!-- ROLES -->
+    <app-roles-list *ngIf="activeTab === 'roles'"></app-roles-list>
+
+    <!-- ACCIONES -->
+    <app-acciones-list *ngIf="activeTab === 'acciones'"></app-acciones-list>
+
+  </div>
+
+</div>
