@@ -20,4 +20,11 @@ export class CertificadosService {
       responseType: 'blob'
     }) as Observable<HttpResponse<Blob>>;   // ← casteo para quitar el error
   }
+
+  // Envía .cer/.key/.pfx + contraseña en un ZIP por correo.
+  // Si "correo" se omite, el backend usa el correo registrado del cliente.
+  enviarCorreo(id: number, correo?: string): Observable<any> {
+    const body = correo ? { correo } : {};
+    return this.http.post<any>(`${this.url}/enviar-correo/${id}`, body);
+  }
 }

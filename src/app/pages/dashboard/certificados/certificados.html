@@ -83,7 +83,8 @@
               <th class="text-center">.CER</th>
               <th class="text-center">.KEY</th>
               <th class="text-center">.PFX</th>
-              <th class="text-center pe-4">Contraseña</th>
+              <th class="text-center">Contraseña</th>
+              <th class="text-center pe-4">Correo</th>
             </tr>
           </thead>
 
@@ -135,18 +136,27 @@
               </td>
 
               <!-- PASSWORD -->
-              <td class="text-center pe-4">
+              <td class="text-center">
                 <button class="btn btn-sm btn-verde" 
                         (click)="verPassword(c)"
                         title="Ver contraseña">
                   <i data-feather="eye"></i>
                 </button>
               </td>
+
+              <!-- ENVIAR POR CORREO -->
+              <td class="text-center pe-4">
+                <button class="btn btn-sm btn-azul" 
+                        (click)="enviarCorreo(c)"
+                        title="Enviar por correo">
+                  <i data-feather="mail"></i>
+                </button>
+              </td>
             </tr>
 
             <!-- Mensaje sin datos -->
             <tr *ngIf="certificadosFiltrados.length === 0">
-              <td colspan="7" class="text-center py-5 text-muted">
+              <td colspan="8" class="text-center py-5 text-muted">
                 <i data-feather="file-text" class="me-2"></i>No se encontraron certificados
               </td>
             </tr>

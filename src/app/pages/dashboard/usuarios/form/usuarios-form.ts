@@ -170,9 +170,9 @@ esClienteSeleccionado(): boolean {
         title: this.editando ? 'Usuario actualizado' : 'Usuario creado',
         text: this.editando
           ? 'El usuario ha sido actualizado correctamente.'
-          : 'El usuario se ha creado correctamente.',
+          : 'El usuario se ha creado correctamente. Se le enviaron sus credenciales por correo.',
         confirmButtonColor: '#3085d6',
-        timer: 1500,
+        timer: 1800,
         showConfirmButton: false
       });
       this.saved.emit();

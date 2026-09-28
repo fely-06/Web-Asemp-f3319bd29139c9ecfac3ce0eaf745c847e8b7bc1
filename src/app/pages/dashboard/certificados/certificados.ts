@@ -212,6 +212,54 @@ export class CertificadosComponent implements OnInit, AfterViewInit {
     });
   }
 
+  // ==============================
+  // ENVIAR POR CORREO
+  // ==============================
+
+  enviarCorreo(c: any) {
+    Swal.fire({
+      title: `Enviar certificado de ${c.cliente}`,
+      html: `
+        <p class="mb-2">Se enviará un ZIP con los archivos disponibles (.cer, .key, .pfx) y la contraseña.</p>
+        <input id="swal-correo" type="email" class="swal2-input" placeholder="Correo destino (opcional)">
+      `,
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Enviar',
+      cancelButtonText: 'Cancelar',
+      confirmButtonColor: '#0d6efd',
+      preConfirm: () => {
+        const input = document.getElementById('swal-correo') as HTMLInputElement;
+        return input?.value?.trim() || '';
+      }
+    }).then(result => {
+      if (!result.isConfirmed) return;
+
+      const correo: string = result.value;
+
+      Swal.fire({
+        title: 'Enviando correo...',
+        allowOutsideClick: false,
+        didOpen: () => Swal.showLoading()
+      });
+
+      this.certificadosService.enviarCorreo(c.id, correo || undefined).subscribe({
+        next: (res) => {
+          Swal.fire({
+            icon: 'success',
+            title: 'Correo enviado',
+            text: res?.mensaje || `Se envió el certificado a ${res?.destinatario ?? 'el destinatario'}.`,
+            confirmButtonColor: '#3085d6'
+          });
+        },
+        error: (err) => {
+          const msg = err?.error?.mensaje || err?.error || 'No se pudo enviar el correo.';
+          Swal.fire('Error', msg, 'error');
+        }
+      });
+    });
+  }
+
   private getNombreArchivo(c: any, tipo: 'cer' | 'key' | 'pfx'): string {
     const base = (c?.rfc || `certificado_${c?.id || ''}`).trim();
     return `${base}.${tipo}`;
