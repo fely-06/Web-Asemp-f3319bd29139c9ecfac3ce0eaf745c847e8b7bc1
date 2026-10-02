@@ -18,8 +18,15 @@ export class SatAutomaticoComponent {
   // ===============================
   // FORMULARIO
   // ===============================
-  clientes: any[] = [];
-  clientesSeleccionados: number[] = [];
+  clientes: any[] = [];                    // siempre ordenados alfabéticamente por razón social
+  clientesSeleccionados: number[] = [];    // checklist: clientes incluidos en la programación
+  clientesDiarios: number[] = [];          // subconjunto de los seleccionados que se descarga TODOS los días
+
+  // Separación fija entre la solicitud de un cliente y la del siguiente (el backend fuerza mínimo 5)
+  readonly INTERVALO_ENTRE_CLIENTES_MIN = 5;
+
+  // Hora estimada de envío por cliente (vista previa del escalonado)
+  planEnvio = new Map<number, Date>();
 
   tipoSolicitud: string = '';
   rangoInicio: string = '';
@@ -29,7 +36,6 @@ export class SatAutomaticoComponent {
   intervalo = 30;
   maxReintentos = 3;
 
-  modoClientes: 'todos' | 'manual' = 'todos';
   filtroCliente: string = '';
 
   // ===============================
@@ -92,12 +98,27 @@ document.documentElement.setAttribute('data-theme', saved);
   cargarClientes() {
     this.clientesService.getLista().subscribe({
       next: (data: any) => {
-        this.clientes = data;
+        // Solo clientes activos, en orden alfabético (es el mismo orden en que se harán las solicitudes)
+        this.clientes = (data || [])
+          .filter((c: any) => c.estatus !== false)
+          .sort((a: any, b: any) =>
+            (a.razon_social || '').localeCompare(b.razon_social || '', 'es', { sensitivity: 'base' })
+          );
+        this.actualizarPlan();
       },
       error: (err: any) => {
         console.error('Error al cargar clientes:', err);
       }
     });
+  }
+
+  getRfc(c: any): string {
+    return c?.certificado?.rfc || '';
+  }
+
+  // Sin certificado SAT no se puede solicitar nada → no se deja seleccionar
+  tieneCertificado(c: any): boolean {
+    return !!c?.certificado;
   }
 
   clientesFiltrados() {
@@ -106,55 +127,134 @@ document.documentElement.setAttribute('data-theme', saved);
 
     return this.clientes.filter((c: any) =>
       (c.razon_social || '').toLowerCase().includes(term) ||
-      (c.rfc || '').toLowerCase().includes(term)
+      this.getRfc(c).toLowerCase().includes(term)
     );
   }
 
+  estaSeleccionado(id: number): boolean {
+    return this.clientesSeleccionados.includes(id);
+  }
+
+  esDiario(id: number): boolean {
+    return this.clientesDiarios.includes(id);
+  }
+
   toggleCliente(id: number) {
-    if (this.clientesSeleccionados.includes(id)) {
+    if (this.estaSeleccionado(id)) {
       this.clientesSeleccionados = this.clientesSeleccionados.filter(x => x !== id);
+      this.clientesDiarios = this.clientesDiarios.filter(x => x !== id);
     } else {
-      this.clientesSeleccionados.push(id);
+      this.clientesSeleccionados = [...this.clientesSeleccionados, id];
     }
+    this.actualizarPlan();
+  }
+
+  // Marca / desmarca un cliente para que su descarga se repita todos los días
+  toggleDiario(id: number) {
+    if (!this.estaSeleccionado(id)) return;
+
+    this.clientesDiarios = this.esDiario(id)
+      ? this.clientesDiarios.filter(x => x !== id)
+      : [...this.clientesDiarios, id];
+
+    this.actualizarPlan();
   }
 
   seleccionarTodosFiltrados() {
-    const idsFiltrados = this.clientesFiltrados().map((c: any) => c.id);
+    const idsFiltrados = this.clientesFiltrados()
+      .filter((c: any) => this.tieneCertificado(c))
+      .map((c: any) => c.id);
     const set = new Set<number>([...this.clientesSeleccionados, ...idsFiltrados]);
     this.clientesSeleccionados = Array.from(set);
+    this.actualizarPlan();
   }
 
   limpiarSeleccion() {
     this.clientesSeleccionados = [];
+    this.clientesDiarios = [];
+    this.actualizarPlan();
+  }
+
+  // Clientes de una sola descarga (seleccionados y NO diarios)
+  get clientesUnicosIds(): number[] {
+    return this.clientesSeleccionados.filter(id => !this.esDiario(id));
+  }
+
+  // Clientes de descarga diaria
+  get clientesDiariosSeleccionados(): number[] {
+    return this.clientesSeleccionados.filter(id => this.esDiario(id));
+  }
+
+  // ===============================
+  // VISTA PREVIA DEL ESCALONADO
+  // (mismo criterio que el backend: primero los únicos, luego los diarios,
+  //  cada grupo en orden alfabético, 5 min entre un cliente y el siguiente)
+  // ===============================
+  actualizarPlan() {
+    this.planEnvio = new Map<number, Date>();
+    if (!this.fechaProgramada) return;
+
+    const inicio = new Date(this.fechaProgramada);
+    if (isNaN(inicio.getTime())) return;
+
+    const seleccionados = this.clientes.filter((c: any) => this.estaSeleccionado(c.id));
+    const unicos = seleccionados.filter((c: any) => !this.esDiario(c.id));
+    const diarios = seleccionados.filter((c: any) => this.esDiario(c.id));
+
+    [...unicos, ...diarios].forEach((c: any, i: number) => {
+      this.planEnvio.set(
+        c.id,
+        new Date(inicio.getTime() + i * this.INTERVALO_ENTRE_CLIENTES_MIN * 60_000)
+      );
+    });
+  }
+
+  horaEstimada(id: number): Date | null {
+    return this.planEnvio.get(id) ?? null;
+  }
+
+  // Hora a la que saldrá la última solicitud
+  horaUltimaSolicitud(): Date | null {
+    let ultima: Date | null = null;
+    this.planEnvio.forEach(d => { if (!ultima || d > ultima) ultima = d; });
+    return ultima;
   }
 
   // ===============================
   // VALIDACIÓN
   // ===============================
   validarFormulario(): boolean {
+    // El rango de fechas solo aplica a las descargas únicas; las diarias siempre bajan el día anterior
+    const hayUnicos = this.clientesUnicosIds.length > 0;
+
     // Campos obligatorios
-    if (!this.tipoSolicitud || !this.rangoInicio || !this.rangoFin || !this.fechaProgramada) {
+    if (!this.tipoSolicitud || !this.fechaProgramada || (hayUnicos && (!this.rangoInicio || !this.rangoFin))) {
       Swal.fire({
         icon: 'warning',
         title: 'Campos incompletos',
-        text: 'Completa tipo de solicitud, rango de fechas y fecha programada.'
+        text: hayUnicos
+          ? 'Completa tipo de solicitud, rango de fechas y fecha programada.'
+          : 'Completa tipo de solicitud y fecha programada.'
       });
       return false;
     }
 
-    const inicio = new Date(this.rangoInicio);
-    const fin = new Date(this.rangoFin);
     const programada = new Date(this.fechaProgramada);
     const ahora = new Date();
 
     // Fechas de rango
-    if (inicio > fin) {
-      Swal.fire({
-        icon: 'warning',
-        title: 'Rango de fechas inválido',
-        text: 'La fecha de inicio no puede ser mayor a la fecha de fin.'
-      });
-      return false;
+    if (hayUnicos) {
+      const inicio = new Date(this.rangoInicio);
+      const fin = new Date(this.rangoFin);
+
+      if (inicio > fin) {
+        Swal.fire({
+          icon: 'warning',
+          title: 'Rango de fechas inválido',
+          text: 'La fecha de inicio no puede ser mayor a la fecha de fin.'
+        });
+        return false;
+      }
     }
 
     // Fecha programada futura
@@ -177,21 +277,12 @@ document.documentElement.setAttribute('data-theme', saved);
       return false;
     }
 
-    // Selección de clientes
-    if (this.modoClientes === 'manual' && this.clientesSeleccionados.length === 0) {
+    // Selección de clientes (checklist)
+    if (this.clientesSeleccionados.length === 0) {
       Swal.fire({
         icon: 'warning',
         title: 'Clientes requeridos',
-        text: 'Selecciona al menos un cliente cuando uses la selección manual.'
-      });
-      return false;
-    }
-
-    if (this.modoClientes === 'todos' && this.clientes.length === 0) {
-      Swal.fire({
-        icon: 'info',
-        title: 'Sin clientes',
-        text: 'No hay clientes activos para programar.'
+        text: 'Marca en la lista al menos un cliente.'
       });
       return false;
     }
@@ -216,55 +307,79 @@ document.documentElement.setAttribute('data-theme', saved);
 
 
   crearJob() {
-  if (!this.validarFormulario()) return;
+    if (!this.validarFormulario()) return;
 
-  let idsClientes: number[] = [];
+    const unicos = this.clientesUnicosIds;
+    const diarios = this.clientesDiariosSeleccionados;
+    const ultima = this.horaUltimaSolicitud();
 
-  if (this.modoClientes === 'todos') {
-    idsClientes = this.clientes.map(c => c.id);
-  } else {
-    idsClientes = this.clientesSeleccionados;
+    const hoy = new Date();
+    const hoyStr = `${hoy.getFullYear()}-${String(hoy.getMonth() + 1).padStart(2, '0')}-${String(hoy.getDate()).padStart(2, '0')}`;
+
+    const dto = {
+      tipoSolicitud: this.tipoSolicitud,
+
+      // ====== IGUAL QUE EL MANUAL: cadenas "YYYY-MM-DD" ======
+      // (las descargas diarias ignoran este rango: el backend usa siempre el día anterior)
+      rangoInicio: this.rangoInicio || hoyStr,
+      rangoFin: this.rangoFin || hoyStr,
+
+      // ESTA sí va con hora en UTC, como ya lo tenías
+      fechaProgramada: new Date(this.fechaProgramada).toISOString(),
+
+      intervaloVerificacionMin: this.intervalo,
+      maxReintentos: this.maxReintentos,
+
+      // 5 min entre un cliente y el siguiente, en orden alfabético
+      intervaloEntreClientesMin: this.INTERVALO_ENTRE_CLIENTES_MIN,
+      clientesIds: unicos,
+      clientesDiariosIds: diarios
+    };
+
+    const total = unicos.length + diarios.length;
+    const horaUltima = ultima
+      ? (ultima as Date).toLocaleString('es-MX', { dateStyle: 'short', timeStyle: 'short' })
+      : '';
+
+    Swal.fire({
+      icon: 'question',
+      title: 'Confirmar programación',
+      html:
+        `<b>${total}</b> cliente(s) en orden alfabético, una solicitud cada ` +
+        `<b>${this.INTERVALO_ENTRE_CLIENTES_MIN} min</b>.<br>` +
+        `Descarga única: <b>${unicos.length}</b> &nbsp;·&nbsp; Descarga diaria: <b>${diarios.length}</b><br>` +
+        (horaUltima ? `La última solicitud saldrá el <b>${horaUltima}</b>.` : ''),
+      showCancelButton: true,
+      confirmButtonText: 'Programar',
+      cancelButtonText: 'Cancelar'
+    }).then(result => {
+      if (!result.isConfirmed) return;
+
+      this.cargando = true;
+
+      this.satJobs.crearJob(dto).subscribe({
+        next: (r: any) => {
+          this.cargando = false;
+          Swal.fire({
+            icon: 'success',
+            title: 'Solicitud creada',
+            text: 'La solicitud automática se creó correctamente.'
+          });
+          this.cargarJobs();
+          this.limpiarFormulario();
+        },
+        error: (err: any) => {
+          console.error(err);
+          this.cargando = false;
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Ocurrió un error al crear la solicitud automática.'
+          });
+        }
+      });
+    });
   }
-
-  const dto = {
-    tipoSolicitud: this.tipoSolicitud,
-
-    // ====== IGUAL QUE EL MANUAL: cadenas "YYYY-MM-DD" ======
-    rangoInicio: this.rangoInicio,
-    rangoFin: this.rangoFin,
-
-    // ESTA sí va con hora en UTC, como ya lo tenías
-    fechaProgramada: new Date(this.fechaProgramada).toISOString(),
-
-    intervaloVerificacionMin: this.intervalo,
-    maxReintentos: this.maxReintentos,
-    clientesIds: idsClientes
-  };
-
-  this.cargando = true;
-
-  this.satJobs.crearJob(dto).subscribe({
-    next: (r: any) => {
-      this.cargando = false;
-      Swal.fire({
-        icon: 'success',
-        title: 'Solicitud creada',
-        text: 'La solicitud automática se creó correctamente.'
-      });
-      this.cargarJobs();
-      this.limpiarFormulario();
-    },
-    error: (err: any) => {
-      console.error(err);
-      this.cargando = false;
-      Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        text: 'Ocurrió un error al crear la solicitud automática.'
-      });
-    }
-  });
-}
 
 
   // Este método debe ser el que uses en el botón "Crear solicitud automática"
@@ -341,8 +456,9 @@ const dto = {
     this.intervalo = 30;
     this.maxReintentos = 3;
     this.clientesSeleccionados = [];
+    this.clientesDiarios = [];
     this.filtroCliente = '';
-    this.modoClientes = 'todos';
+    this.planEnvio = new Map<number, Date>();
   }
 
 
@@ -463,6 +579,22 @@ fixDisplayDate(fecha: string): string {
       'cancelado': 'fila-cancelado'
     };
     return clases[estado] || '';
+  }
+
+  // ¿El job se repite todos los días?
+  esDiaria(job: any): boolean {
+    return job?.recurrencia === 'Diaria';
+  }
+
+  // Próxima hora en que saldrá una solicitud de este job (solo clientes que aún no se solicitan)
+  proximoEnvio(job: any): Date | null {
+    if (!job || job.estado === 'Terminado' || job.estado === 'Error') return null;
+
+    const horas = (job.clientes || [])
+      .filter((c: any) => c.estado === 'Pendiente' && c.fechaEnvioProgramada)
+      .map((c: any) => new Date(c.fechaEnvioProgramada).getTime());
+
+    return horas.length ? new Date(Math.min(...horas)) : null;
   }
 
   // ===============================

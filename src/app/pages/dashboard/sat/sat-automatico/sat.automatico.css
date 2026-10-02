@@ -1503,3 +1503,160 @@ table.jobs-table.table-dark td {
 .estado-badge {
   color: inherit;
 }
+
+/* ===================================================================
+   CHECKLIST DE CLIENTES · ENVÍO ESCALONADO · DESCARGA DIARIA
+   =================================================================== */
+.info-escalonado {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+  padding: 0.85rem 1rem;
+  margin-bottom: 1rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  line-height: 1.45;
+  color: #334155;
+  background: color-mix(in srgb, var(--color-primary) 8%, transparent);
+  border: 1px solid color-mix(in srgb, var(--color-primary) 25%, transparent);
+}
+
+.info-escalonado > i {
+  color: var(--color-primary);
+  margin-top: 0.15rem;
+}
+
+.cliente-card {
+  gap: 0.85rem;
+}
+
+.cliente-checkbox {
+  width: 18px;
+  height: 18px;
+  flex: 0 0 auto;
+  cursor: pointer;
+  accent-color: var(--color-primary);
+}
+
+.cliente-card.deshabilitado {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.cliente-card.deshabilitado .cliente-checkbox {
+  cursor: not-allowed;
+}
+
+.badge-sin-cert {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.1rem 0.5rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  background: #fff7e6;
+  color: #ad6800;
+}
+
+.cliente-acciones {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex: 0 0 auto;
+}
+
+.hora-estimada {
+  font-size: 0.8rem;
+  font-family: 'Courier New', monospace;
+  color: #64748b;
+  white-space: nowrap;
+}
+
+.diario-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.3rem 0.7rem;
+  border: 1px solid #d1d5db;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #475569;
+  background: transparent;
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.2s ease;
+}
+
+.diario-toggle input {
+  accent-color: var(--color-primary);
+  cursor: pointer;
+}
+
+.diario-toggle:hover {
+  border-color: var(--color-primary);
+}
+
+.diario-toggle.on {
+  background: color-mix(in srgb, var(--color-primary) 15%, transparent);
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+.resumen-detalle {
+  color: #64748b;
+  font-size: 0.85rem;
+}
+
+.badge-diaria {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin-left: 0.4rem;
+  padding: 0.4rem 0.7rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  background: #f9f0ff;
+  color: #531dab;
+}
+
+[data-theme="dark"] .info-escalonado {
+  color: #cbd5e1;
+}
+
+[data-theme="dark"] .diario-toggle {
+  border-color: #475569;
+  color: #cbd5e1;
+}
+
+[data-theme="dark"] .diario-toggle.on {
+  color: #f1f5f9;
+}
+
+[data-theme="dark"] .hora-estimada,
+[data-theme="dark"] .resumen-detalle {
+  color: #94a3b8;
+}
+
+[data-theme="dark"] .badge-sin-cert {
+  background: #3b2f10;
+  color: #ffd666;
+}
+
+[data-theme="dark"] .badge-diaria {
+  background: #2a1a4a;
+  color: #d3adf7;
+}
+
+@media (max-width: 640px) {
+  .cliente-card {
+    flex-wrap: wrap;
+  }
+
+  .cliente-acciones {
+    width: 100%;
+    justify-content: flex-end;
+  }
+}
